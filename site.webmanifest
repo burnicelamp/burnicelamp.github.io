@@ -1,0 +1,16 @@
+{
+  "name": "内心岛屿｜个人生活潮汐图",
+  "short_name": "内心岛屿",
+  "description": "一座持续生长的个人数字空间。",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3efe5",
+  "theme_color": "#f3efe5",
+  "icons": [
+    {
+      "src": "./assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,13 +1,425 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Burnice Lamp</title>
-</head>
+<!doctype html>
+<html lang="zh-CN" data-period="day">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3efe5" />
+    <meta
+      name="description"
+      content="一座持续生长的个人数字岛屿：收集此刻的想法、偏爱、生活片段、记忆坐标与还未抵达的地方。"
+    />
+    <meta name="author" content="burnicelamp" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:url" content="https://burnicelamp.github.io/" />
+    <meta property="og:title" content="内心岛屿｜一个人的生活潮汐图" />
+    <meta
+      property="og:description"
+      content="不是简历，也不是项目清单。这里是一张关于生活、偏爱与想象的私人地图。"
+    />
+    <meta property="og:image" content="https://burnicelamp.github.io/assets/og-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>内心岛屿｜一个人的生活潮汐图</title>
+    <link rel="canonical" href="https://burnicelamp.github.io/" />
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "内心岛屿",
+        "alternateName": "一个人的生活潮汐图",
+        "url": "https://burnicelamp.github.io/",
+        "description": "一座持续生长的个人数字空间，收集生活、偏爱、记忆与想象。"
+      }
+    </script>
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
 
-<body>
-  <h1>Hello.</h1>
-  <p>Welcome to my personal website.</p>
-</body>
+    <div class="atmosphere" aria-hidden="true">
+      <div class="sun-wash"></div>
+      <svg class="contour-field" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+        <g fill="none" stroke="currentColor">
+          <path d="M-80 504C112 338 246 630 430 468S714 189 922 328s304 76 378-8" />
+          <path d="M-65 542C130 377 251 666 451 497S735 228 936 362s299 66 371-11" />
+          <path d="M-41 581C153 421 282 701 470 536S758 270 962 398s282 56 351-6" />
+          <path d="M55 129c87-98 233-54 248 63s-88 164-54 269 183 96 214 4" />
+          <path d="M94 136c75-77 176-34 181 57s-72 128-43 208 142 71 164 7" />
+          <path d="M847 56c-49 72-35 146 34 183s157-8 205 63 14 162 101 204" />
+        </g>
+      </svg>
+      <svg class="noise" width="100%" height="100%">
+        <filter id="noise-filter">
+          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noise-filter)" opacity=".22" />
+      </svg>
+    </div>
+
+    <header class="site-header" data-header>
+      <a class="site-mark" href="#top" aria-label="回到岛屿入口">
+        <span class="site-mark__glyph" aria-hidden="true">◌</span>
+        <span>
+          <strong>内心岛屿</strong>
+          <small>持续生长中</small>
+        </span>
+      </a>
+
+      <nav class="site-nav" aria-label="主要导航">
+        <a href="#now">此刻</a>
+        <a href="#likes">偏爱</a>
+        <a href="#memories">显影</a>
+        <a href="#coordinates">坐标</a>
+      </nav>
+
+      <div class="local-time" aria-label="访问者的本地时间">
+        <span class="local-time__dot"></span>
+        <span data-time-label>此刻</span>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="opening" id="top" aria-labelledby="opening-title">
+        <div class="opening__copy reveal">
+          <p class="eyebrow">一处私人数字空间 · 也是一张未完成的地图</p>
+          <h1 id="opening-title">
+            欢迎来到<br />
+            <span>我的内心岛屿。</span>
+          </h1>
+          <p class="opening__lede">
+            这里不陈列头衔。这里收集我如何生活、喜欢、路过、记住与想象——
+            一些微不足道，却共同构成“我”的东西。
+          </p>
+        </div>
+
+        <div class="world" aria-label="岛屿导览图">
+          <div class="world__halo" data-depth="0.35"></div>
+          <svg class="island" viewBox="0 0 680 570" role="img" aria-labelledby="island-title island-desc" data-depth="0.18">
+            <title id="island-title">个人世界的等高线地图</title>
+            <desc id="island-desc">地图上的地点可以前往此刻、偏爱、记忆和未来。</desc>
+            <defs>
+              <linearGradient id="land" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#f4d98d" />
+                <stop offset=".42" stop-color="#d5d8a4" />
+                <stop offset="1" stop-color="#9bbab0" />
+              </linearGradient>
+              <filter id="soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#526e67" flood-opacity=".16" />
+              </filter>
+            </defs>
+            <path
+              class="island__land"
+              d="M116 352c-41-68-10-140 61-171 54-24 74-89 138-108 64-19 105 28 166 43 68 17 113 51 111 111-2 58 57 100 22 164-28 50-96 48-144 72-57 28-104 75-168 53-57-20-83-79-132-103-28-14-41-40-54-61Z"
+              fill="url(#land)"
+              filter="url(#soft-shadow)"
+            />
+            <g class="island__lines" fill="none">
+              <path d="M153 347c-25-58 6-112 62-139 54-25 66-83 128-95 55-10 89 31 142 42 62 13 84 48 80 94-5 50 41 85 9 125-32 39-89 34-128 59-48 31-91 59-139 38-45-20-60-69-104-89-23-10-39-20-50-35Z" />
+              <path d="M199 337c-13-45 14-84 54-102 45-20 59-69 108-75 41-5 66 29 108 37 45 9 57 36 52 70-7 39 26 61 0 89-27 29-67 22-97 44-34 24-69 41-101 21-32-21-39-55-74-68-19-7-41-2-50-16Z" />
+              <path d="M250 323c-2-31 18-52 46-65 36-16 48-53 83-53 29 0 45 25 74 30 30 5 34 26 28 48-8 27 11 39-8 57-21 19-47 12-67 28-22 17-47 25-65 7-19-18-20-38-44-46-15-5-46 8-47-6Z" />
+            </g>
+            <path class="island__river" d="M371 145c-19 58 51 78 22 126-22 38-10 80 33 112" fill="none" />
+            <circle class="island__lake" cx="385" cy="286" r="24" />
+            <g class="island__trees">
+              <path d="m265 279 9-20 9 20-6-2v12h-6v-12Z" />
+              <path d="m462 310 8-18 8 18-5-2v11h-6v-11Z" />
+              <path d="m333 371 7-16 8 16-5-2v10h-5v-10Z" />
+            </g>
+          </svg>
+
+          <a class="map-pin map-pin--now" href="#now" data-depth="0.5">
+            <span>01</span><strong>正在发生</strong>
+          </a>
+          <a class="map-pin map-pin--likes" href="#likes" data-depth="0.42">
+            <span>02</span><strong>偏爱山谷</strong>
+          </a>
+          <a class="map-pin map-pin--memories" href="#memories" data-depth="0.55">
+            <span>03</span><strong>记忆海岸</strong>
+          </a>
+          <a class="map-pin map-pin--future" href="#future" data-depth="0.38">
+            <span>04</span><strong>还没抵达</strong>
+          </a>
+
+          <button class="secret-stone" type="button" aria-label="翻开地图角落的一块小石头" data-secret>
+            <span aria-hidden="true"></span>
+          </button>
+          <p class="secret-message" role="status" data-secret-message>你发现了一小块无人命名的地方。</p>
+        </div>
+
+        <a class="scroll-invitation" href="#signal">
+          <span>沿着潮线往里走</span>
+          <i aria-hidden="true"></i>
+        </a>
+      </section>
+
+      <section class="signal section" id="signal" aria-labelledby="signal-title">
+        <div class="section-heading reveal">
+          <p class="eyebrow">30 秒信号</p>
+          <h2 id="signal-title">如果只停留一会儿</h2>
+          <p>先带走四个关于我的切面。它们会随着生活慢慢改变。</p>
+        </div>
+
+        <div class="signal-lines">
+          <article class="signal-line reveal">
+            <span class="signal-line__index">A</span>
+            <p>比起标准答案，<strong>我更喜欢好问题。</strong></p>
+            <span class="signal-line__note">性格切面</span>
+          </article>
+          <article class="signal-line reveal">
+            <span class="signal-line__index">B</span>
+            <p>会被光影、声音和<strong>不经意的小细节</strong>打动。</p>
+            <span class="signal-line__note">感受方式</span>
+          </article>
+          <article class="signal-line reveal">
+            <span class="signal-line__index">C</span>
+            <p>在现实里生活，也一直<strong>给想象留一扇窗。</strong></p>
+            <span class="signal-line__note">精神天气</span>
+          </article>
+          <article class="signal-line reveal">
+            <span class="signal-line__index">D</span>
+            <p>这座岛没有完工日，<strong>它与我一起生长。</strong></p>
+            <span class="signal-line__note">本站说明</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="now section" id="now" aria-labelledby="now-title">
+        <div class="now__weather reveal">
+          <p class="eyebrow">海拔 12m · 此刻</p>
+          <p class="now__time" data-now-time>--:--</p>
+          <p class="now__period" data-now-period>这里正在迎来今天</p>
+        </div>
+
+        <div class="now__content">
+          <div class="section-heading reveal">
+            <h2 id="now-title">生活正在发生，<br />不必等它成为故事。</h2>
+            <p class="section-intro">
+              “Now” 是这座岛上更新最频繁的天气站。不是成就播报，只记录我最近把注意力放在哪里。
+            </p>
+          </div>
+
+          <div class="now-notes" aria-label="最近的状态">
+            <article class="now-note now-note--wide reveal">
+              <span>最近在想</span>
+              <p>如何让生活里那些很小的感受，不被“以后再说”轻易冲走。</p>
+              <small>待替换 · 一句话就好</small>
+            </article>
+            <article class="now-note reveal">
+              <span>最近循环</span>
+              <p>一首让通勤路变得像电影片尾的歌。</p>
+              <button class="text-button" type="button" data-record-toggle aria-pressed="false">
+                <i class="record-mini" aria-hidden="true"></i>
+                <b data-record-label>让唱片转起来</b>
+              </button>
+            </article>
+            <article class="now-note now-note--accent reveal">
+              <span>正在发生</span>
+              <p>慢慢搭建这个可以长期居住的数字世界。</p>
+              <small>2026 · 初版</small>
+            </article>
+            <article class="now-note now-note--quiet reveal">
+              <span>留给今天</span>
+              <p>多看一会儿天色，少刷新一次屏幕。</p>
+              <small>一条温柔的自我提醒</small>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="likes section" id="likes" aria-labelledby="likes-title">
+        <div class="section-heading section-heading--split reveal">
+          <div>
+            <p class="eyebrow">偏爱山谷 · 可触摸图例</p>
+            <h2 id="likes-title">我反复靠近的东西</h2>
+          </div>
+          <p>兴趣不是标签，是我理解世界的几种入口。选择一个标记，看看它在岛上留下了什么。</p>
+        </div>
+
+        <div class="affinity reveal" data-affinity>
+          <div class="affinity__map" role="group" aria-label="选择一个兴趣主题">
+            <svg viewBox="0 0 620 520" aria-hidden="true">
+              <path d="M73 272c43-29 73-6 113-26s49-92 102-74 53 88 102 84 83-59 129-24 7 98 31 139" />
+              <path d="M139 416c21-47 83-36 99-83s-27-78 9-118 84 6 118-28 17-74 62-99" />
+              <circle cx="188" cy="244" r="78" />
+              <circle cx="390" cy="256" r="116" />
+            </svg>
+            <button class="affinity-point affinity-point--sound is-active" type="button" data-interest="sound" aria-pressed="true">
+              <span>声音</span><i></i>
+            </button>
+            <button class="affinity-point affinity-point--film" type="button" data-interest="film" aria-pressed="false">
+              <span>光影</span><i></i>
+            </button>
+            <button class="affinity-point affinity-point--book" type="button" data-interest="book" aria-pressed="false">
+              <span>书页</span><i></i>
+            </button>
+            <button class="affinity-point affinity-point--travel" type="button" data-interest="travel" aria-pressed="false">
+              <span>远方</span><i></i>
+            </button>
+            <button class="affinity-point affinity-point--objects" type="button" data-interest="objects" aria-pressed="false">
+              <span>小物</span><i></i>
+            </button>
+          </div>
+
+          <article class="affinity__story" aria-live="polite">
+            <p class="affinity__number" data-interest-number>01 / 05</p>
+            <div class="affinity__icon" aria-hidden="true" data-interest-icon>♪</div>
+            <p class="eyebrow" data-interest-kicker>最近循环</p>
+            <h3 data-interest-title>声音是一种随身携带的天气</h3>
+            <p data-interest-copy>
+              有些歌不是因为旋律被记住，而是它曾恰好陪我穿过一段路。这里以后会放下最近循环、现场记忆和私人歌单。
+            </p>
+            <div class="affinity__tags" data-interest-tags>
+              <span>最近循环</span><span>歌单</span><span>现场</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="memories section" id="memories" aria-labelledby="memories-title">
+        <div class="section-heading section-heading--split reveal">
+          <div>
+            <p class="eyebrow">记忆海岸 · 显影室</p>
+            <h2 id="memories-title">一些我不想忘记的瞬间</h2>
+          </div>
+          <p>照片以后会替换这里的光影。现在先保留它们应有的呼吸、比例和位置。</p>
+        </div>
+
+        <div class="photo-tide">
+          <button class="photo photo--one reveal" type="button" data-photo data-title="路过的光" data-caption="未来照片位 · 适合一张没有主角、但很有当天气味的生活照片。">
+            <span class="photo__visual" aria-hidden="true"><i></i></span>
+            <span class="photo__meta"><b>路过的光</b><small>生活切片 · 01</small></span>
+          </button>
+          <button class="photo photo--two reveal" type="button" data-photo data-title="一次出走" data-caption="未来照片位 · 适合旅途中的纵向画面、街道、窗口或山路。">
+            <span class="photo__visual" aria-hidden="true"><i></i></span>
+            <span class="photo__meta"><b>一次出走</b><small>旅行切片 · 02</small></span>
+          </button>
+          <button class="photo photo--three reveal" type="button" data-photo data-title="喜欢的地方" data-caption="未来照片位 · 适合你愿意一再回去的地点，也可以是一间房间。">
+            <span class="photo__visual" aria-hidden="true"><i></i></span>
+            <span class="photo__meta"><b>喜欢的地方</b><small>地理切片 · 03</small></span>
+          </button>
+          <button class="photo photo--four reveal" type="button" data-photo data-title="当时觉得普通" data-caption="未来照片位 · 适合后来才意识到很珍贵的日常时刻。">
+            <span class="photo__visual" aria-hidden="true"><i></i></span>
+            <span class="photo__meta"><b>当时觉得普通</b><small>时间切片 · 04</small></span>
+          </button>
+          <button class="photo photo--five reveal" type="button" data-photo data-title="镜头另一边" data-caption="未来照片位 · 适合出现你本人，却不必是正式肖像的照片。">
+            <span class="photo__visual" aria-hidden="true"><i></i></span>
+            <span class="photo__meta"><b>镜头另一边</b><small>人物切片 · 05</small></span>
+          </button>
+        </div>
+      </section>
+
+      <section class="fragments section" id="fragments" aria-labelledby="fragments-title">
+        <div class="fragment-machine reveal">
+          <div class="fragment-machine__rings" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="fragment-machine__content">
+            <p class="eyebrow">潮水偶尔带来一些东西</p>
+            <h2 id="fragments-title">拾起一张生活纸片</h2>
+            <blockquote data-fragment-text>“希望我一直保留被小事打动的能力。”</blockquote>
+            <p class="fragment-machine__meta" data-fragment-meta>未归档想法 · 001</p>
+            <button class="round-button" type="button" data-fragment-button>
+              <span>再拾一张</span><i aria-hidden="true">↻</i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="coordinates section" id="coordinates" aria-labelledby="coordinates-title">
+        <div class="coordinates__intro reveal">
+          <p class="eyebrow">人生的一些坐标</p>
+          <h2 id="coordinates-title">不是履历，<br />是方向发生变化的地方。</h2>
+          <p>
+            这里以后会放真正值得记住的转弯：一次决定、一段关系、一个搬去的城市，或者某天突然改变的想法。
+          </p>
+        </div>
+
+        <ol class="life-line">
+          <li class="life-point reveal">
+            <span class="life-point__when">很久以前</span>
+            <div>
+              <h3>世界开始有了自己的形状</h3>
+              <p>童年、故乡、最早的偏爱。这里不需要完整，只需要真实。</p>
+            </div>
+          </li>
+          <li class="life-point reveal">
+            <span class="life-point__when">某个转弯</span>
+            <div>
+              <h3>开始选择靠近什么</h3>
+              <p>一件做过的事、一次离开，或一种持续至今的兴趣。</p>
+            </div>
+          </li>
+          <li class="life-point life-point--current reveal">
+            <span class="life-point__when">正在这里</span>
+            <div>
+              <h3>一边生活，一边搭建这座岛</h3>
+              <p>允许自己未完成，也认真保留每一次生长的痕迹。</p>
+            </div>
+          </li>
+          <li class="life-point life-point--future reveal" id="future">
+            <span class="life-point__when">尚未抵达</span>
+            <div>
+              <h3>地图边缘仍是一片留白</h3>
+              <p>未来想做的事、想去的地方，以及还说不清楚但隐约期待的生活。</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="horizon section" aria-labelledby="horizon-title">
+        <div class="horizon__sky" aria-hidden="true">
+          <span class="horizon__sun"></span>
+          <i></i><i></i><i></i><i></i>
+        </div>
+        <div class="horizon__content reveal">
+          <p class="eyebrow">岛屿北面 · 未完成清单</p>
+          <h2 id="horizon-title">对未来保持一种<br />柔软的好奇。</h2>
+          <ul>
+            <li><span>01</span>去一个一直在地图上看着的地方</li>
+            <li><span>02</span>认真完成一件只因为喜欢而开始的事</li>
+            <li><span>03</span>留白，等真正的愿望出现</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="contact section" id="contact" aria-labelledby="contact-title">
+        <div class="contact__orbit" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </div>
+        <div class="contact__copy reveal">
+          <p class="eyebrow">坐标可以相遇</p>
+          <h2 id="contact-title">如果你也在认真生活，<br />欢迎留下一个信号。</h2>
+          <p>可以聊一首歌、一部电影、一段旅途，或任何你觉得不该被匆忙略过的东西。</p>
+          <div class="contact__links">
+            <a class="primary-link" href="https://github.com/burnicelamp" target="_blank" rel="noreferrer">
+              <span>在 GitHub 找到我</span><i aria-hidden="true">↗</i>
+            </a>
+            <button class="secondary-link" type="button" data-copy-contact data-contact="burnicelamp@gmail.com">
+              <span data-copy-label>复制邮箱</span>
+            </button>
+          </div>
+          <small>也可以从 GitHub 认识我正在做的事。</small>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>在现实里生活，在这里留下潮痕。</p>
+      <div><span>© <span data-year>2026</span></span><a href="#top">回到岛屿入口 ↑</a></div>
+    </footer>
+
+    <dialog class="photo-dialog" data-photo-dialog>
+      <button class="photo-dialog__close" type="button" data-dialog-close aria-label="关闭照片预览">×</button>
+      <div class="photo-dialog__visual" data-dialog-visual aria-hidden="true"><i></i></div>
+      <div>
+        <p class="eyebrow">记忆显影中</p>
+        <h2 data-dialog-title></h2>
+        <p data-dialog-caption></p>
+      </div>
+    </dialog>
+
+    <div class="cursor-orbit" aria-hidden="true" data-cursor></div>
+  </body>
 </html>
