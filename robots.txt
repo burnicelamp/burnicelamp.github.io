@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://burnicelamp.github.io/sitemap.xml
+Sitemap: https://burnlamp.is-my.id/sitemap.xml
