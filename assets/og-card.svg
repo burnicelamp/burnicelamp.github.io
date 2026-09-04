@@ -1,28 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <defs>
-    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-      <stop stop-color="#f3efe5"/>
-      <stop offset="1" stop-color="#d8e0d6"/>
-    </linearGradient>
-    <linearGradient id="land" x1="0" x2="1">
-      <stop stop-color="#efd17c"/>
-      <stop offset="1" stop-color="#8fad9f"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  <g fill="none" stroke="#61716f" opacity=".18">
-    <path d="M-70 510c170-170 350 110 520-60s310-210 490-70 280 40 350-50"/>
-    <path d="M-50 550c170-160 360 110 530-60s320-200 500-60 270 30 340-40"/>
+  <rect width="1200" height="630" fill="#11110f"/>
+  <path d="M0 38h1200M92 0v630M870 38v592" stroke="#44443f"/>
+  <g stroke="#2e2e2a">
+    <path d="M92 156h778M92 274h778M92 392h778M92 510h778"/>
+    <path d="M286 38v472M480 38v472M674 38v472"/>
   </g>
-  <text x="90" y="120" fill="#61716f" font-family="Arial, sans-serif" font-size="18" letter-spacing="5">A PERSONAL LIVING ATLAS</text>
-  <text x="86" y="238" fill="#26342e" font-family="Georgia, 'Songti SC', serif" font-size="82">我的内心岛屿</text>
-  <text x="91" y="302" fill="#61716f" font-family="Arial, sans-serif" font-size="24">收集生活、偏爱、记忆与还没有抵达的地方</text>
-  <path d="M716 328c-38-64-4-130 64-156 51-20 75-76 134-82 56-5 86 43 137 52 56 11 78 50 66 97-13 51 31 89-10 128-37 36-86 21-128 46-49 29-94 49-139 20-44-28-48-71-91-86-24-8-26-3-33-19Z" fill="url(#land)"/>
-  <g fill="none" stroke="#26342e" opacity=".42">
-    <path d="M753 320c-24-48 7-96 60-114 43-15 65-58 110-60 42-2 64 35 104 42 43 8 56 36 46 72-11 39 22 64-10 90-30 25-65 12-98 31-37 21-72 35-105 12-33-23-36-53-69-64-18-6-33 3-38-9Z"/>
-    <path d="M802 309c-11-33 12-63 50-75 35-11 52-43 86-40 30 3 44 29 75 34 30 5 36 25 27 49-10 26 13 41-11 57-23 16-47 5-70 19-26 16-51 23-71 5-22-19-22-38-45-45-14-4-37 7-41-4Z"/>
+  <rect x="0" width="92" height="92" fill="#ff542e"/>
+  <text x="15" y="65" fill="#11110f" font-family="Arial Black, Arial, sans-serif" font-size="52" font-weight="900" letter-spacing="-7">BL</text>
+  <circle cx="1115" cy="19" r="5" fill="#c8ff3d"/>
+  <text x="104" y="24" fill="#efeee7" font-family="Consolas, monospace" font-size="11" font-weight="700" letter-spacing="2">PERSONAL CHANNEL / PUBLIC ACCESS</text>
+  <text x="1182" y="24" fill="#efeee7" font-family="Consolas, monospace" font-size="11" text-anchor="end">SIGNAL ID BL.001</text>
+  <text x="118" y="226" fill="#efeee7" font-family="Arial Black, Arial, sans-serif" font-size="154" font-weight="900" letter-spacing="-15">BURN</text>
+  <text x="118" y="370" fill="#efeee7" font-family="Arial Black, Arial, sans-serif" font-size="154" font-weight="900" letter-spacing="-15">LAMP<tspan fill="#ff542e">.</tspan></text>
+  <text x="122" y="445" fill="#c8ff3d" font-family="Arial, Microsoft YaHei, sans-serif" font-size="34" font-weight="700">个人信号台</text>
+  <text x="122" y="484" fill="#8f8f88" font-family="Arial, Microsoft YaHei, sans-serif" font-size="18">状态、偏爱、影像、记录与下一步，接入同一台数字工作台。</text>
+  <g transform="translate(924 96)">
+    <circle cx="118" cy="118" r="116" fill="none" stroke="#5a5a54"/>
+    <circle cx="118" cy="118" r="82" fill="#242420" stroke="#6a6a63"/>
+    <circle cx="118" cy="118" r="48" fill="#151513"/>
+    <path d="M118 62v46" stroke="#ff542e" stroke-width="5"/>
+    <g fill="#efeee7" font-family="Consolas, monospace" font-size="11" font-weight="700">
+      <text x="2" y="280">01 / LIVE</text><text x="2" y="306">02 / MEDIA</text><text x="2" y="332">03 / FRAMES</text>
+      <text x="2" y="358">04 / LOG</text><text x="2" y="384">05 / QUEUE</text>
+    </g>
   </g>
-  <circle cx="946" cy="268" r="16" fill="#789e9a" stroke="#fff" stroke-width="4"/>
-  <circle cx="1091" cy="149" r="28" fill="#e86d4f"/>
-  <text x="91" y="540" fill="#26342e" font-family="Arial, sans-serif" font-size="17" letter-spacing="2">不是履历，是一个人的生活潮汐图。</text>
+  <rect x="92" y="566" width="1108" height="64" fill="#c8ff3d"/>
+  <text x="118" y="606" fill="#11110f" font-family="Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2">BURNLAMP.IS-MY.ID</text>
+  <text x="1170" y="606" fill="#11110f" font-family="Consolas, monospace" font-size="14" font-weight="700" text-anchor="end">STATUS / ONLINE</text>
 </svg>

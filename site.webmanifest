@@ -1,11 +1,11 @@
 {
-  "name": "内心岛屿｜个人生活潮汐图",
-  "short_name": "内心岛屿",
-  "description": "一座持续生长的个人数字空间。",
+  "name": "BURNLAMP SIGNAL DESK｜个人信号台",
+  "short_name": "BURNLAMP",
+  "description": "Burnlamp 的个人网站与持续更新的数字工作台。",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f3efe5",
-  "theme_color": "#f3efe5",
+  "background_color": "#11110f",
+  "theme_color": "#11110f",
   "icons": [
     {
       "src": "./assets/favicon.svg",
