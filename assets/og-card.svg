@@ -8,23 +8,23 @@
   <rect x="0" width="92" height="92" fill="#ff542e"/>
   <text x="15" y="65" fill="#11110f" font-family="Arial Black, Arial, sans-serif" font-size="52" font-weight="900" letter-spacing="-7">BL</text>
   <circle cx="1115" cy="19" r="5" fill="#c8ff3d"/>
-  <text x="104" y="24" fill="#efeee7" font-family="Consolas, monospace" font-size="11" font-weight="700" letter-spacing="2">PERSONAL CHANNEL / PUBLIC ACCESS</text>
-  <text x="1182" y="24" fill="#efeee7" font-family="Consolas, monospace" font-size="11" text-anchor="end">SIGNAL ID BL.001</text>
+  <text x="104" y="24" fill="#efeee7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="12" font-weight="700" letter-spacing="1">个人频道 / 公开访问</text>
+  <text x="1182" y="24" fill="#efeee7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="12" text-anchor="end">信号编号 BL.001</text>
   <text x="118" y="226" fill="#efeee7" font-family="Arial Black, Arial, sans-serif" font-size="154" font-weight="900" letter-spacing="-15">BURN</text>
   <text x="118" y="370" fill="#efeee7" font-family="Arial Black, Arial, sans-serif" font-size="154" font-weight="900" letter-spacing="-15">LAMP<tspan fill="#ff542e">.</tspan></text>
-  <text x="122" y="445" fill="#c8ff3d" font-family="Arial, Microsoft YaHei, sans-serif" font-size="34" font-weight="700">个人信号台</text>
-  <text x="122" y="484" fill="#8f8f88" font-family="Arial, Microsoft YaHei, sans-serif" font-size="18">状态、偏爱、影像、记录与下一步，接入同一台数字工作台。</text>
+  <text x="122" y="445" fill="#c8ff3d" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="34" font-weight="700">个人信号台</text>
+  <text x="122" y="484" fill="#8f8f88" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="18">状态、偏爱、影像、记录与下一步，接入同一台数字工作台。</text>
   <g transform="translate(924 96)">
     <circle cx="118" cy="118" r="116" fill="none" stroke="#5a5a54"/>
     <circle cx="118" cy="118" r="82" fill="#242420" stroke="#6a6a63"/>
     <circle cx="118" cy="118" r="48" fill="#151513"/>
     <path d="M118 62v46" stroke="#ff542e" stroke-width="5"/>
-    <g fill="#efeee7" font-family="Consolas, monospace" font-size="11" font-weight="700">
-      <text x="2" y="280">01 / LIVE</text><text x="2" y="306">02 / MEDIA</text><text x="2" y="332">03 / FRAMES</text>
-      <text x="2" y="358">04 / LOG</text><text x="2" y="384">05 / QUEUE</text>
+    <g fill="#efeee7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="12" font-weight="700">
+      <text x="2" y="280">01 / 此刻</text><text x="2" y="306">02 / 媒介</text><text x="2" y="332">03 / 影像</text>
+      <text x="2" y="358">04 / 记录</text><text x="2" y="384">05 / 待播</text>
     </g>
   </g>
   <rect x="92" y="566" width="1108" height="64" fill="#c8ff3d"/>
   <text x="118" y="606" fill="#11110f" font-family="Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2">BURNLAMP.IS-MY.ID</text>
-  <text x="1170" y="606" fill="#11110f" font-family="Consolas, monospace" font-size="14" font-weight="700" text-anchor="end">STATUS / ONLINE</text>
+  <text x="1170" y="606" fill="#11110f" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="14" font-weight="700" text-anchor="end">状态 / 在线</text>
 </svg>

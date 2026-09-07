@@ -96,36 +96,41 @@
     {
       id: "live",
       number: "01",
-      kicker: "NOW RECEIVING",
-      title: "此刻 / LIVE INPUT",
+      label: "此刻",
+      kicker: "正在接收",
+      title: "此刻 / 信号输入",
       copy: "最近状态与注意力入口。内容只保留真实更新。",
     },
     {
       id: "media",
       number: "02",
-      kicker: "PATCH BAY READY",
-      title: "偏爱 / MEDIA BAY",
+      label: "媒介",
+      kicker: "接口已就绪",
+      title: "偏爱 / 媒介接口",
       copy: "用不同媒介结构浏览声音、影像、阅读、地点与物件。",
     },
     {
       id: "frames",
       number: "03",
-      kicker: "FILM RACK READY",
-      title: "影像 / CONTACT SHEET",
+      label: "影像",
+      kicker: "底片架已就绪",
+      title: "影像 / 接触印样",
       copy: "可拖动、可点开的影像架；素材位等待真实照片。",
     },
     {
       id: "log",
       number: "04",
-      kicker: "LOG INDEXED",
-      title: "记录 / TIME SCRUBBER",
+      label: "记录",
+      kicker: "记录已编目",
+      title: "记录 / 时间游标",
       copy: "通过时间调谐器浏览真实经历与站点更新记录。",
     },
     {
       id: "queue",
       number: "05",
-      kicker: "QUEUE ON STANDBY",
-      title: "未来 / PENDING QUEUE",
+      label: "待播",
+      kicker: "队列待机中",
+      title: "未来 / 待播队列",
       copy: "尚未发生的计划按状态排队，不用虚构内容填满版面。",
     },
   ];
@@ -147,12 +152,12 @@
     const kicker = select("[data-preview-kicker]");
     const title = select("[data-preview-title]");
     const copy = select("[data-preview-copy]");
-    if (number) number.textContent = `CH.${channel.number}`;
+    if (number) number.textContent = `频道 ${channel.number}`;
     if (kicker) kicker.textContent = channel.kicker;
     if (title) title.textContent = channel.title;
     if (copy) copy.textContent = channel.copy;
     if (channelLink) channelLink.href = `#${channel.id}`;
-    if (dial) dial.setAttribute("aria-label", `频道旋钮，当前频道 ${channel.number} ${channel.id.toUpperCase()}。点击切换，也可使用左右方向键`);
+    if (dial) dial.setAttribute("aria-label", `频道旋钮，当前频道 ${channel.number} ${channel.label}。点击切换，也可使用左右方向键`);
     channelKeys.forEach((key) => {
       const isActive = key.dataset.tuneChannel === channel.id;
       key.classList.toggle("is-active", isActive);
@@ -224,48 +229,48 @@
   const mediaData = {
     audio: {
       index: "01",
-      label: "AUDIO",
+      label: "声音",
       accent: "#ff542e",
-      title: "声音档案尚未接入",
-      copy: "这里将容纳真实的最近循环、长期歌单与现场记录。目前不展示虚构曲目。",
-      slots: ["RECENT LOOP / 待录入", "PLAYLIST / 待录入", "LIVE MEMORY / 待录入"],
-      speed: "33⅓ RPM",
+      title: "寸铁《近人可读》",
+      copy: "从专辑中选取五首歌。站内只接入 Apple Music 官方试听，完整播放以平台所在地区与订阅状态为准。",
+      slots: ["最近一项 / 待录入", "长期留存 / 待录入", "一则记忆 / 待录入"],
+      speed: "33⅓ 转/分",
     },
     screen: {
       index: "02",
-      label: "SCREEN",
+      label: "影像",
       accent: "#5ad0ff",
       title: "观看记录等待片单",
       copy: "电影、剧集与真正想留下的画面将在这里出现。没有片名时，界面保持待机。",
-      slots: ["RECENT WATCH / 待录入", "REWATCH / 待录入", "FRAME NOTE / 待录入"],
-      speed: "24 FPS",
+      slots: ["最近观看 / 待录入", "值得重看 / 待录入", "画面一笔 / 待录入"],
+      speed: "24 格/秒",
     },
     reading: {
       index: "03",
-      label: "READING",
+      label: "阅读",
       accent: "#c8ff3d",
       title: "书页索引等待内容",
       copy: "这里用于在读、重读与真正留下痕迹的文字，不自动生成书单或感想。",
-      slots: ["CURRENT PAGE / 待录入", "RE-READ / 待录入", "MARGIN NOTE / 待录入"],
-      speed: "INDEX 03",
+      slots: ["正在读 / 待录入", "再次翻阅 / 待录入", "页边一笔 / 待录入"],
+      speed: "索引 03",
     },
     places: {
       index: "04",
-      label: "PLACES",
+      label: "地点",
       accent: "#efeee7",
       title: "地点频道尚无坐标",
       copy: "去过的地方、愿意再去的位置与真实旅行记录，可以在这里建立索引。",
-      slots: ["BEEN / 待录入", "RETURN / 待录入", "NEXT STOP / 待录入"],
-      speed: "COORD —",
+      slots: ["曾经到达 / 待录入", "愿意重返 / 待录入", "下一站 / 待录入"],
+      speed: "坐标 —",
     },
     objects: {
       index: "05",
-      label: "OBJECTS",
+      label: "物件",
       accent: "#ff542e",
       title: "物件目录等待建档",
       copy: "只有确实拥有来历与记忆的物件才进入这里；昂贵与否不是筛选标准。",
-      slots: ["DAILY USE / 待录入", "KEPT / 待录入", "STORY / 待录入"],
-      speed: "CAT. 05",
+      slots: ["日常使用 / 待录入", "长久留存 / 待录入", "背后故事 / 待录入"],
+      speed: "目录 05",
     },
   };
 
@@ -281,12 +286,16 @@
     visual?.setAttribute("data-media-visual", key);
     const visualLabel = visual?.querySelector(":scope > p");
     if (visualLabel) visualLabel.textContent = data.speed;
-    select("[data-media-code]", mediaPanel).textContent = `MEDIUM ${data.index} / ${data.label}`;
+    select("[data-media-code]", mediaPanel).textContent = `媒介 ${data.index} / ${data.label}`;
     select("[data-media-title]", mediaPanel).textContent = data.title;
     select("[data-media-copy]", mediaPanel).textContent = data.copy;
     select("[data-media-slot-a]", mediaPanel).textContent = data.slots[0];
     select("[data-media-slot-b]", mediaPanel).textContent = data.slots[1];
     select("[data-media-slot-c]", mediaPanel).textContent = data.slots[2];
+    const isAudio = key === "audio";
+    select("[data-music-player]", mediaPanel)?.toggleAttribute("hidden", !isAudio);
+    select("[data-media-slots]", mediaPanel)?.toggleAttribute("hidden", isAudio);
+    select(".media-copy", mediaPanel)?.classList.toggle("has-player", isAudio);
     mediaTabs.forEach((tab) => {
       const isActive = tab.dataset.medium === key;
       tab.setAttribute("aria-selected", String(isActive));
@@ -319,6 +328,27 @@
   } catch {
     setMedium("audio");
   }
+
+  const applePlayer = select("[data-apple-player]");
+  const appleLink = select("[data-apple-link]");
+  const appleTracks = selectAll("[data-apple-track]");
+
+  appleTracks.forEach((track) => {
+    track.addEventListener("click", () => {
+      const title = track.dataset.trackTitle || "当前曲目";
+      const embedSource = track.dataset.embedSrc;
+      if (applePlayer && embedSource && applePlayer.src !== embedSource) {
+        applePlayer.src = embedSource;
+        applePlayer.title = `在 Apple Music 试听《${title}》`;
+      }
+      if (appleLink && track.dataset.appleUrl) appleLink.href = track.dataset.appleUrl;
+      appleTracks.forEach((item) => {
+        const isActive = item === track;
+        item.classList.toggle("is-active", isActive);
+        item.setAttribute("aria-pressed", String(isActive));
+      });
+    });
+  });
 
   const filmViewport = select("[data-film-viewport]");
   const filmFrames = selectAll("[data-frame]");
@@ -368,7 +398,7 @@
       }
       if (!frameDialog?.showModal) return;
       select("[data-dialog-number]", frameDialog).textContent = pad(index + 1);
-      select("[data-dialog-title]", frameDialog).textContent = frame.dataset.title || `FRAME ${pad(index + 1)}`;
+      select("[data-dialog-title]", frameDialog).textContent = frame.dataset.title || `画面 ${pad(index + 1)}`;
       select("[data-dialog-caption]", frameDialog).textContent = frame.dataset.caption || "待补充真实素材。";
       frameDialog.showModal();
     });
@@ -380,36 +410,36 @@
 
   const logEntries = [
     {
-      code: "ENTRY 00",
+      code: "记录 00",
       date: "待补充",
       title: "起点记录尚未录入",
       copy: "这里应放一条真实、重要且适合公开的早期经历。当前不根据模板推测人生背景。",
-      status: "STATUS / EMPTY",
-      valueText: "ORIGIN / 待补充",
+      status: "状态 / 暂空",
+      valueText: "起点 / 待补充",
     },
     {
-      code: "ENTRY 01",
+      code: "记录 01",
       date: "待补充",
       title: "转折记录尚未录入",
       copy: "这里留给一次真实的选择、变化或开始。可以很短，但需要由本人确认。",
-      status: "STATUS / EMPTY",
-      valueText: "TURN / 待补充",
+      status: "状态 / 暂空",
+      valueText: "转折 / 待补充",
     },
     {
-      code: "ENTRY 02",
+      code: "记录 02",
       date: "2026.09",
       title: "网站界面重构",
       copy: "将个人网站重构为统一的信号工作台，并保留现有域名与 GitHub Pages 发布方式。",
-      status: "STATUS / ON RECORD",
-      valueText: "NOW / SITE REBUILD",
+      status: "状态 / 已记录",
+      valueText: "现在 / 网站重构",
     },
     {
-      code: "ENTRY 03",
+      code: "记录 03",
       date: "待补充",
       title: "下一条记录等待发生",
       copy: "未来内容保持开放；发生以后再记录，而不是先写好一个看似完整的故事。",
-      status: "STATUS / STANDBY",
-      valueText: "NEXT / 待补充",
+      status: "状态 / 待机",
+      valueText: "下一步 / 待补充",
     },
   ];
 
@@ -434,28 +464,6 @@
 
   logSlider?.addEventListener("input", () => setLog(logSlider.value));
   logButtons.forEach((button) => button.addEventListener("click", () => setLog(button.dataset.logIndex)));
-
-  const copyButton = select("[data-copy-email]");
-  copyButton?.addEventListener("click", async () => {
-    const email = copyButton.dataset.email || "";
-    const label = select("[data-copy-label]", copyButton);
-    let copied = false;
-    try {
-      await navigator.clipboard.writeText(email);
-      copied = true;
-    } catch {
-      const textArea = document.createElement("textarea");
-      textArea.value = email;
-      textArea.style.position = "fixed";
-      textArea.style.opacity = "0";
-      document.body.append(textArea);
-      textArea.select();
-      copied = document.execCommand("copy");
-      textArea.remove();
-    }
-    if (label) label.textContent = copied ? "COPIED / 邮箱已复制" : email;
-    window.setTimeout(() => { if (label) label.textContent = email; }, 2200);
-  });
 
   if (finePointer.matches) {
     const pointer = select("[data-pointer]");
