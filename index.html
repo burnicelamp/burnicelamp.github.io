@@ -1,37 +1,33 @@
 <!doctype html>
-<html lang="zh-CN" data-channel="live">
+<html lang="zh-CN">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#11110f" />
-    <meta
-      name="description"
-      content="Burnlamp 的个人信号台：状态、偏爱、影像、记录与待办内容汇集于一台持续更新的数字工作台。"
-    />
-    <meta name="author" content="burnicelamp" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#e9edf6" />
+    <meta name="color-scheme" content="light" />
+    <meta name="description" content="Burnlamp 的个人主页：音乐、影像、阅读与记录。" />
+    <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:url" content="https://burnlamp.is-my.id/" />
-    <meta property="og:title" content="BURNLAMP｜个人信号台" />
-    <meta
-      property="og:description"
-      content="一台公开运行、持续更新的个人媒介工作台。"
-    />
+    <meta property="og:title" content="BURNLAMP｜听、看、读与记录" />
+    <meta property="og:description" content="音乐、影像、阅读与偶尔留下的记录。" />
     <meta property="og:image" content="https://burnlamp.is-my.id/assets/og-card.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <title>BURNLAMP｜个人信号台</title>
+    <title>BURNLAMP｜听、看、读与记录</title>
     <link rel="canonical" href="https://burnlamp.is-my.id/" />
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="./site.webmanifest" />
     <link rel="stylesheet" href="./styles.css" />
+    <script>document.documentElement.classList.add("js");</script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "ProfilePage",
-        "name": "BURNLAMP 个人信号台",
-        "alternateName": "Burnlamp 的个人信号台",
+        "name": "BURNLAMP",
+        "alternateName": "Burnlamp 的个人主页",
         "url": "https://burnlamp.is-my.id/",
-        "description": "Burnlamp 的个人网站与持续更新的数字工作台。",
+        "description": "Burnlamp 的个人主页：音乐、影像、阅读与记录。",
         "mainEntity": {
           "@type": "Person",
           "name": "Burnlamp",
@@ -41,373 +37,254 @@
     </script>
     <script src="./script.js" defer></script>
   </head>
+
   <body>
-    <a class="skip-link" href="#main">跳到主要内容</a>
+    <div class="pointer-light" aria-hidden="true" data-pointer-light></div>
 
-    <div class="boot-screen" aria-hidden="true" data-boot>
-      <span>B/L</span>
-      <p>正在接通个人信号…</p>
-      <i></i>
-    </div>
-
-    <div class="top-status" aria-label="站点状态">
-      <p><span class="status-light" aria-hidden="true"></span> 个人频道 / 公开访问</p>
-      <p class="status-marquee" aria-hidden="true">
-        <span>BURNLAMP 个人信号台 — 状态 / 媒介 / 影像 / 记录 / 待播 —&nbsp;</span>
-      </p>
-      <p><span data-clock>--:--</span> 设备本地时间</p>
-    </div>
-
-    <aside class="control-rail" aria-label="频道导航">
-      <a class="rail-mark" href="#top" data-nav-link aria-label="回到信号台入口">
-        <span>B</span><span>L</span>
-      </a>
-      <nav class="rail-nav">
-        <a href="#live" data-nav-link><b>01</b><span>此刻</span></a>
-        <a href="#media" data-nav-link><b>02</b><span>媒介</span></a>
-        <a href="#frames" data-nav-link><b>03</b><span>影像</span></a>
-        <a href="#log" data-nav-link><b>04</b><span>记录</span></a>
-        <a href="#queue" data-nav-link><b>05</b><span>待播</span></a>
-        <a href="#contact" data-nav-link><b>06</b><span>回程</span></a>
+    <header class="site-header" data-site-header>
+      <a class="site-brand" href="#top" aria-label="BURNLAMP 首页">BURNLAMP</a>
+      <nav class="site-nav" aria-label="主要导航">
+        <a href="#music">音乐</a>
+        <a href="#cinema">影像</a>
+        <a href="#reading">阅读</a>
+        <a href="#notes">记录</a>
       </nav>
-      <div class="rail-meter" aria-hidden="true"><i data-scroll-progress></i></div>
-      <p class="rail-sign">BURNLAMP<br />第 001 期</p>
-    </aside>
+      <p class="site-state"><span aria-hidden="true"></span>持续更新</p>
+    </header>
 
-    <main id="main">
-      <section class="hero" id="top" data-section data-accent="#ff542e" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="hero-code">信号编号 — BL.001 / 个人网站</p>
-          <h1 id="hero-title"><span>BURN</span><span>LAMP<i>.</i></span></h1>
-          <div class="hero-intro">
-            <p class="hero-intro__zh">个人信号台</p>
-            <p>
-              状态、偏爱、影像、记录与下一步，<br />
-              统一接入这台持续维护的数字工作台。
-            </p>
+    <main>
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-glow hero-glow--one" aria-hidden="true"></div>
+        <div class="hero-glow hero-glow--two" aria-hidden="true"></div>
+        <div class="hero-inner">
+          <p class="hero-overline">Burnlamp 的个人主页</p>
+          <h1 id="hero-title"><span>BURN</span><span>LAMP</span></h1>
+          <div class="hero-bottom">
+            <p>听过的，看过的，读过的。<br />以及值得记住的一些时刻。</p>
+            <a href="#music">向下浏览<span aria-hidden="true">↓</span></a>
           </div>
-          <a class="hero-scroll" href="#live">
-            <span>进入频道 01</span><i aria-hidden="true">↓</i>
-          </a>
-          <div class="hero-grid" aria-hidden="true"></div>
         </div>
+      </section>
 
-        <div class="tuner" data-tuner-zone>
-          <div class="panel-label">
-            <span>频道选择器</span><b data-tuner-readout>01.0</b>
-          </div>
+      <div class="page-shell">
+        <section class="section music-section" id="music" aria-labelledby="music-title">
+          <header class="section-heading reveal">
+            <div>
+              <p class="section-kicker">最近在听</p>
+              <h2 id="music-title">音乐</h2>
+            </div>
+            <p>从《近人可读》中选出五首歌。站内只使用 Apple Music 官方试听，完整播放以平台规则为准。</p>
+          </header>
 
-          <div class="tuner-controls" role="group" aria-label="选择要浏览的频道">
-            <button class="channel-key is-active" type="button" data-tune-channel="live" aria-pressed="true">
-              <span>01</span><b>此刻</b><i></i>
-            </button>
-            <button class="channel-key" type="button" data-tune-channel="media" aria-pressed="false">
-              <span>02</span><b>媒介</b><i></i>
-            </button>
-            <button class="channel-key" type="button" data-tune-channel="frames" aria-pressed="false">
-              <span>03</span><b>影像</b><i></i>
-            </button>
-            <button class="channel-key" type="button" data-tune-channel="log" aria-pressed="false">
-              <span>04</span><b>记录</b><i></i>
-            </button>
-            <button class="channel-key" type="button" data-tune-channel="queue" aria-pressed="false">
-              <span>05</span><b>待播</b><i></i>
-            </button>
-          </div>
-
-          <div class="dial-wrap">
-            <button
-              class="tuner-dial"
-              type="button"
-              data-tuner-dial
-              aria-label="频道旋钮，当前频道 01 此刻。点击切换，也可使用左右方向键"
+          <div class="music-card reveal" data-tilt-surface>
+            <a
+              class="album-art"
+              href="https://music.apple.com/cn/album/%E8%BF%91%E4%BA%BA%E5%8F%AF%E8%AF%BB/1519218381"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="在 Apple Music 打开寸铁《近人可读》"
             >
-              <span aria-hidden="true"><i></i></span>
-            </button>
-            <p><b>拖动 / 轻触</b><span>也可用 ← →</span></p>
-          </div>
+              <img
+                src="https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/7d/78/22/7d7822a2-ceae-b3c0-284d-d4fac22079e2/cccccc.jpg/1200x1200bb.jpg"
+                alt="寸铁《近人可读》专辑封面"
+                width="1200"
+                height="1200"
+                referrerpolicy="no-referrer"
+              />
+              <span>在 Apple Music 打开</span>
+            </a>
 
-          <article class="channel-preview" aria-live="polite">
-            <div class="channel-preview__head">
-              <span data-preview-number>频道 01</span>
-              <div class="waveform" aria-hidden="true">
-                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            <div class="music-copy">
+              <div class="album-meta">
+                <p>寸铁 · 2020</p>
+                <h3>《近人可读》</h3>
+                <span>五首选曲</span>
+              </div>
+
+              <div class="track-list" role="group" aria-label="《近人可读》展示曲目">
+                <button
+                  class="track-row is-active"
+                  type="button"
+                  data-track-title="若你心年轻"
+                  data-embed-src="https://embed.music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385"
+                  data-apple-url="https://music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385"
+                  aria-pressed="true"
+                ><span><i aria-hidden="true"></i><b>若你心年轻</b></span><small>05:48</small></button>
+                <button
+                  class="track-row"
+                  type="button"
+                  data-track-title="我讲给你一个笑话"
+                  data-embed-src="https://embed.music.apple.com/cn/album/%E6%88%91%E8%AE%B2%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E7%AC%91%E8%AF%9D/1519218381?i=1519218387"
+                  data-apple-url="https://music.apple.com/cn/album/%E6%88%91%E8%AE%B2%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E7%AC%91%E8%AF%9D/1519218381?i=1519218387"
+                  aria-pressed="false"
+                ><span><i aria-hidden="true"></i><b>我讲给你一个笑话</b></span><small>03:52</small></button>
+                <button
+                  class="track-row"
+                  type="button"
+                  data-track-title="目击你刚刚完成这一跳"
+                  data-embed-src="https://embed.music.apple.com/cn/album/%E7%9B%AE%E5%87%BB%E4%BD%A0%E5%88%9A%E5%88%9A%E5%AE%8C%E6%88%90%E8%BF%99%E4%B8%80%E8%B7%B3/1519218381?i=1519218388"
+                  data-apple-url="https://music.apple.com/cn/album/%E7%9B%AE%E5%87%BB%E4%BD%A0%E5%88%9A%E5%88%9A%E5%AE%8C%E6%88%90%E8%BF%99%E4%B8%80%E8%B7%B3/1519218381?i=1519218388"
+                  aria-pressed="false"
+                ><span><i aria-hidden="true"></i><b>目击你刚刚完成这一跳</b></span><small>05:13</small></button>
+                <button
+                  class="track-row"
+                  type="button"
+                  data-track-title="旅途愉快"
+                  data-embed-src="https://embed.music.apple.com/cn/album/%E6%97%85%E9%80%94%E6%84%89%E5%BF%AB/1519218381?i=1519218389"
+                  data-apple-url="https://music.apple.com/cn/album/%E6%97%85%E9%80%94%E6%84%89%E5%BF%AB/1519218381?i=1519218389"
+                  aria-pressed="false"
+                ><span><i aria-hidden="true"></i><b>旅途愉快</b></span><small>06:07</small></button>
+                <button
+                  class="track-row"
+                  type="button"
+                  data-track-title="道别时想说些什么"
+                  data-embed-src="https://embed.music.apple.com/cn/album/%E9%81%93%E5%88%AB%E6%97%B6%E6%83%B3%E8%AF%B4%E4%BA%9B%E4%BB%80%E4%B9%88/1519218381?i=1519218392"
+                  data-apple-url="https://music.apple.com/cn/album/%E9%81%93%E5%88%AB%E6%97%B6%E6%83%B3%E8%AF%B4%E4%BA%9B%E4%BB%80%E4%B9%88/1519218381?i=1519218392"
+                  aria-pressed="false"
+                ><span><i aria-hidden="true"></i><b>道别时想说些什么</b></span><small>04:29</small></button>
               </div>
             </div>
-            <p data-preview-kicker>正在接收</p>
-            <h2 data-preview-title>此刻 / 信号输入</h2>
-            <p data-preview-copy>最近状态与注意力入口。内容只保留真实更新。</p>
-            <a href="#live" data-open-channel><span>打开这个频道</span><b>↘</b></a>
-          </article>
+          </div>
 
-          <div class="tuner-corner" aria-hidden="true">BL<br />001</div>
-        </div>
-      </section>
+          <div class="music-lower">
+            <section class="official-player reveal" aria-labelledby="official-player-title">
+              <header>
+                <div><p>官方试听</p><h3 id="official-player-title" data-current-track>若你心年轻</h3></div>
+                <a data-apple-link href="https://music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385" target="_blank" rel="noreferrer">Apple Music ↗</a>
+              </header>
+              <iframe
+                data-apple-player
+                title="在 Apple Music 试听《若你心年轻》"
+                src="https://embed.music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385"
+                height="175"
+                frameborder="0"
+                allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+                sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+                loading="lazy"
+              ></iframe>
+              <p class="source-note">试听由 Apple Music 提供；本站不保存或分发音频文件。</p>
+            </section>
 
-      <section class="live-section" id="live" data-section data-accent="#c8ff3d" aria-labelledby="live-title">
-        <div class="section-index" aria-hidden="true"><span>频道</span><b>01</b></div>
-        <header class="live-heading" data-reveal="slice">
-          <p>信号输入 / 最近状态</p>
-          <h2 id="live-title">就在<br />此刻<i>：</i></h2>
-          <span>最后更新<br />待定</span>
-        </header>
+            <aside class="lyrics-card reveal" aria-labelledby="lyrics-title">
+              <header><p>歌词视图</p><h3 id="lyrics-title">随播放流动</h3></header>
+              <div class="lyrics-preview" aria-live="polite">
+                <p>逐句同步需要可合法使用的歌词与时间轴。</p>
+                <p class="is-current">当前先保留这块安静的阅读位置。</p>
+                <p>获得授权的 LRC 后即可接入。</p>
+              </div>
+              <a data-lyrics-link href="https://music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385" target="_blank" rel="noreferrer">在 Apple Music 查看当前曲目 ↗</a>
+            </aside>
+          </div>
+        </section>
 
-        <div class="live-board">
-          <article class="clock-module">
-            <p>本地时钟</p>
-            <time data-clock-seconds>--:--:--</time>
-            <div class="level-bars" aria-hidden="true">
-              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <section class="cinema-section" id="cinema" aria-labelledby="cinema-title">
+          <div class="cinema-inner">
+            <header class="section-heading section-heading--dark reveal">
+              <div>
+                <p class="section-kicker">看过的画面</p>
+                <h2 id="cinema-title">影像</h2>
+              </div>
+              <div class="cinema-intro">
+                <p>海报、截图和一两句话都可以自然进入这里。左右滑动，当前内容会安静地靠近。</p>
+                <div class="carousel-controls" aria-label="影像浏览控制">
+                  <button type="button" data-cinema-prev aria-label="上一张">←</button>
+                  <button type="button" data-cinema-next aria-label="下一张">→</button>
+                </div>
+              </div>
+            </header>
+
+            <div class="poster-rail" data-poster-rail tabindex="0" aria-label="影像收藏，可左右滑动">
+              <article class="poster-card is-active" data-poster-card>
+                <div class="poster-art poster-art--one"><span>等待海报</span></div>
+                <div class="poster-copy"><h3>电影名称</h3><p>年份 · 导演</p><small>一句真正想留下的话，会出现在这里。</small></div>
+              </article>
+              <article class="poster-card" data-poster-card>
+                <div class="poster-art poster-art--two"><span>等待截图</span></div>
+                <div class="poster-copy"><h3>电影名称</h3><p>年份 · 导演</p><small>可以是一帧画面，也可以是一张正式海报。</small></div>
+              </article>
+              <article class="poster-card" data-poster-card>
+                <div class="poster-art poster-art--three"><span>等待海报</span></div>
+                <div class="poster-copy"><h3>电影名称</h3><p>年份 · 导演</p><small>文字保持简短，让画面承担主要表达。</small></div>
+              </article>
+              <article class="poster-card" data-poster-card>
+                <div class="poster-art poster-art--four"><span>等待截图</span></div>
+                <div class="poster-copy"><h3>电影名称</h3><p>年份 · 导演</p><small>内容加入后，这里会形成一条可浏览的收藏流。</small></div>
+              </article>
             </div>
-            <small>读取访客设备时间 / 并非个人位置</small>
-          </article>
 
-          <div class="input-stack" aria-label="Burnlamp 的最近状态">
-            <article class="input-row">
-              <span>输入甲</span>
-              <div><small>当前专注</small><h3>待主人更新</h3></div>
-              <b>暂无数据</b>
-            </article>
-            <article class="input-row">
-              <span>输入乙</span>
-              <div><small>最近循环</small><h3>待录入真实曲目</h3></div>
-              <b>暂空</b>
-            </article>
-            <article class="input-row">
-              <span>输入丙</span>
-              <div><small>最近一笔</small><h3>待补充一句近况</h3></div>
-              <b>待机</b>
-            </article>
+            <p class="cinema-hint">拖动或滑动浏览</p>
           </div>
-        </div>
+        </section>
 
-        <p class="live-policy">不自动虚构 / 未提供的信息不由模板代写</p>
-      </section>
-
-      <section class="media-section" id="media" data-section data-accent="#ff542e" aria-labelledby="media-title">
-        <header class="media-heading">
-          <div class="section-index section-index--light" aria-hidden="true"><span>频道</span><b>02</b></div>
-          <div data-reveal="slice">
-            <p>媒介接口 / 偏爱入口</p>
-            <h2 id="media-title">通往世界的<br /><em>五条路径。</em></h2>
-          </div>
-          <p>每种媒介拥有自己的浏览方式；它们共享同一套信号、编号与状态规则。</p>
-        </header>
-
-        <div class="media-console" data-media-console style="--media-accent:#ff542e">
-          <div class="media-tabs" role="tablist" aria-label="媒介类型">
-            <button id="media-tab-audio" role="tab" aria-selected="true" aria-controls="media-panel" tabindex="0" data-medium="audio">
-              <span>01</span><b>声音</b><small>听见</small>
-            </button>
-            <button id="media-tab-screen" role="tab" aria-selected="false" aria-controls="media-panel" tabindex="-1" data-medium="screen">
-              <span>02</span><b>影像</b><small>观看</small>
-            </button>
-            <button id="media-tab-reading" role="tab" aria-selected="false" aria-controls="media-panel" tabindex="-1" data-medium="reading">
-              <span>03</span><b>阅读</b><small>翻页</small>
-            </button>
-            <button id="media-tab-places" role="tab" aria-selected="false" aria-controls="media-panel" tabindex="-1" data-medium="places">
-              <span>04</span><b>地点</b><small>抵达</small>
-            </button>
-            <button id="media-tab-objects" role="tab" aria-selected="false" aria-controls="media-panel" tabindex="-1" data-medium="objects">
-              <span>05</span><b>物件</b><small>留存</small>
-            </button>
-          </div>
-
-          <div class="media-panel" id="media-panel" role="tabpanel" aria-labelledby="media-tab-audio" data-media-panel>
-            <div class="media-visual" data-media-visual="audio" aria-hidden="true">
-              <div class="record-assembly"><i></i><span>BL</span></div>
-              <div class="tone-arm"><i></i></div>
-              <p>33⅓ 转/分</p>
+        <section class="section reading-section" id="reading" aria-labelledby="reading-title">
+          <header class="section-heading reveal">
+            <div>
+              <p class="section-kicker">翻过的书页</p>
+              <h2 id="reading-title">阅读</h2>
             </div>
-            <article class="media-copy" aria-live="polite">
-              <p data-media-code>媒介 01 / 声音</p>
-              <h3 data-media-title>寸铁《近人可读》</h3>
-              <p data-media-copy>从专辑中选取五首歌。站内只接入 Apple Music 官方试听，完整播放以平台所在地区与订阅状态为准。</p>
+            <p>它不是一排相同的卡片，而是一本可以真正翻动的书。每次翻页，出现一本书或一段留下来的话。</p>
+          </header>
 
-              <section class="music-player" data-music-player aria-label="寸铁《近人可读》试听播放器">
-                <div class="music-player__head">
-                  <p><span aria-hidden="true"></span>正版试听</p>
-                  <a href="https://music.apple.com/cn/album/%E8%BF%91%E4%BA%BA%E5%8F%AF%E8%AF%BB/1519218381" target="_blank" rel="noreferrer">Apple Music ↗</a>
-                </div>
-                <iframe
-                  class="music-player__embed"
-                  data-apple-player
-                  title="在 Apple Music 试听《若你心年轻》"
-                  src="https://embed.music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385"
-                  height="175"
-                  frameborder="0"
-                  allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
-                  sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
-                  loading="lazy"
-                ></iframe>
-                <div class="music-player__list" role="group" aria-label="展示曲目">
-                  <button class="is-active" type="button" data-apple-track data-track-title="若你心年轻" data-embed-src="https://embed.music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385" data-apple-url="https://music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385" aria-pressed="true">
-                    <span>01</span><b>若你心年轻</b><small>05:48</small>
-                  </button>
-                  <button type="button" data-apple-track data-track-title="我讲给你一个笑话" data-embed-src="https://embed.music.apple.com/cn/album/%E6%88%91%E8%AE%B2%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E7%AC%91%E8%AF%9D/1519218381?i=1519218387" data-apple-url="https://music.apple.com/cn/album/%E6%88%91%E8%AE%B2%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E7%AC%91%E8%AF%9D/1519218381?i=1519218387" aria-pressed="false">
-                    <span>03</span><b>我讲给你一个笑话</b><small>03:52</small>
-                  </button>
-                  <button type="button" data-apple-track data-track-title="目击你刚刚完成这一跳" data-embed-src="https://embed.music.apple.com/cn/album/%E7%9B%AE%E5%87%BB%E4%BD%A0%E5%88%9A%E5%88%9A%E5%AE%8C%E6%88%90%E8%BF%99%E4%B8%80%E8%B7%B3/1519218381?i=1519218388" data-apple-url="https://music.apple.com/cn/album/%E7%9B%AE%E5%87%BB%E4%BD%A0%E5%88%9A%E5%88%9A%E5%AE%8C%E6%88%90%E8%BF%99%E4%B8%80%E8%B7%B3/1519218381?i=1519218388" aria-pressed="false">
-                    <span>04</span><b>目击你刚刚完成这一跳</b><small>05:13</small>
-                  </button>
-                  <button type="button" data-apple-track data-track-title="旅途愉快" data-embed-src="https://embed.music.apple.com/cn/album/%E6%97%85%E9%80%94%E6%84%89%E5%BF%AB/1519218381?i=1519218389" data-apple-url="https://music.apple.com/cn/album/%E6%97%85%E9%80%94%E6%84%89%E5%BF%AB/1519218381?i=1519218389" aria-pressed="false">
-                    <span>05</span><b>旅途愉快</b><small>06:07</small>
-                  </button>
-                  <button type="button" data-apple-track data-track-title="道别时想说些什么" data-embed-src="https://embed.music.apple.com/cn/album/%E9%81%93%E5%88%AB%E6%97%B6%E6%83%B3%E8%AF%B4%E4%BA%9B%E4%BB%80%E4%B9%88/1519218381?i=1519218392" data-apple-url="https://music.apple.com/cn/album/%E9%81%93%E5%88%AB%E6%97%B6%E6%83%B3%E8%AF%B4%E4%BA%9B%E4%BB%80%E4%B9%88/1519218381?i=1519218392" aria-pressed="false">
-                    <span>08</span><b>道别时想说些什么</b><small>04:29</small>
-                  </button>
-                </div>
-                <div class="music-player__links">
-                  <a data-apple-link href="https://music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385" target="_blank" rel="noreferrer">在 Apple Music 打开当前曲目 ↗</a>
-                  <a href="https://indieworks.bandcamp.com/album/--226" target="_blank" rel="noreferrer">在 Bandcamp 收听或购买专辑 ↗</a>
-                </div>
-              </section>
+          <div class="reading-layout reveal">
+            <div class="reading-copy">
+              <p class="reading-status" data-book-status>正在读</p>
+              <h3>把书慢慢放进来</h3>
+              <p>现在只保留结构，不虚构书名。以后每一页都可以放封面、作者、阅读时间和一小段真实笔记。</p>
+              <div class="book-controls" aria-label="书页控制">
+                <button type="button" data-book-prev disabled>上一页</button>
+                <button type="button" data-book-next>翻一页 <span aria-hidden="true">→</span></button>
+              </div>
+            </div>
 
-              <dl data-media-slots hidden>
-                <div><dt>位置甲</dt><dd data-media-slot-a>最近一项 / 待录入</dd></div>
-                <div><dt>位置乙</dt><dd data-media-slot-b>长期留存 / 待录入</dd></div>
-                <div><dt>位置丙</dt><dd data-media-slot-c>一则记忆 / 待录入</dd></div>
-              </dl>
+            <div class="book-scene" data-book-scene tabindex="0" aria-label="可翻动的阅读书页，使用左右方向键翻页">
+              <div class="book" data-book>
+                <div class="book-base book-base--left">
+                  <p>BURNLAMP</p>
+                  <h4>书页之间</h4>
+                  <span>阅读留下的痕迹</span>
+                </div>
+                <div class="book-base book-base--right" aria-hidden="true"></div>
+
+                <article class="book-sheet" style="--sheet: 3" data-book-sheet>
+                  <div class="book-page book-page--front"><span>正在读</span><h4>最近翻开的书</h4><p>书名、作者与阅读进度。</p><small>等待真实内容</small></div>
+                  <div class="book-page book-page--back"><span>读到这里</span><h4>一段留下来的话</h4><p>不摘抄大段文字，只记下自己的感受。</p><small>等待真实内容</small></div>
+                </article>
+                <article class="book-sheet" style="--sheet: 2" data-book-sheet>
+                  <div class="book-page book-page--front"><span>再次翻阅</span><h4>值得重读的书</h4><p>那些隔一段时间还会想起的页面。</p><small>等待真实内容</small></div>
+                  <div class="book-page book-page--back"><span>页边一笔</span><h4>阅读与生活之间</h4><p>书页之外真正发生的联系。</p><small>等待真实内容</small></div>
+                </article>
+                <article class="book-sheet" style="--sheet: 1" data-book-sheet>
+                  <div class="book-page book-page--front"><span>以后</span><h4>下一本书</h4><p>遇见以后再把它放进来。</p><small>不预先填满</small></div>
+                  <div class="book-page book-page--back"><span>合上之前</span><h4>暂时读到这里</h4><p>书页会继续增加。</p><small>BURNLAMP</small></div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section notes-section" id="notes" aria-labelledby="notes-title">
+          <header class="notes-heading reveal">
+            <p class="section-kicker">偶尔写下</p>
+            <h2 id="notes-title">记录</h2>
+          </header>
+          <div class="notes-list reveal">
+            <article>
+              <time datetime="2026-09">2026.09</time>
+              <div><h3>重新整理这个网站</h3><p>让音乐、影像和阅读成为内容本身，而不是藏在一套复杂界面后面。</p></div>
+            </article>
+            <article>
+              <time>以后</time>
+              <div><h3>有事情发生时再写</h3><p>记录不预先编排，也不为了填满页面而虚构。</p></div>
             </article>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="frames-section" id="frames" data-section data-accent="#5ad0ff" aria-labelledby="frames-title">
-        <header class="frames-heading">
-          <div class="section-index" aria-hidden="true"><span>频道</span><b>03</b></div>
-          <div data-reveal="slice">
-            <p>影像架 / 接触印样</p>
-            <h2 id="frames-title">尚未曝光的<br />画面</h2>
-          </div>
-          <p>拖动底片架或横向滑动。点击任一格查看它需要的真实素材。</p>
-        </header>
-
-        <div class="film-viewport" data-film-viewport>
-          <div class="film-strip" data-film-strip>
-            <button class="film-frame film-frame--01" type="button" data-frame data-title="画面 01 / 日常" data-caption="待替换：一张真实的日常横幅照片。建议保留自然环境声般的普通瞬间。">
-              <span class="sprocket" aria-hidden="true"></span><b>01</b><i aria-hidden="true"></i><small>日常 / 待装片</small>
-            </button>
-            <button class="film-frame film-frame--02" type="button" data-frame data-title="画面 02 / 人物" data-caption="待替换：一张真实的人物纵向照片，可以不是正式肖像。">
-              <span class="sprocket" aria-hidden="true"></span><b>02</b><i aria-hidden="true"></i><small>人物 / 待装片</small>
-            </button>
-            <button class="film-frame film-frame--03" type="button" data-frame data-title="画面 03 / 地点" data-caption="待替换：一个真实去过、愿意记住或反复回去的地方。">
-              <span class="sprocket" aria-hidden="true"></span><b>03</b><i aria-hidden="true"></i><small>地点 / 待装片</small>
-            </button>
-            <button class="film-frame film-frame--04" type="button" data-frame data-title="画面 04 / 物件" data-caption="待替换：一个确实拥有、使用或收藏的物件。">
-              <span class="sprocket" aria-hidden="true"></span><b>04</b><i aria-hidden="true"></i><small>物件 / 待装片</small>
-            </button>
-            <button class="film-frame film-frame--05" type="button" data-frame data-title="画面 05 / 旅途" data-caption="待替换：一次真实出行留下的画面。">
-              <span class="sprocket" aria-hidden="true"></span><b>05</b><i aria-hidden="true"></i><small>旅途 / 待装片</small>
-            </button>
-            <button class="film-frame film-frame--06" type="button" data-frame data-title="画面 06 / 开放" data-caption="开放素材位：留给暂时无法归类、但值得保留的一张真实照片。">
-              <span class="sprocket" aria-hidden="true"></span><b>06</b><i aria-hidden="true"></i><small>开放 / 待装片</small>
-            </button>
-          </div>
-        </div>
-
-        <div class="film-instructions" aria-hidden="true">
-          <span>← 拖动底片 →</span><i></i><b data-film-counter>01 / 06</b>
-        </div>
-      </section>
-
-      <section class="log-section" id="log" data-section data-accent="#ff542e" aria-labelledby="log-title">
-        <header class="log-heading">
-          <div class="section-index" aria-hidden="true"><span>频道</span><b>04</b></div>
-          <p>个人记录 / 时间调谐</p>
-          <h2 id="log-title">翻阅<br />记录<i>。</i></h2>
-          <p>真实经历录入后，通过时间游标浏览。当前只保留结构与本站已经发生的记录。</p>
-        </header>
-
-        <div class="log-console">
-          <div class="log-scale" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          <label class="log-slider-label" for="log-slider">时间游标</label>
-          <input id="log-slider" class="log-slider" type="range" min="0" max="3" step="1" value="2" data-log-slider aria-valuetext="现在 / 网站重构" />
-          <div class="log-stops" role="group" aria-label="选择时间条目">
-            <button type="button" data-log-index="0"><span>00</span><b>起点</b><small>待补充</small></button>
-            <button type="button" data-log-index="1"><span>01</span><b>转折</b><small>待补充</small></button>
-            <button class="is-active" type="button" data-log-index="2"><span>02</span><b>现在</b><small>2026.09</small></button>
-            <button type="button" data-log-index="3"><span>03</span><b>下一步</b><small>待补充</small></button>
-          </div>
-          <article class="log-readout" aria-live="polite">
-            <p><span data-log-code>记录 02</span><b data-log-date>2026.09</b></p>
-            <h3 data-log-title>网站界面重构</h3>
-            <p data-log-copy>将个人网站重构为统一的信号工作台，并保留现有域名与 GitHub Pages 发布方式。</p>
-            <small data-log-status>状态 / 已记录</small>
-          </article>
-        </div>
-      </section>
-
-      <section class="queue-section" id="queue" data-section data-accent="#c8ff3d" aria-labelledby="queue-title">
-        <header class="queue-heading">
-          <div class="section-index" aria-hidden="true"><span>频道</span><b>05</b></div>
-          <div data-reveal="slice">
-            <p>待播信号 / 未来队列</p>
-            <h2 id="queue-title">尚未<br /><em>播出。</em></h2>
-          </div>
-          <p>未来想做的事按状态进入队列。点击抽屉查看填充规则；愿望本身等待真实内容。</p>
-        </header>
-
-        <div class="queue-rack">
-          <details class="queue-drawer">
-            <summary><span>Q–01</span><b>近期</b><em>准备开始</em><i>+</i></summary>
-            <div><p>待补充真实计划。</p><small>建议：只写一件具体、近期、确实想做的事。</small></div>
-          </details>
-          <details class="queue-drawer">
-            <summary><span>Q–02</span><b>以后</b><em>没有截止时间</em><i>+</i></summary>
-            <div><p>待补充长期愿望。</p><small>建议：地点、作品或技能均可，不必为了填满而扩写。</small></div>
-          </details>
-          <details class="queue-drawer">
-            <summary><span>Q–03</span><b>空位</b><em>允许暂时留白</em><i>+</i></summary>
-            <div><p>有意留白。</p><small>没有真实内容时，空白也是明确状态。</small></div>
-          </details>
-        </div>
-
-        <div class="queue-tape" aria-hidden="true">
-          <span>等待输入</span><span>不作虚构</span><span>队列保持开放</span><span>等待输入</span>
-        </div>
-      </section>
-
-      <section class="contact-section" id="contact" data-section data-accent="#5ad0ff" aria-labelledby="contact-title">
-        <div class="contact-scan" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <header class="contact-heading">
-          <div class="section-index section-index--light" aria-hidden="true"><span>频道</span><b>06</b></div>
-          <p>信号回路 / 返回入口</p>
-          <h2 id="contact-title">回到<br />开头<i>。</i></h2>
-        </header>
-        <div class="contact-actions">
-          <a class="contact-link" href="#top">
-            <span>频道 00</span><b>返回信号台</b><i aria-hidden="true">↑</i>
-          </a>
-        </div>
         <footer class="site-footer">
-          <p>BURNLAMP / 个人信号台</p>
-          <p>© <span data-year>2026</span> — 持续编辑中</p>
-          <a href="#top">返回总台 ↑</a>
+          <a href="#top">BURNLAMP</a>
+          <p>© <span data-year>2026</span> · 持续编辑中</p>
+          <a href="#top">回到顶部 ↑</a>
         </footer>
-      </section>
-    </main>
-
-    <nav class="mobile-dock" aria-label="移动端频道导航">
-      <a href="#top" data-nav-link><b>00</b><span>总台</span></a>
-      <a href="#live" data-nav-link><b>01</b><span>此刻</span></a>
-      <a href="#media" data-nav-link><b>02</b><span>媒介</span></a>
-      <a href="#frames" data-nav-link><b>03</b><span>影像</span></a>
-      <a href="#log" data-nav-link><b>04</b><span>记录</span></a>
-      <a href="#contact" data-nav-link><b>06</b><span>回程</span></a>
-    </nav>
-
-    <dialog class="frame-dialog" data-frame-dialog>
-      <button class="frame-dialog__close" type="button" data-dialog-close aria-label="关闭影像素材说明">关闭 ×</button>
-      <div class="frame-dialog__visual" aria-hidden="true"><span data-dialog-number>01</span><i></i></div>
-      <div class="frame-dialog__copy">
-        <p>尚未曝光的素材位</p>
-        <h2 data-dialog-title>画面 01</h2>
-        <p data-dialog-caption></p>
-        <small>当前为结构占位，不代表 Burnlamp 的真实经历。</small>
       </div>
-    </dialog>
-
-    <div class="pointer-mark" aria-hidden="true" data-pointer><i></i></div>
+    </main>
   </body>
 </html>

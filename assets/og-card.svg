@@ -1,30 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#11110f"/>
-  <path d="M0 38h1200M92 0v630M870 38v592" stroke="#44443f"/>
-  <g stroke="#2e2e2a">
-    <path d="M92 156h778M92 274h778M92 392h778M92 510h778"/>
-    <path d="M286 38v472M480 38v472M674 38v472"/>
-  </g>
-  <rect x="0" width="92" height="92" fill="#ff542e"/>
-  <text x="15" y="65" fill="#11110f" font-family="Arial Black, Arial, sans-serif" font-size="52" font-weight="900" letter-spacing="-7">BL</text>
-  <circle cx="1115" cy="19" r="5" fill="#c8ff3d"/>
-  <text x="104" y="24" fill="#efeee7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="12" font-weight="700" letter-spacing="1">个人频道 / 公开访问</text>
-  <text x="1182" y="24" fill="#efeee7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="12" text-anchor="end">信号编号 BL.001</text>
-  <text x="118" y="226" fill="#efeee7" font-family="Arial Black, Arial, sans-serif" font-size="154" font-weight="900" letter-spacing="-15">BURN</text>
-  <text x="118" y="370" fill="#efeee7" font-family="Arial Black, Arial, sans-serif" font-size="154" font-weight="900" letter-spacing="-15">LAMP<tspan fill="#ff542e">.</tspan></text>
-  <text x="122" y="445" fill="#c8ff3d" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="34" font-weight="700">个人信号台</text>
-  <text x="122" y="484" fill="#8f8f88" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="18">状态、偏爱、影像、记录与下一步，接入同一台数字工作台。</text>
-  <g transform="translate(924 96)">
-    <circle cx="118" cy="118" r="116" fill="none" stroke="#5a5a54"/>
-    <circle cx="118" cy="118" r="82" fill="#242420" stroke="#6a6a63"/>
-    <circle cx="118" cy="118" r="48" fill="#151513"/>
-    <path d="M118 62v46" stroke="#ff542e" stroke-width="5"/>
-    <g fill="#efeee7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="12" font-weight="700">
-      <text x="2" y="280">01 / 此刻</text><text x="2" y="306">02 / 媒介</text><text x="2" y="332">03 / 影像</text>
-      <text x="2" y="358">04 / 记录</text><text x="2" y="384">05 / 待播</text>
-    </g>
-  </g>
-  <rect x="92" y="566" width="1108" height="64" fill="#c8ff3d"/>
-  <text x="118" y="606" fill="#11110f" font-family="Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2">BURNLAMP.IS-MY.ID</text>
-  <text x="1170" y="606" fill="#11110f" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="14" font-weight="700" text-anchor="end">状态 / 在线</text>
+  <defs>
+    <linearGradient id="bg" x1="80" y1="30" x2="1110" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f8f9fc"/>
+      <stop offset="0.58" stop-color="#edf0f7"/>
+      <stop offset="1" stop-color="#e5e9f4"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(940 205) rotate(140) scale(410 310)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8491ec" stop-opacity="0.62"/>
+      <stop offset="1" stop-color="#8491ec" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="word" x1="260" y1="385" x2="770" y2="530" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4b5fc8"/>
+      <stop offset="0.6" stop-color="#8491ec"/>
+      <stop offset="1" stop-color="#39445f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <text x="84" y="78" fill="#171a24" font-family="Arial, Microsoft YaHei, PingFang SC, sans-serif" font-size="24" font-weight="700" letter-spacing="-1">BURNLAMP</text>
+  <circle cx="1067" cy="68" r="6" fill="#7383ec"/>
+  <text x="1085" y="75" fill="#697181" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="18">持续更新</text>
+  <text x="78" y="300" fill="#171a24" font-family="Arial Black, Arial, sans-serif" font-size="176" font-weight="900" letter-spacing="-12">BURN</text>
+  <text x="250" y="445" fill="url(#word)" font-family="Arial Black, Arial, sans-serif" font-size="176" font-weight="900" letter-spacing="-12">LAMP</text>
+  <text x="84" y="548" fill="#4f5668" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="26" font-weight="500">听过的，看过的，读过的。以及值得记住的一些时刻。</text>
 </svg>

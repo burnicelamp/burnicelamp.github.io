@@ -1,11 +1,11 @@
 {
-  "name": "BURNLAMP｜个人信号台",
+  "name": "BURNLAMP｜听、看、读与记录",
   "short_name": "BURNLAMP",
-  "description": "Burnlamp 的个人网站与持续更新的数字工作台。",
+  "description": "Burnlamp 的个人主页：音乐、影像、阅读与记录。",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#11110f",
-  "theme_color": "#11110f",
+  "background_color": "#f7f8fb",
+  "theme_color": "#e9edf6",
   "icons": [
     {
       "src": "./assets/favicon.svg",
