@@ -1,0 +1,53 @@
+{
+  "intro": "海报、截图和一两句话都可以自然进入这里。左右滑动，当前内容会安静地靠近。",
+  "items": [
+    {
+      "id": "cinema-1",
+      "title": "电影名称",
+      "meta": "年份 · 导演",
+      "note": "一句真正想留下的话，会出现在这里。",
+      "placeholder": true,
+      "published": true,
+      "image": null,
+      "alt": "",
+      "artStyle": "one",
+      "emptyLabel": "等待海报"
+    },
+    {
+      "id": "cinema-2",
+      "title": "电影名称",
+      "meta": "年份 · 导演",
+      "note": "可以是一帧画面，也可以是一张正式海报。",
+      "placeholder": true,
+      "published": true,
+      "image": null,
+      "alt": "",
+      "artStyle": "two",
+      "emptyLabel": "等待截图"
+    },
+    {
+      "id": "cinema-3",
+      "title": "电影名称",
+      "meta": "年份 · 导演",
+      "note": "文字保持简短，让画面承担主要表达。",
+      "placeholder": true,
+      "published": true,
+      "image": null,
+      "alt": "",
+      "artStyle": "three",
+      "emptyLabel": "等待海报"
+    },
+    {
+      "id": "cinema-4",
+      "title": "电影名称",
+      "meta": "年份 · 导演",
+      "note": "内容加入后，这里会形成一条可浏览的收藏流。",
+      "placeholder": true,
+      "published": true,
+      "image": null,
+      "alt": "",
+      "artStyle": "four",
+      "emptyLabel": "等待截图"
+    }
+  ]
+}

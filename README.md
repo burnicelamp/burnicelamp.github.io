@@ -1,41 +1,22 @@
-# BURNLAMP SIGNAL DESK
+# BURNLAMP
 
-Burnlamp 的个人网站。全站以“个人信号台 / Personal Signal Desk”为核心概念，把状态、媒介偏爱、影像、经历与未来计划组织成可切换的频道，而不是通用 Landing Page 分区。
+Burnlamp 的个人主页：[burnlamp.is-my.id](https://burnlamp.is-my.id/)。原生 HTML、CSS、JavaScript，无构建或网站运行依赖。
 
-## 本地预览
+## 预览与维护
 
-站点使用语义化 HTML、CSS 与原生 JavaScript，没有构建步骤或外部运行依赖。
+在仓库根目录运行 `python -m http.server 8000`，打开 `http://localhost:8000`。内容通过 fetch 读取，请使用 HTTP 服务器。
 
-```bash
-python -m http.server 8000
-```
+- [CONTENT-GUIDE.md](CONTENT-GUIDE.md)：只上传图片、追加数据即可维护六类内容。
+- content/：音乐、歌词、影像、阅读、记录、人物肖像。
+- assets/music/、assets/cinema/、assets/books/、assets/life/：内容素材；官方音乐封面保留现有平台地址。
+- index.html：页面语义骨架；styles.css / enhancements.css：原有设计系统及组件扩展。
+- js/：数据加载、渲染、肖像、导航、歌词；script.js：原有揭示、唱片微倾、影像滑动和翻书交互。
+- [歌词来源调查](docs/LYRICS-SOURCES.md)：授权边界与时钟适配。
 
-然后访问 `http://localhost:8000`。
+运行 `node tests/content-check.mjs` 检查数据。安装开发用 Playwright 后运行 `node tests/browser-check.cjs` 做浏览器回归；可用 PLAYWRIGHT_MODULE 指定已有模块路径，BROWSER_CHANNEL=msedge 使用本机 Edge。测试自行启动并关闭本地服务器，测试资料只在内存中生成。
 
 ## 发布
 
-仓库根目录就是 GitHub Pages 发布产物：
+保持 GitHub Pages 从 main 根目录发布。.nojekyll、CNAME、canonical、分享图和站点地图保留现状。不需要修改 DNS，不需要额外后台或打包步骤。
 
-- `main` 分支根目录发布；
-- `.nojekyll` 保留静态文件原样；
-- `CNAME` 保留 `burnlamp.is-my.id`；
-- 不需要重新配置 DNS 或 GitHub Pages。
-
-## 真实内容入口
-
-当前未知的个人内容全部明确标记为“待录入”，没有编造经历或偏好。
-
-- `index.html`：最近状态、照片素材位、队列与联络信息；
-- `script.js` 的 `mediaData`：声音、影像、阅读、地点、物件五类媒介内容；
-- `script.js` 的 `logEntries`：人生节点与站点记录；
-- `assets/og-card.svg`：社交分享封面的可编辑源文件；
-- `assets/og-card.png`：平台实际读取的分享图片。
-
-照片加入后，建议在 `.film-frame > i` 内替换为带有 `alt` 的 `<img loading="lazy" decoding="async">`，并同步更新对应按钮的标题和说明。
-
-## 交互与可访问性
-
-- 桌面端使用固定频道轨、可拖拽频道旋钮、媒介切换台、横向底片架与时间游标；
-- 移动端重新组织为底部频道 Dock、触控选台、横向滑动底片与纵向控制台；
-- 支持键盘焦点、方向键切换、语义化 Tab、原生 Dialog 与 `prefers-reduced-motion`；
-- 无自动播放声音、无滚动劫持、无远程字体或前端依赖。
+所有视角可通过按钮或键盘操作，移动端支持照片切换与顶部板块导航；运动尊重 prefers-reduced-motion。不自动播放声音、不劫持页面滚动，不将占位内容纳入随机浏览。

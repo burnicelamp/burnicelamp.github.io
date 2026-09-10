@@ -1,0 +1,58 @@
+{
+  "intro": "从《近人可读》中选出{count}首歌。站内只使用 Apple Music 官方试听，完整播放以平台规则为准。",
+  "album": {
+    "title": "《近人可读》",
+    "meta": "寸铁 · 2020",
+    "selection": "{count}首选曲",
+    "image": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/7d/78/22/7d7822a2-ceae-b3c0-284d-d4fac22079e2/cccccc.jpg/1200x1200bb.jpg",
+    "alt": "寸铁《近人可读》专辑封面",
+    "url": "https://music.apple.com/cn/album/%E8%BF%91%E4%BA%BA%E5%8F%AF%E8%AF%BB/1519218381"
+  },
+  "tracks": [
+    {
+      "id": "track-1",
+      "title": "若你心年轻",
+      "duration": "05:48",
+      "appleUrl": "https://music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385",
+      "embedSrc": "https://embed.music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385",
+      "published": true,
+      "placeholder": false
+    },
+    {
+      "id": "track-2",
+      "title": "我讲给你一个笑话",
+      "duration": "03:52",
+      "appleUrl": "https://music.apple.com/cn/album/%E6%88%91%E8%AE%B2%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E7%AC%91%E8%AF%9D/1519218381?i=1519218387",
+      "embedSrc": "https://embed.music.apple.com/cn/album/%E6%88%91%E8%AE%B2%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E7%AC%91%E8%AF%9D/1519218381?i=1519218387",
+      "published": true,
+      "placeholder": false
+    },
+    {
+      "id": "track-3",
+      "title": "目击你刚刚完成这一跳",
+      "duration": "05:13",
+      "appleUrl": "https://music.apple.com/cn/album/%E7%9B%AE%E5%87%BB%E4%BD%A0%E5%88%9A%E5%88%9A%E5%AE%8C%E6%88%90%E8%BF%99%E4%B8%80%E8%B7%B3/1519218381?i=1519218388",
+      "embedSrc": "https://embed.music.apple.com/cn/album/%E7%9B%AE%E5%87%BB%E4%BD%A0%E5%88%9A%E5%88%9A%E5%AE%8C%E6%88%90%E8%BF%99%E4%B8%80%E8%B7%B3/1519218381?i=1519218388",
+      "published": true,
+      "placeholder": false
+    },
+    {
+      "id": "track-4",
+      "title": "旅途愉快",
+      "duration": "06:07",
+      "appleUrl": "https://music.apple.com/cn/album/%E6%97%85%E9%80%94%E6%84%89%E5%BF%AB/1519218381?i=1519218389",
+      "embedSrc": "https://embed.music.apple.com/cn/album/%E6%97%85%E9%80%94%E6%84%89%E5%BF%AB/1519218381?i=1519218389",
+      "published": true,
+      "placeholder": false
+    },
+    {
+      "id": "track-5",
+      "title": "道别时想说些什么",
+      "duration": "04:29",
+      "appleUrl": "https://music.apple.com/cn/album/%E9%81%93%E5%88%AB%E6%97%B6%E6%83%B3%E8%AF%B4%E4%BA%9B%E4%BB%80%E4%B9%88/1519218381?i=1519218392",
+      "embedSrc": "https://embed.music.apple.com/cn/album/%E9%81%93%E5%88%AB%E6%97%B6%E6%83%B3%E8%AF%B4%E4%BA%9B%E4%BB%80%E4%B9%88/1519218381?i=1519218392",
+      "published": true,
+      "placeholder": false
+    }
+  ]
+}

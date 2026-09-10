@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id": "note-1",
+      "date": "2026-09",
+      "dateLabel": "2026.09",
+      "title": "重新整理这个网站",
+      "text": "让音乐、影像和阅读成为内容本身，而不是藏在一套复杂界面后面。",
+      "placeholder": false,
+      "published": true
+    },
+    {
+      "id": "note-2",
+      "date": null,
+      "dateLabel": "以后",
+      "title": "有事情发生时再写",
+      "text": "记录不预先编排，也不为了填满页面而虚构。",
+      "placeholder": true,
+      "published": true
+    }
+  ]
+}

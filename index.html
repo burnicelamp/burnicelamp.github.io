@@ -18,7 +18,7 @@
     <link rel="canonical" href="https://burnlamp.is-my.id/" />
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="./site.webmanifest" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css" /><link rel="stylesheet" href="./enhancements.css" />
     <script>document.documentElement.classList.add("js");</script>
     <script type="application/ld+json">
       {
@@ -35,7 +35,7 @@
         }
       }
     </script>
-    <script src="./script.js" defer></script>
+    <script type="module" src="./js/app.js"></script>
   </head>
 
   <body>
@@ -44,14 +44,18 @@
     <header class="site-header" data-site-header>
       <a class="site-brand" href="#top" aria-label="BURNLAMP 首页">BURNLAMP</a>
       <nav class="site-nav" aria-label="主要导航">
+        <a href="#life">肖像</a>
         <a href="#music">音乐</a>
         <a href="#cinema">影像</a>
         <a href="#reading">阅读</a>
         <a href="#notes">记录</a>
       </nav>
-      <p class="site-state"><span aria-hidden="true"></span>持续更新</p>
+      <div class="header-actions"><button class="wander-button" data-wander disabled>随便看看 <span aria-hidden="true">↗</span></button><button class="nav-toggle" aria-expanded="false" aria-controls="mobile-nav"><span data-current-section>首页</span><span class="nav-toggle-icon" aria-hidden="true">＋</span></button></div>
+      <nav id="mobile-nav" class="mobile-nav" aria-label="板块导航" inert><a href="#life">肖像</a><a href="#music">音乐</a><a href="#cinema">影像</a><a href="#reading">阅读</a><a href="#notes">记录</a></nav>
     </header>
 
+    <a class="skip-link" href="#life">跳到内容</a>
+    <div class="wander-feedback" role="status" aria-live="polite" data-wander-feedback></div>
     <main>
       <section class="hero" id="top" aria-labelledby="hero-title">
         <div class="hero-glow hero-glow--one" aria-hidden="true"></div>
@@ -61,101 +65,48 @@
           <h1 id="hero-title"><span>BURN</span><span>LAMP</span></h1>
           <div class="hero-bottom">
             <p>听过的，看过的，读过的。<br />以及值得记住的一些时刻。</p>
-            <a href="#music">向下浏览<span aria-hidden="true">↓</span></a>
+            <a href="#life">向下浏览<span aria-hidden="true">↓</span></a>
           </div>
         </div>
       </section>
 
       <div class="page-shell">
+        <noscript><p class="content-message">开启 JavaScript 即可浏览这里的内容。<a href="https://music.apple.com/cn/album/1519218381">也可以直接在 Apple Music 聆听选辑 ↗</a></p></noscript>
+        <section class="section life-section" id="life" aria-labelledby="life-title">
+          <header class="section-heading reveal"><div><p class="section-kicker">换个角度，认识我</p><h2 id="life-title">肖像</h2></div><p data-life-intro></p></header>
+          <div class="portrait reveal" data-portrait>
+            <div class="portrait-stage"><div class="portrait-orbit" aria-hidden="true"></div><p class="portrait-signature" aria-hidden="true">B / L</p><div class="portrait-media" data-life-media></div><span class="portrait-coordinate" aria-hidden="true">SELF PORTRAIT — OPEN EDITION</span></div>
+            <div class="portrait-narrative"><div class="portrait-index" data-life-tabs role="tablist" aria-label="肖像视角"></div><div class="portrait-story" id="portrait-story" role="tabpanel" tabindex="0"></div><div class="portrait-bottom"><span data-life-count></span><button type="button" data-life-next>换个角度 <span aria-hidden="true">↗</span></button></div></div>
+          </div>
+        </section>
         <section class="section music-section" id="music" aria-labelledby="music-title">
           <header class="section-heading reveal">
             <div>
               <p class="section-kicker">最近在听</p>
               <h2 id="music-title">音乐</h2>
             </div>
-            <p>从《近人可读》中选出五首歌。站内只使用 Apple Music 官方试听，完整播放以平台规则为准。</p>
+            <p data-music-intro></p>
           </header>
 
           <div class="music-card reveal" data-tilt-surface>
-            <a
-              class="album-art"
-              href="https://music.apple.com/cn/album/%E8%BF%91%E4%BA%BA%E5%8F%AF%E8%AF%BB/1519218381"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="在 Apple Music 打开寸铁《近人可读》"
-            >
-              <img
-                src="https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/7d/78/22/7d7822a2-ceae-b3c0-284d-d4fac22079e2/cccccc.jpg/1200x1200bb.jpg"
-                alt="寸铁《近人可读》专辑封面"
-                width="1200"
-                height="1200"
-                referrerpolicy="no-referrer"
-              />
-              <span>在 Apple Music 打开</span>
-            </a>
+            <a class="album-art" target="_blank" rel="noreferrer" data-album-art></a>
 
             <div class="music-copy">
-              <div class="album-meta">
-                <p>寸铁 · 2020</p>
-                <h3>《近人可读》</h3>
-                <span>五首选曲</span>
-              </div>
+              <div class="album-meta" data-album-meta></div>
 
-              <div class="track-list" role="group" aria-label="《近人可读》展示曲目">
-                <button
-                  class="track-row is-active"
-                  type="button"
-                  data-track-title="若你心年轻"
-                  data-embed-src="https://embed.music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385"
-                  data-apple-url="https://music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385"
-                  aria-pressed="true"
-                ><span><i aria-hidden="true"></i><b>若你心年轻</b></span><small>05:48</small></button>
-                <button
-                  class="track-row"
-                  type="button"
-                  data-track-title="我讲给你一个笑话"
-                  data-embed-src="https://embed.music.apple.com/cn/album/%E6%88%91%E8%AE%B2%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E7%AC%91%E8%AF%9D/1519218381?i=1519218387"
-                  data-apple-url="https://music.apple.com/cn/album/%E6%88%91%E8%AE%B2%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E7%AC%91%E8%AF%9D/1519218381?i=1519218387"
-                  aria-pressed="false"
-                ><span><i aria-hidden="true"></i><b>我讲给你一个笑话</b></span><small>03:52</small></button>
-                <button
-                  class="track-row"
-                  type="button"
-                  data-track-title="目击你刚刚完成这一跳"
-                  data-embed-src="https://embed.music.apple.com/cn/album/%E7%9B%AE%E5%87%BB%E4%BD%A0%E5%88%9A%E5%88%9A%E5%AE%8C%E6%88%90%E8%BF%99%E4%B8%80%E8%B7%B3/1519218381?i=1519218388"
-                  data-apple-url="https://music.apple.com/cn/album/%E7%9B%AE%E5%87%BB%E4%BD%A0%E5%88%9A%E5%88%9A%E5%AE%8C%E6%88%90%E8%BF%99%E4%B8%80%E8%B7%B3/1519218381?i=1519218388"
-                  aria-pressed="false"
-                ><span><i aria-hidden="true"></i><b>目击你刚刚完成这一跳</b></span><small>05:13</small></button>
-                <button
-                  class="track-row"
-                  type="button"
-                  data-track-title="旅途愉快"
-                  data-embed-src="https://embed.music.apple.com/cn/album/%E6%97%85%E9%80%94%E6%84%89%E5%BF%AB/1519218381?i=1519218389"
-                  data-apple-url="https://music.apple.com/cn/album/%E6%97%85%E9%80%94%E6%84%89%E5%BF%AB/1519218381?i=1519218389"
-                  aria-pressed="false"
-                ><span><i aria-hidden="true"></i><b>旅途愉快</b></span><small>06:07</small></button>
-                <button
-                  class="track-row"
-                  type="button"
-                  data-track-title="道别时想说些什么"
-                  data-embed-src="https://embed.music.apple.com/cn/album/%E9%81%93%E5%88%AB%E6%97%B6%E6%83%B3%E8%AF%B4%E4%BA%9B%E4%BB%80%E4%B9%88/1519218381?i=1519218392"
-                  data-apple-url="https://music.apple.com/cn/album/%E9%81%93%E5%88%AB%E6%97%B6%E6%83%B3%E8%AF%B4%E4%BA%9B%E4%BB%80%E4%B9%88/1519218381?i=1519218392"
-                  aria-pressed="false"
-                ><span><i aria-hidden="true"></i><b>道别时想说些什么</b></span><small>04:29</small></button>
-              </div>
+              <div class="track-list" role="group" aria-label="展示曲目" data-track-list></div>
             </div>
           </div>
 
           <div class="music-lower">
             <section class="official-player reveal" aria-labelledby="official-player-title">
               <header>
-                <div><p>官方试听</p><h3 id="official-player-title" data-current-track>若你心年轻</h3></div>
-                <a data-apple-link href="https://music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385" target="_blank" rel="noreferrer">Apple Music ↗</a>
+                <div><p>官方试听</p><h3 id="official-player-title" data-current-track></h3></div>
+                <a data-apple-link target="_blank" rel="noreferrer">Apple Music ↗</a>
               </header>
               <iframe
                 data-apple-player
-                title="在 Apple Music 试听《若你心年轻》"
-                src="https://embed.music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385"
+                title="Apple Music 官方试听"
                 height="175"
                 frameborder="0"
                 allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
@@ -166,13 +117,11 @@
             </section>
 
             <aside class="lyrics-card reveal" aria-labelledby="lyrics-title">
-              <header><p>歌词视图</p><h3 id="lyrics-title">随播放流动</h3></header>
-              <div class="lyrics-preview" aria-live="polite">
-                <p>逐句同步需要可合法使用的歌词与时间轴。</p>
-                <p class="is-current">当前先保留这块安静的阅读位置。</p>
-                <p>获得授权的 LRC 后即可接入。</p>
-              </div>
-              <a data-lyrics-link href="https://music.apple.com/cn/album/%E8%8B%A5%E4%BD%A0%E5%BF%83%E5%B9%B4%E8%BD%BB/1519218381?i=1519218385" target="_blank" rel="noreferrer">在 Apple Music 查看当前曲目 ↗</a>
+              <header><div><p>歌词视图</p><h3 id="lyrics-title" data-lyrics-title></h3></div><span class="lyrics-mode" data-lyrics-mode></span></header>
+              <div class="lyrics-viewport" data-lyrics-viewport tabindex="0" role="region" aria-label="歌词阅读区"></div>
+              <div class="lyrics-tools"><p data-lyrics-status role="status"></p><button type="button" data-lyrics-resume hidden>回到当前句</button></div>
+              <div class="lyrics-attribution" data-lyrics-attribution></div>
+              <a data-lyrics-link target="_blank" rel="noreferrer">在 Apple Music 打开当前曲目 ↗</a>
             </aside>
           </div>
         </section>
@@ -185,7 +134,7 @@
                 <h2 id="cinema-title">影像</h2>
               </div>
               <div class="cinema-intro">
-                <p>海报、截图和一两句话都可以自然进入这里。左右滑动，当前内容会安静地靠近。</p>
+                <p data-cinema-intro></p>
                 <div class="carousel-controls" aria-label="影像浏览控制">
                   <button type="button" data-cinema-prev aria-label="上一张">←</button>
                   <button type="button" data-cinema-next aria-label="下一张">→</button>
@@ -194,22 +143,6 @@
             </header>
 
             <div class="poster-rail" data-poster-rail tabindex="0" aria-label="影像收藏，可左右滑动">
-              <article class="poster-card is-active" data-poster-card>
-                <div class="poster-art poster-art--one"><span>等待海报</span></div>
-                <div class="poster-copy"><h3>电影名称</h3><p>年份 · 导演</p><small>一句真正想留下的话，会出现在这里。</small></div>
-              </article>
-              <article class="poster-card" data-poster-card>
-                <div class="poster-art poster-art--two"><span>等待截图</span></div>
-                <div class="poster-copy"><h3>电影名称</h3><p>年份 · 导演</p><small>可以是一帧画面，也可以是一张正式海报。</small></div>
-              </article>
-              <article class="poster-card" data-poster-card>
-                <div class="poster-art poster-art--three"><span>等待海报</span></div>
-                <div class="poster-copy"><h3>电影名称</h3><p>年份 · 导演</p><small>文字保持简短，让画面承担主要表达。</small></div>
-              </article>
-              <article class="poster-card" data-poster-card>
-                <div class="poster-art poster-art--four"><span>等待截图</span></div>
-                <div class="poster-copy"><h3>电影名称</h3><p>年份 · 导演</p><small>内容加入后，这里会形成一条可浏览的收藏流。</small></div>
-              </article>
             </div>
 
             <p class="cinema-hint">拖动或滑动浏览</p>
@@ -222,14 +155,14 @@
               <p class="section-kicker">翻过的书页</p>
               <h2 id="reading-title">阅读</h2>
             </div>
-            <p>它不是一排相同的卡片，而是一本可以真正翻动的书。每次翻页，出现一本书或一段留下来的话。</p>
+            <p data-books-intro></p>
           </header>
 
           <div class="reading-layout reveal">
             <div class="reading-copy">
               <p class="reading-status" data-book-status>正在读</p>
-              <h3>把书慢慢放进来</h3>
-              <p>现在只保留结构，不虚构书名。以后每一页都可以放封面、作者、阅读时间和一小段真实笔记。</p>
+              <h3 data-book-heading></h3>
+              <p data-book-description></p>
               <div class="book-controls" aria-label="书页控制">
                 <button type="button" data-book-prev disabled>上一页</button>
                 <button type="button" data-book-next>翻一页 <span aria-hidden="true">→</span></button>
@@ -243,20 +176,7 @@
                   <h4>书页之间</h4>
                   <span>阅读留下的痕迹</span>
                 </div>
-                <div class="book-base book-base--right" aria-hidden="true"></div>
-
-                <article class="book-sheet" style="--sheet: 3" data-book-sheet>
-                  <div class="book-page book-page--front"><span>正在读</span><h4>最近翻开的书</h4><p>书名、作者与阅读进度。</p><small>等待真实内容</small></div>
-                  <div class="book-page book-page--back"><span>读到这里</span><h4>一段留下来的话</h4><p>不摘抄大段文字，只记下自己的感受。</p><small>等待真实内容</small></div>
-                </article>
-                <article class="book-sheet" style="--sheet: 2" data-book-sheet>
-                  <div class="book-page book-page--front"><span>再次翻阅</span><h4>值得重读的书</h4><p>那些隔一段时间还会想起的页面。</p><small>等待真实内容</small></div>
-                  <div class="book-page book-page--back"><span>页边一笔</span><h4>阅读与生活之间</h4><p>书页之外真正发生的联系。</p><small>等待真实内容</small></div>
-                </article>
-                <article class="book-sheet" style="--sheet: 1" data-book-sheet>
-                  <div class="book-page book-page--front"><span>以后</span><h4>下一本书</h4><p>遇见以后再把它放进来。</p><small>不预先填满</small></div>
-                  <div class="book-page book-page--back"><span>合上之前</span><h4>暂时读到这里</h4><p>书页会继续增加。</p><small>BURNLAMP</small></div>
-                </article>
+                <div class="book-base book-base--right"><p>暂时读到这里</p></div>
               </div>
             </div>
           </div>
@@ -268,14 +188,6 @@
             <h2 id="notes-title">记录</h2>
           </header>
           <div class="notes-list reveal">
-            <article>
-              <time datetime="2026-09">2026.09</time>
-              <div><h3>重新整理这个网站</h3><p>让音乐、影像和阅读成为内容本身，而不是藏在一套复杂界面后面。</p></div>
-            </article>
-            <article>
-              <time>以后</time>
-              <div><h3>有事情发生时再写</h3><p>记录不预先编排，也不为了填满页面而虚构。</p></div>
-            </article>
           </div>
         </section>
 

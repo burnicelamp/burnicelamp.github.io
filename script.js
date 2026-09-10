@@ -1,5 +1,4 @@
-(() => {
-  "use strict";
+export function initInteractions({ onTrack, books, onBook }) {
 
   const root = document.documentElement;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -48,6 +47,7 @@
     if (lyricsLink && platformUrl) lyricsLink.href = platformUrl;
     if (currentTrack) currentTrack.textContent = title;
 
+    onTrack(track.dataset.contentId);
     trackRows.forEach((item) => {
       const active = item === track;
       item.classList.toggle("is-active", active);
@@ -56,11 +56,14 @@
   };
 
   trackRows.forEach((track) => track.addEventListener("click", () => chooseTrack(track)));
+  if (trackRows[0]) chooseTrack(trackRows[0]);
 
   const posterRail = select("[data-poster-rail]");
   const posterCards = selectAll("[data-poster-card]");
   const previousPoster = select("[data-cinema-prev]");
   const nextPoster = select("[data-cinema-next]");
+  if (previousPoster) previousPoster.disabled = posterCards.length < 2;
+  if (nextPoster) nextPoster.disabled = posterCards.length < 2;
   let posterScrollFrame = 0;
   let railDrag = null;
 
@@ -97,20 +100,20 @@
     return first.getBoundingClientRect().width + gap;
   };
 
-  previousPoster?.addEventListener("click", () => posterRail?.scrollBy({ left: -posterStep(), behavior: "smooth" }));
-  nextPoster?.addEventListener("click", () => posterRail?.scrollBy({ left: posterStep(), behavior: "smooth" }));
+  previousPoster?.addEventListener("click", () => posterRail?.scrollBy({ left: -posterStep(), behavior: reducedMotion.matches ? "instant" : "smooth" }));
+  nextPoster?.addEventListener("click", () => posterRail?.scrollBy({ left: posterStep(), behavior: reducedMotion.matches ? "instant" : "smooth" }));
   posterRail?.addEventListener("scroll", requestPosterUpdate, { passive: true });
   posterRail?.addEventListener("keydown", (event) => {
     if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
     event.preventDefault();
-    posterRail.scrollBy({ left: event.key === "ArrowRight" ? posterStep() : -posterStep(), behavior: "smooth" });
+    posterRail.scrollBy({ left: event.key === "ArrowRight" ? posterStep() : -posterStep(), behavior: reducedMotion.matches ? "instant" : "smooth" });
   });
 
   posterRail?.addEventListener("pointerdown", (event) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
     railDrag = { x: event.clientX, scrollLeft: posterRail.scrollLeft };
     posterRail.classList.add("is-dragging");
-    posterRail.setPointerCapture(event.pointerId);
+    if (event.pointerType === "mouse") posterRail.setPointerCapture(event.pointerId);
   });
   posterRail?.addEventListener("pointermove", (event) => {
     if (!railDrag || !posterRail.hasPointerCapture(event.pointerId)) return;
@@ -127,6 +130,7 @@
     const art = select(".poster-art", card);
     if (!art || !finePointer.matches || reducedMotion.matches) return;
     card.addEventListener("pointermove", (event) => {
+      if (reducedMotion.matches) return;
       const bounds = art.getBoundingClientRect();
       const x = Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width));
       const y = Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height));
@@ -149,7 +153,7 @@
   const bookPrevious = select("[data-book-prev]");
   const bookNext = select("[data-book-next]");
   const bookStatus = select("[data-book-status]");
-  const bookStates = ["正在读", "再次翻阅", "以后", "暂时读到这里"];
+  const bookStates = books.flatMap(book => book.pages.map(page => page.label)).concat("暂时读到这里");
   let turnedPages = 0;
 
   const updateBook = () => {
@@ -159,12 +163,14 @@
       bookNext.innerHTML = turnedPages === bookSheets.length ? "已经读完" : "翻一页 <span aria-hidden=\"true\">→</span>";
     }
     if (bookStatus) bookStatus.textContent = bookStates[turnedPages] || bookStates.at(-1);
+    onBook(turnedPages);
+    bookSheets.forEach((sheet, i) => { sheet.inert = i !== turnedPages; sheet.setAttribute("aria-hidden", String(i !== turnedPages)); });
   };
 
   const turnForward = () => {
     if (turnedPages >= bookSheets.length) return;
     const sheet = bookSheets[turnedPages];
-    sheet.style.zIndex = String(20 + turnedPages);
+    sheet.style.zIndex = String(bookSheets.length + 1 + turnedPages);
     sheet.classList.add("is-turned");
     turnedPages += 1;
     updateBook();
@@ -185,14 +191,15 @@
   bookPrevious?.addEventListener("click", turnBack);
   bookScene?.addEventListener("click", turnForward);
   bookScene?.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowRight") turnForward();
-    if (event.key === "ArrowLeft") turnBack();
+    if (event.key === "ArrowRight") { event.preventDefault(); turnForward(); }
+    if (event.key === "ArrowLeft") { event.preventDefault(); turnBack(); }
   });
   updateBook();
 
   const tiltSurface = select("[data-tilt-surface]");
   if (tiltSurface && finePointer.matches && !reducedMotion.matches) {
     tiltSurface.addEventListener("pointermove", (event) => {
+      if (reducedMotion.matches) return;
       const bounds = tiltSurface.getBoundingClientRect();
       const x = (event.clientX - bounds.left) / bounds.width - 0.5;
       const y = (event.clientY - bounds.top) / bounds.height - 0.5;
@@ -226,6 +233,7 @@
     };
 
     window.addEventListener("pointermove", (event) => {
+      if (reducedMotion.matches) return;
       targetX = event.clientX;
       targetY = event.clientY;
       document.body.classList.add("has-pointer");
@@ -236,4 +244,5 @@
       if (!pointerFrame) pointerFrame = window.requestAnimationFrame(renderPointer);
     }, { passive: true });
   }
-})();
+  return { chooseTrack, showBook(index) { while (turnedPages < index) turnForward(); while (turnedPages > index) turnBack(); } };
+}

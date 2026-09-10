@@ -1,0 +1,64 @@
+{
+  "intro": "它不是一排相同的卡片，而是一本可以真正翻动的书。每次翻页，出现一本书或一段留下来的话。",
+  "title": "把书慢慢放进来",
+  "description": "现在只保留结构，不虚构书名。以后每一页都可以放封面、作者、阅读时间和一小段真实笔记。",
+  "items": [
+    {
+      "id": "book-1",
+      "placeholder": true,
+      "published": true,
+      "pages": [
+        {
+          "label": "正在读",
+          "title": "最近翻开的书",
+          "text": "书名、作者与阅读进度。",
+          "footer": "等待真实内容"
+        },
+        {
+          "label": "读到这里",
+          "title": "一段留下来的话",
+          "text": "不摘抄大段文字，只记下自己的感受。",
+          "footer": "等待真实内容"
+        }
+      ]
+    },
+    {
+      "id": "book-2",
+      "placeholder": true,
+      "published": true,
+      "pages": [
+        {
+          "label": "再次翻阅",
+          "title": "值得重读的书",
+          "text": "那些隔一段时间还会想起的页面。",
+          "footer": "等待真实内容"
+        },
+        {
+          "label": "页边一笔",
+          "title": "阅读与生活之间",
+          "text": "书页之外真正发生的联系。",
+          "footer": "等待真实内容"
+        }
+      ]
+    },
+    {
+      "id": "book-3",
+      "placeholder": true,
+      "published": true,
+      "pages": [
+        {
+          "label": "以后",
+          "title": "下一本书",
+          "text": "遇见以后再把它放进来。",
+          "footer": "不预先填满"
+        },
+        {
+          "label": "合上之前",
+          "title": "暂时读到这里",
+          "text": "书页会继续增加。",
+          "footer": "BURNLAMP"
+        }
+      ]
+    }
+  ]
+}
