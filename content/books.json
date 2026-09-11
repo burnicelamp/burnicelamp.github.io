@@ -1,7 +1,7 @@
 {
-  "intro": "它不是一排相同的卡片，而是一本可以真正翻动的书。每次翻页，出现一本书或一段留下来的话。",
-  "title": "把书慢慢放进来",
-  "description": "现在只保留结构，不虚构书名。以后每一页都可以放封面、作者、阅读时间和一小段真实笔记。",
+  "intro": "在别人的句子里，停留片刻。",
+  "title": "书页之间",
+  "description": "不急着把每一页写满。",
   "items": [
     {
       "id": "book-1",
@@ -20,7 +20,18 @@
           "text": "不摘抄大段文字，只记下自己的感受。",
           "footer": "等待真实内容"
         }
-      ]
+      ],
+      "title": "尚未写满的书",
+      "author": "",
+      "tags": [],
+      "summary": "",
+      "review": "",
+      "status": "等待真实书目",
+      "links": {
+        "douban": "",
+        "publisher": "",
+        "googleBooks": ""
+      }
     },
     {
       "id": "book-2",
@@ -39,7 +50,18 @@
           "text": "书页之外真正发生的联系。",
           "footer": "等待真实内容"
         }
-      ]
+      ],
+      "title": "留一处页边",
+      "author": "",
+      "tags": [],
+      "summary": "",
+      "review": "",
+      "status": "等待真实书目",
+      "links": {
+        "douban": "",
+        "publisher": "",
+        "googleBooks": ""
+      }
     },
     {
       "id": "book-3",
@@ -58,7 +80,19 @@
           "text": "书页会继续增加。",
           "footer": "BURNLAMP"
         }
-      ]
+      ],
+      "title": "以后，慢慢读",
+      "author": "",
+      "tags": [],
+      "summary": "",
+      "review": "",
+      "status": "等待真实书目",
+      "links": {
+        "douban": "",
+        "publisher": "",
+        "googleBooks": ""
+      }
     }
-  ]
+  ],
+  "version": 2
 }

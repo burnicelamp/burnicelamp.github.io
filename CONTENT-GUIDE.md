@@ -1,77 +1,149 @@
-# 内容更新指南
+# BURNLAMP 内容指南 · 第二阶段
 
-网站没有构建步骤。用 HTTP 服务器预览，不要双击 index.html。新增内容只改 JSON 和资源文件，不改页面、组件或 CSS。
+网站是原生 HTML / CSS / ES Modules，GitHub Pages 从 main 根目录发布。内容始终来自 `content/*.json`，新增内容无需修改 HTML、CSS 或核心组件。先读本文件，再动内容。正式域名 `burnlamp.is-my.id`；保留 CNAME、.nojekyll、canonical、robots.txt、sitemap.xml 与部署来源。
 
-| 新增什么 | 上传到 | 修改哪里 |
-| --- | --- | --- |
-| 生活照片 | assets/life/ | content/life.json 的 photos，或追加 items 条目 |
-| 一首歌 | assets/music/（需要本地封面时） | content/music.json 的 tracks |
-| 合法歌词 | 无需资源文件 | content/lyrics.json 的 tracks[歌曲id] |
-| 电影 / 影像 | assets/cinema/ | content/cinema.json 的 items |
-| 一本书 | assets/books/ | content/books.json 的 items |
-| 一条记录 | 无需图片 | content/notes.json 的 items |
+## 给下一次 Codex 对话
 
-id 使用唯一、稳定的英文小写字母、数字和短横线。published: false 是草稿，不显示；placeholder: true 是占位，不参加“随便看看”。真实内容设 published: true, placeholder: false。数组顺序就是展示顺序，删除对象即可下架。图片路径相对站点根目录，例如 assets/life/window.webp，填写真实 alt。建议使用压缩后的 WebP/JPEG，不上传隐私位置元数据。标题、导语和说明也在对应 JSON 中。
+1. 拉取最新 main，查看 git status，读本指南及对应 JSON。不要覆盖用户未提交修改。
+2. 只整理用户提供的真实信息，不推断人生经历、偏好、评分、阅读状态或精确地理位置。缺失的可选字段留空。保留已有稳定 id。
+3. 确认用户有公开发布资源的权利；歌词、封面、电影剧照、音乐分别记录来源。官方外链不等于可以下载后永久托管。
+4. 照片用下述导入清单和工具处理。原图、导入清单、私密授权证明放在仓库外，绝不提交原始 EXIF/GPS。只保留用户明确给出的年月、地点等公开文字。
+5. 运行验证及索引生成，查看 diff，桌面和手机预览。内容没有增加不代表要制造测试条目；测试夹具只在浏览器路由中存在。
+6. 用户本轮授权发布时，`git add` 指定内容、生成索引、资源文件，commit，再普通 `git push origin main`。不要 force push，不要自动改 DNS。确认 Pages 部署的提交就是本次 SHA。
 
-## 上传 3 张照片 + 增加 1 条数据
+## 文件职责
 
-上传 window-1.webp、window-2.webp、window-3.webp 后，在 life.json 的 items 末尾追加以下对象并换成真实内容。组件自动生成新视角、照片切换和随机浏览入口：
+| 文件 | 内容 |
+| --- | --- |
+| content/site.json | 序幕文字、肖像来源、空间名称、页脚 |
+| content/music.json | tracks、封面、标签与 sources 音源 |
+| content/lyrics.json | 经授权的文字及可选时间轴 |
+| content/cinema.json | 电影及豆瓣 / IMDb 链接 |
+| content/books.json | 每一个跨页对应一本书；作者书签由作者字段自动产生 |
+| content/darkroom.json | rolls 胶卷与 items 照片 |
+| content/notes.json | 记录 |
+| content/relations.json | 手动关系及是否启用共同标签关系 |
+| content/search-index.json | **自动生成，禁止手改** |
+| content/relation-index.json | **自动生成，禁止手改** |
+
+`published: false` 是草稿；`placeholder: true` 是设计留白。只有 `published !== false && placeholder === false` 的条目进入搜索、随机和关联。每种内容内 id 唯一，格式 `lowercase-kebab-case`。关联引用 `类型:id`，例如 `music:track-1`。已发布链接使用 HTTPS。文本按纯文本渲染。
+
+旧 life.json 中没有真实照片，仅有“肖像”介绍与留白，本阶段按要求删除整个板块及专用逻辑；原内容在 Git 历史可追溯。《近人可读》五首歌的 ID、顺序、Apple 链接和封面来源保留。旧 books.pages 保留供兼容阅读；新内容优先使用下面的结构。
+
+## 照片：一句话变成一卷胶片
+
+用户说“这三张是 2026 年 8 月在武汉拍的，第一张作为主图，放进卷 03”时，先找到原始文件和已有卷 03 的稳定 id。创建仓库外的 `import.json`：
 
 ```json
 {
-  "id": "my-window",
-  "published": true,
-  "placeholder": false,
-  "label": "窗边",
-  "eyebrow": "一个自己的视角",
-  "title": "填写真实标题",
-  "text": "填写这三张照片与你的关系，建议 40～80 字。",
-  "detail": "可选：地点、物件、偏好或一句补充。",
+  "roll": { "id": "roll-03", "title": "卷 03 · 2026 夏天" },
+  "coverId": "wuhan-evening-01",
   "photos": [
-    { "src": "assets/life/window-1.webp", "alt": "第一张照片的真实描述", "caption": "可选图注" },
-    { "src": "assets/life/window-2.webp", "alt": "第二张照片的真实描述" },
-    { "src": "assets/life/window-3.webp", "alt": "第三张照片的真实描述" }
+    {
+      "id": "wuhan-evening-01",
+      "file": "./IMG_001.jpg",
+      "alt": "根据照片实际画面填写描述",
+      "date": "2026-08",
+      "location": "武汉",
+      "caption": "",
+      "tags": ["武汉", "夏天"],
+      "rights": { "kind": "owned", "staticPublication": true, "attribution": "Burnlamp" }
+    }
   ]
 }
 ```
 
-没有照片时 photos: []，可填写 glyph、visualLabel、visualCaption 使用抽象取景面。可选 link: { "href": "#music", "label": "听听看 ↗" }。目前两个留白视角标成占位，不要把示例当作站主经历。
+其余两张按同样格式追加。`rights` 必须反映事实，布尔值不产生法律上的权利。只在用户提供的是其本人照片或有明确许可时这样填写。地点不用 GPS 自动猜测。
 
-## 其他内容的最小字段
+```sh
+npm install
+node tools/ingest-photo.mjs ../private-import/import.json
+node tools/validate-content.mjs
+node tools/build-search.mjs
+```
 
-- 歌曲：复制 music.json 的一个对象，换 id/title/duration/appleUrl/embedSrc。使用 Apple 官方分享链接。同专辑只追加一条，intro 与 album.selection 中的 {count} 自动计算。专辑信息在 album。
-- 影像：`{ "id": "film-id", "title": "真实片名", "meta": "年份 · 导演", "note": "自己的短评", "image": "assets/cinema/film.webp", "alt": "海报描述", "published": true, "placeholder": false }`。
-- 书：`{ "id": "book-id", "title": "真实书名", "image": "assets/books/book.webp", "alt": "封面描述", "published": true, "placeholder": false, "pages": [{ "label": "正在读", "title": "真实书名", "text": "作者 · 阅读时间或进度", "footer": "自己的简短标注" }, { "label": "页边一笔", "title": "笔记标题", "text": "自己的读后感", "footer": "阅读日期" }] }`。pages 数量不限，每页桌面与手机都可独立翻到，长文可在页内滚动。
-- 记录：`{ "id": "note-id", "date": "2026-09-10", "dateLabel": "2026.09.10", "title": "真实标题", "text": "记录正文", "published": true, "placeholder": false }`。
+导入自动完成：日期 + id 命名、`assets/darkroom/卷id/` 归档、方向矫正、删除所有 EXIF/XMP/IPTC（含 GPS）、不放大的 480/960/1600 宽 WebP 和 AVIF、缩略图、尺寸比例、darkroom 数据、搜索及关联索引。已存在 ID 拒绝覆盖。明确拍摄日期和公开地点只保留在 JSON。工具绝不复制原图进网站，也不自行 commit/push。
 
-## 歌词：数据与播放时钟是两件事
+图像工具唯一依赖 sharp，仅在维护阶段使用。`SHARP_MODULE` 可指向已安装的 sharp。网站运行不加载 npm。
 
-lyrics.json 用歌曲 id 对应歌词。当前五首歌没有已确认可公开分发的歌词授权，页面保留完整组件、曲目联动与平台入口。不要抓歌词或把 API 密钥放进仓库。[来源调查](docs/LYRICS-SOURCES.md)。
-
-仅在持有全球公开展示及静态分发许可时，将以下对象放进 tracks[歌曲id]。这是字段示例，不是已有歌曲歌词：
+## 音乐
 
 ```json
 {
-  "rights": {
-    "kind": "owned",
-    "publicDisplay": true,
-    "staticPublication": true,
-    "attribution": "词作者及许可说明",
-    "sourceUrl": "https://example.com/permission"
-  },
-  "lines": [
-    { "time": 0, "text": "你的原创第一句" },
-    { "time": 8.5, "text": "你的原创第二句" }
+  "id": "song-id", "title": "真实歌名", "artist": "艺人", "album": "专辑",
+  "year": 2026, "duration": "03:42", "published": true, "placeholder": false,
+  "tags": ["自定义标签"], "environment": "indigo",
+  "cover": { "src": "assets/music/authorized-cover.webp", "alt": "封面描述" },
+  "sources": [
+    {
+      "provider": "local-authorized", "src": "assets/music/authorized-song.mp3", "offsetSeconds": 0,
+      "rights": { "kind": "owned", "publicPlayback": true, "staticPublication": true, "attribution": "创作者及许可说明" }
+    }
   ]
 }
 ```
 
-kind 支持 owned、direct-permission、public-domain，请如实填写；布尔字段不会创造法律上的授权。可选 expiresAt 是 ISO 日期。过期或不完整授权不显示歌词。time 是完整歌曲的秒数，严格递增；无时间轴可省略，自动成为自由阅读。LRC 应先转换为这里的秒数与文本结构，不把来源未知的 LRC 直接搬入。
+音频只允许自有、直接许可或确实公版的**录音**。作品公版不代表某个现代录音公版。可选 `rights.expiresAt` 使用 ISO 日期，到期后拒绝播放。试听片段需要真实 `offsetSeconds`，不可猜测。`environment` 可选 indigo / wine，缺省 indigo。
 
-Apple 官方 iframe 不提供本站可依赖的播放时钟，已有歌词时显示自由阅读。若歌曲有可合法公开播放的自有/直接获准音频，只需在音乐数据中增加 `audio: { "src": "assets/music/song.mp3", "publicPlayback": true, "attribution": "音频授权署名", "offsetSeconds": 0 }`，现有播放器位置会使用原生音频控件，歌词自动绑定 currentTime，支持暂停、跳播、点击歌词定位与手动滚动 5 秒后恢复跟随。试听片段的 offsetSeconds 必须准确，不得猜测。不增加 audio 就保持现有 Apple 播放方式。
+Apple 官方来源：`{ "provider": "apple", "url": "https://music.apple.com/cn/album/...", "embed": "https://embed.music.apple.com/cn/album/..." }`。网易云、Bilibili 同样提供官方分享 url，可选官方 embed。请在对应平台获得真实分享地址，不凭空构造歌曲 ID。适配器仅允许这些平台官方域名；未验证曲目可嵌入时只放 url。Bilibili 视频仍保留可见视频播放器，不提取音轨。
 
-## 发布前
+选择优先级：有效的 local-authorized 优先，否则使用第一个官方来源。只有真实音频时钟才启用播放/暂停、进度、音量、单曲循环及同步歌词。上一首/下一首可切换官方播放器；官方模式不冒充可控制其播放。Space 不抢占输入框、按钮、链接、歌词和弹层键盘。当前没有凭证的 MusicKit **未激活**，不要把签名私钥放到 Pages。
 
-运行 `node tests/content-check.mjs` 检查数据、重复 ID、图片路径和歌词授权字段，再本地预览桌面与手机。GitHub Pages 从 main 根目录发布；不要改 CNAME、.nojekyll、DNS 或部署来源。提交并推送数据与图片即可上线。
+音源扩展见 `js/providers.js` 的 `registerProvider`、capabilities、dispose 契约。新适配器必须实现能力并补回归，再放开验证器中的 provider 白名单。每个播放器的加载失败要保留可理解的状态和官方入口。
 
-浏览器回归脚本为 tests/browser-check.cjs，只在开发检查时需要 Playwright 和 Chromium/Edge，网站没有运行依赖。
+歌词沿用原来的 rights 和 lines 结构；见 [来源边界](docs/LYRICS-SOURCES.md)。人工滚动后永不自行恢复跟随，点击“回到当前句”才恢复。有授权文字但没有真实时钟时是自由阅读，无权限时留白。
+
+## 电影 / 书籍 / 记录
+
+```json
+{
+  "id": "film-id", "title": "真实片名", "year": 2026, "director": "真实导演",
+  "note": "我留的一句话", "tags": [], "rating": null, "rewatch": null,
+  "image": null, "alt": "", "published": true, "placeholder": false,
+  "links": { "douban": "", "imdb": "" }
+}
+```
+
+影像资源有合法来源时填写 image/alt；没有图片仍可用文字放映页。评分、重看意愿可省略，禁止代填。可选 `media` 存 width、height、variants，以支持 srcset。
+
+```json
+{
+  "id": "book-id", "title": "真实书名", "author": "真实作者", "publisher": "",
+  "year": null, "readDate": "", "status": "", "summary": "自己的简短简介",
+  "review": "自己的短评", "tags": [], "image": null, "alt": "",
+  "published": true, "placeholder": false,
+  "links": { "douban": "", "publisher": "", "googleBooks": "" }
+}
+```
+
+作者字段形成伸出书页的书签；同作者多书停在第一本。桌面左右跨页，手机先显示左页，用“翻看右页”阅读短评；方向键和左右滑动可翻页。
+
+记录沿用 `{ id, date, dateLabel, title, text, tags, published, placeholder }`。可以再加 location，参与地点搜索。
+
+把上述对象保存为仓库外 JSON，可运行 `node tools/ingest-content.mjs books ../book.json`；同理支持 cinema / music / notes。新增图片先用 `node tools/optimize-images.mjs 原图 输出路径前缀`，只对有公开发布权的原图执行。
+
+## 关联与搜索
+
+```json
+{ "version": 1, "automaticTags": true, "maxItems": 3, "links": [
+  { "from": "books:book-id", "to": "music:track-1", "note": "自己写的关联缘由", "bidirectional": true }
+] }
+```
+
+明确关系优先，然后按共同标签数量排序，不冒充算法了解用户。只展示有真实关系的少量内容。音乐推荐限定在自己的歌曲收藏内。
+
+搜索支持全文与 `作者:`、`艺人:`、`导演:`、`地点:`、`年份:`、`标签:`、`类型:`，中英文冒号、英文别名及引号值均支持。多个条件取交集。Ctrl/Cmd+K 打开、方向键选择、Enter 进入、Escape 关闭。搜索、推荐和随机共享内容注册表，草稿和留白均排除。生成索引可供后续集成；当前浏览器用相同纯函数从刚加载的 JSON 建立轻量索引，避免旧索引造成丢内容。
+
+## 验证和发布
+
+```sh
+node tools/build-search.mjs
+node tools/validate-content.mjs
+node tests/content-check.mjs
+node tools/serve.mjs 8000
+node tests/browser-check.cjs
+```
+
+浏览器回归需要开发依赖 Playwright 和 Edge，或设置 BROWSER_CHANNEL。可用 PLAYWRIGHT_MODULE 指向已有安装。检查手机、桌面、键盘、减少动态效果、图片资源、外链、Console。测试中的音频和图片是原创夹具，不是已给本站补充的真实收藏。
+
+提交之前重新确认远端 main 没有新提交。用户授权发布后普通 commit/push，等待 Pages 对应提交部署成功。不得以本地回归替代正式域名验收，也不得把第三方 HTTP 200 当作大陆所有网络完整可播放的证明。

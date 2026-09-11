@@ -1,0 +1,65 @@
+{
+  "version": 2,
+  "hero": {
+    "eyebrow": "A PRIVATE WORLD",
+    "title": "欢迎来到\n我的世界",
+    "footer": "听。看。读。然后，记住。",
+    "portrait": {
+      "src": "assets/portrait/dostoevsky-800.webp",
+      "alt": "陀思妥耶夫斯基，尼古拉·多斯摄于 1876 年",
+      "width": 800,
+      "height": 1280,
+      "variants": [
+        {
+          "src": "assets/portrait/dostoevsky-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/portrait/dostoevsky-800.webp",
+          "width": 800
+        }
+      ],
+      "source": "https://commons.wikimedia.org/wiki/File:Fyodor_Dostoyevsky_(Doss,_1876).jpg",
+      "credit": "F. DOSTOEVSKY · 1876 / N. DOSS · PUBLIC DOMAIN"
+    }
+  },
+  "spaces": [
+    {
+      "id": "top",
+      "title": "序幕",
+      "english": "PROLOGUE",
+      "number": "00"
+    },
+    {
+      "id": "music",
+      "title": "声场",
+      "english": "LISTENING ROOM",
+      "number": "01"
+    },
+    {
+      "id": "cinema",
+      "title": "银幕",
+      "english": "PRIVATE SCREENING",
+      "number": "02"
+    },
+    {
+      "id": "reading",
+      "title": "书页",
+      "english": "BETWEEN THE PAGES",
+      "number": "03"
+    },
+    {
+      "id": "darkroom",
+      "title": "暗房",
+      "english": "THE UNDEVELOPED",
+      "number": "04"
+    },
+    {
+      "id": "notes",
+      "title": "记录",
+      "english": "FIELD NOTES",
+      "number": "05"
+    }
+  ],
+  "footer": "一个私人世界，持续生长。"
+}

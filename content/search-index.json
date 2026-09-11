@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "key": "music:track-1",
+      "kind": "music",
+      "id": "track-1",
+      "title": "若你心年轻",
+      "author": "",
+      "artist": "寸铁",
+      "director": "",
+      "location": "",
+      "year": "2020",
+      "tags": [
+        "寸铁",
+        "近人可读"
+      ],
+      "text": "若你心年轻 寸铁 近人可读 2020 寸铁 近人可读"
+    },
+    {
+      "key": "music:track-2",
+      "kind": "music",
+      "id": "track-2",
+      "title": "我讲给你一个笑话",
+      "author": "",
+      "artist": "寸铁",
+      "director": "",
+      "location": "",
+      "year": "2020",
+      "tags": [
+        "寸铁",
+        "近人可读"
+      ],
+      "text": "我讲给你一个笑话 寸铁 近人可读 2020 寸铁 近人可读"
+    },
+    {
+      "key": "music:track-3",
+      "kind": "music",
+      "id": "track-3",
+      "title": "目击你刚刚完成这一跳",
+      "author": "",
+      "artist": "寸铁",
+      "director": "",
+      "location": "",
+      "year": "2020",
+      "tags": [
+        "寸铁",
+        "近人可读"
+      ],
+      "text": "目击你刚刚完成这一跳 寸铁 近人可读 2020 寸铁 近人可读"
+    },
+    {
+      "key": "music:track-4",
+      "kind": "music",
+      "id": "track-4",
+      "title": "旅途愉快",
+      "author": "",
+      "artist": "寸铁",
+      "director": "",
+      "location": "",
+      "year": "2020",
+      "tags": [
+        "寸铁",
+        "近人可读"
+      ],
+      "text": "旅途愉快 寸铁 近人可读 2020 寸铁 近人可读"
+    },
+    {
+      "key": "music:track-5",
+      "kind": "music",
+      "id": "track-5",
+      "title": "道别时想说些什么",
+      "author": "",
+      "artist": "寸铁",
+      "director": "",
+      "location": "",
+      "year": "2020",
+      "tags": [
+        "寸铁",
+        "近人可读"
+      ],
+      "text": "道别时想说些什么 寸铁 近人可读 2020 寸铁 近人可读"
+    },
+    {
+      "key": "notes:note-1",
+      "kind": "notes",
+      "id": "note-1",
+      "title": "重新整理这个网站",
+      "author": "",
+      "artist": "",
+      "director": "",
+      "location": "",
+      "year": "2026",
+      "tags": [],
+      "text": "重新整理这个网站 2026-09 让音乐、影像和阅读成为内容本身，而不是藏在一套复杂界面后面。"
+    }
+  ]
+}

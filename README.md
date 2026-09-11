@@ -1,22 +1,16 @@
 # BURNLAMP
 
-Burnlamp 的个人主页：[burnlamp.is-my.id](https://burnlamp.is-my.id/)。原生 HTML、CSS、JavaScript，无构建或网站运行依赖。
+[一个私人世界](https://burnlamp.is-my.id/)：序幕 → 声场 → 银幕 → 书页 → 暗房 → 记录。
 
-## 预览与维护
+原生 HTML、CSS、JavaScript，网站无运行依赖、无打包步骤，内容保留在 content/*.json。
 
-在仓库根目录运行 `python -m http.server 8000`，打开 `http://localhost:8000`。内容通过 fetch 读取，请使用 HTTP 服务器。
+- [内容维护指南](CONTENT-GUIDE.md)：照片导入、扩充音乐 / 电影 / 书籍 / 记录、索引生成与发布。
+- [音乐方案](docs/MUSIC-PROVIDERS.md)：真实播放能力、官方平台降级和待补凭证。
+- [素材来源](docs/ASSET-SOURCES.md)：Public Domain 肖像及其他资源边界。
+- [验证记录](docs/REGRESSION.md)。
 
-- [CONTENT-GUIDE.md](CONTENT-GUIDE.md)：只上传图片、追加数据即可维护六类内容。
-- content/：音乐、歌词、影像、阅读、记录、人物肖像。
-- assets/music/、assets/cinema/、assets/books/、assets/life/：内容素材；官方音乐封面保留现有平台地址。
-- index.html：页面语义骨架；styles.css / enhancements.css：原有设计系统及组件扩展。
-- js/：数据加载、渲染、肖像、导航、歌词；script.js：原有揭示、唱片微倾、影像滑动和翻书交互。
-- [歌词来源调查](docs/LYRICS-SOURCES.md)：授权边界与时钟适配。
+开发：`npm install`，`npm run dev`；打开 http://127.0.0.1:8000。
 
-运行 `node tests/content-check.mjs` 检查数据。安装开发用 Playwright 后运行 `node tests/browser-check.cjs` 做浏览器回归；可用 PLAYWRIGHT_MODULE 指定已有模块路径，BROWSER_CHANNEL=msedge 使用本机 Edge。测试自行启动并关闭本地服务器，测试资料只在内存中生成。
+内容检查：`npm run build:content`、`npm run validate`、`npm test`。浏览器回归：`npm run test:browser`（默认 Edge；可设置 BROWSER_CHANNEL）。sharp / Playwright 仅用于维护和开发，不发送给访客。
 
-## 发布
-
-保持 GitHub Pages 从 main 根目录发布。.nojekyll、CNAME、canonical、分享图和站点地图保留现状。不需要修改 DNS，不需要额外后台或打包步骤。
-
-所有视角可通过按钮或键盘操作，移动端支持照片切换与顶部板块导航；运动尊重 prefers-reduced-motion。不自动播放声音、不劫持页面滚动，不将占位内容纳入随机浏览。
+发布：GitHub Pages main 根目录。保留 CNAME、.nojekyll、SEO 与 DNS，不需服务器或 API 即可展示已有收藏。不要提交原图、导入清单、密钥、用户 token 或未授权媒体。

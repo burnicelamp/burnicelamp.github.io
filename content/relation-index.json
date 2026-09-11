@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "entries": {
+    "music:track-1": [
+      {
+        "key": "music:track-2",
+        "reason": "寸铁 · 近人可读"
+      },
+      {
+        "key": "music:track-3",
+        "reason": "寸铁 · 近人可读"
+      },
+      {
+        "key": "music:track-4",
+        "reason": "寸铁 · 近人可读"
+      }
+    ],
+    "music:track-2": [
+      {
+        "key": "music:track-1",
+        "reason": "寸铁 · 近人可读"
+      },
+      {
+        "key": "music:track-3",
+        "reason": "寸铁 · 近人可读"
+      },
+      {
+        "key": "music:track-4",
+        "reason": "寸铁 · 近人可读"
+      }
+    ],
+    "music:track-3": [
+      {
+        "key": "music:track-1",
+        "reason": "寸铁 · 近人可读"
+      },
+      {
+        "key": "music:track-2",
+        "reason": "寸铁 · 近人可读"
+      },
+      {
+        "key": "music:track-4",
+        "reason": "寸铁 · 近人可读"
+      }
+    ],
+    "music:track-4": [
+      {
+        "key": "music:track-1",
+        "reason": "寸铁 · 近人可读"
+      },
+      {
+        "key": "music:track-2",
+        "reason": "寸铁 · 近人可读"
+      },
+      {
+        "key": "music:track-3",
+        "reason": "寸铁 · 近人可读"
+      }
+    ],
+    "music:track-5": [
+      {
+        "key": "music:track-1",
+        "reason": "寸铁 · 近人可读"
+      },
+      {
+        "key": "music:track-2",
+        "reason": "寸铁 · 近人可读"
+      },
+      {
+        "key": "music:track-3",
+        "reason": "寸铁 · 近人可读"
+      }
+    ],
+    "notes:note-1": []
+  }
+}

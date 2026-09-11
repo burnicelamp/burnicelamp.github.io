@@ -1,0 +1,17 @@
+{
+  "name": "burnlamp-private-world",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node tools/serve.mjs",
+    "validate": "node tools/validate-content.mjs",
+    "build:content": "node tools/build-search.mjs",
+    "test": "node tests/content-check.mjs",
+    "test:browser": "node tests/browser-check.cjs"
+  },
+  "devDependencies": {
+    "sharp": "0.35.4",
+    "playwright": "1.62.1"
+  }
+}

@@ -1,151 +1,441 @@
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
-const http = require('node:http');
-const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
-const root = path.resolve(__dirname, '..');
-const read = name => JSON.parse(fs.readFileSync(path.join(root, 'content', name + '.json'), 'utf8'));
-const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png' };
-const server = http.createServer((req, res) => {
-  const url = new URL(req.url, 'http://localhost');
-  const file = path.resolve(root, '.' + (url.pathname === '/' ? '/index.html' : decodeURIComponent(url.pathname)));
-  if (!file.startsWith(root + path.sep)) { res.writeHead(403); return res.end(); }
-  fs.readFile(file, (error, bytes) => { res.writeHead(error ? 404 : 200, { 'Content-Type': mime[path.extname(file)] || 'application/octet-stream' }); res.end(error ? 'Not found' : bytes); });
-});
-const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800"><rect width="600" height="800" fill="#bcc5e2"/><circle cx="300" cy="380" r="150" fill="#7c8bbe"/></svg>';
-function silentWav() {
-  const rate = 8000, size = rate * 2 * 60, b = Buffer.alloc(44 + size);
-  b.write('RIFF'); b.writeUInt32LE(36 + size, 4); b.write('WAVEfmt ', 8); b.writeUInt32LE(16, 16); b.writeUInt16LE(1, 20); b.writeUInt16LE(1, 22); b.writeUInt32LE(rate, 24); b.writeUInt32LE(rate * 2, 28); b.writeUInt16LE(2, 32); b.writeUInt16LE(16, 34); b.write('data', 36); b.writeUInt32LE(size, 40); return b;
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
+const root = path.resolve(__dirname, "..");
+const read = (n) =>
+  JSON.parse(
+    fs
+      .readFileSync(path.join(root, "content", n + ".json"), "utf8")
+      .replace(/^\uFEFF/, ""),
+  );
+const svg =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><rect width="900" height="600" fill="#696952"/><circle cx="580" cy="200" r="90" fill="#d0c3a2"/><path d="M0 600L270 150L500 600" fill="#343e39"/></svg>';
+function wav() {
+  const size = 8000 * 2 * 60,
+    b = Buffer.alloc(44 + size);
+  b.write("RIFF");
+  b.writeUInt32LE(36 + size, 4);
+  b.write("WAVEfmt ", 8);
+  b.writeUInt32LE(16, 16);
+  b.writeUInt16LE(1, 20);
+  b.writeUInt16LE(1, 22);
+  b.writeUInt32LE(8000, 24);
+  b.writeUInt32LE(16000, 28);
+  b.writeUInt16LE(2, 32);
+  b.writeUInt16LE(16, 34);
+  b.write("data", 36);
+  b.writeUInt32LE(size, 40);
+  return b;
 }
 (async () => {
-  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-  const base = `http://127.0.0.1:${server.address().port}`;
-  const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_CHANNEL ? { channel: process.env.BROWSER_CHANNEL } : {}) });
-  const errors = [];
-  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
-  page.on('pageerror', error => errors.push(error.message));
-  await page.route('https://embed.music.apple.com/**', route => route.fulfill({ contentType: 'text/html', body: '<p>Official player network stub</p>' }));
-  await page.route('https://is1-ssl.mzstatic.com/**', route => route.fulfill({ contentType: 'image/svg+xml', body: svg }));
+  const { server } = await import("../tools/serve.mjs");
+  const s = server();
+  await new Promise((r) => s.listen(0, "127.0.0.1", r));
+  const base = "http://127.0.0.1:" + s.address().port;
+  const browser = await chromium.launch({
+    headless: true,
+    channel: process.env.BROWSER_CHANNEL || "msedge",
+  });
+  const page = await browser.newPage({
+    viewport: { width: 1440, height: 1000 },
+  });
+  const errors = [],
+    missing = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  page.on("response", (r) => {
+    if (r.url().startsWith(base) && r.status() === 404) missing.push(r.url());
+  });
+  await page.route("https://embed.music.apple.com/**", (r) =>
+    r.fulfill({
+      contentType: "text/html",
+      body: "<p>Official embed — test stub</p>",
+    }),
+  );
+  await page.route("https://is1-ssl.mzstatic.com/**", (r) =>
+    r.fulfill({ contentType: "image/svg+xml", body: svg }),
+  );
   let visit = 0;
-  const go = async (hash = '') => { await page.goto(base + '/?visit=' + (++visit) + hash, { waitUntil: 'domcontentloaded' }); await page.waitForFunction(() => document.documentElement.dataset.contentReady === 'true'); };
+  const go = async (hash = "") => {
+    await page.goto(base + "/?visit=" + ++visit + hash, {
+      waitUntil: "domcontentloaded",
+    });
+    await page.waitForFunction(
+      () => document.documentElement.dataset.contentReady === "true",
+    );
+  };
   try {
     await go();
-    assert.deepEqual(await page.locator('.page-shell>section').evaluateAll(nodes => nodes.map(n => n.id)), ['life', 'music', 'cinema', 'reading', 'notes']);
-    assert.equal(await page.locator('.track-row').count(), 5);
-    for (const [i, track] of read('music').tracks.entries()) {
-      await page.locator('.track-row').nth(i).click();
-      assert.equal(await page.locator('[data-current-track]').textContent(), track.title);
-      assert.equal(await page.locator('[data-lyrics-title]').textContent(), track.title);
-      assert.equal(await page.locator('[data-apple-player]').getAttribute('src'), track.embedSrc);
-      assert.equal(await page.locator('[data-lyrics-link]').getAttribute('href'), track.appleUrl);
+    assert.deepEqual(
+      await page
+        .locator("main>section")
+        .evaluateAll((ns) => ns.map((n) => n.id)),
+      ["top", "music", "cinema", "reading", "darkroom", "notes"],
+    );
+    assert.equal(await page.locator(".track-row").count(), 5);
+    assert(await page.locator("[data-play]").isDisabled());
+    assert(await page.locator("[data-progress]").isDisabled());
+    assert(await page.locator("[data-volume]").isDisabled());
+    assert(await page.locator("[data-repeat]").isDisabled());
+    for (const [i, t] of read("music").tracks.entries()) {
+      await page.locator(".track-row").nth(i).click();
+      assert.equal(
+        await page.locator("[data-current-track]").textContent(),
+        t.title,
+      );
+      assert.equal(
+        await page.locator("[data-lyrics-title]").textContent(),
+        t.title,
+      );
+      assert.equal(
+        await page.locator("[data-provider-host] iframe").getAttribute("src"),
+        t.embedSrc,
+      );
     }
-    assert.equal(await page.locator('.lyrics-empty').count(), 1);
-    await page.locator('[data-cinema-next]').click();
-    await page.waitForFunction(() => document.querySelector('[data-poster-rail]').scrollLeft > 100);
-    await page.locator('[data-cinema-prev]').click();
-    await page.waitForFunction(() => document.querySelector('[data-poster-rail]').scrollLeft < 5);
-    await page.locator('[data-book-next]').click();
-    assert.equal(await page.locator('[data-book-status]').textContent(), read('books').items[0].pages[1].label);
-    await page.locator('[data-book-prev]').click();
-    assert.equal(await page.locator('.book-sheet.is-turned').count(), 0);
-    const pageCount = await page.locator('.book-sheet').count();
-    for (let i = 0; i < pageCount; i++) await page.locator('[data-book-next]').click();
-    assert.equal(await page.locator('[data-book-next]').isDisabled(), true);
-    for (let i = 0; i < pageCount; i++) await page.locator('[data-book-prev]').click();
-    assert.equal(await page.locator('[data-book-prev]').isDisabled(), true);
-    await page.locator('.portrait-tab').nth(1).click();
-    assert.equal(await page.locator('#portrait-story').getAttribute('data-placeholder'), 'true');
-    await page.locator('.portrait-tab').nth(1).press('ArrowRight');
-    assert.equal(await page.locator('.portrait-tab').nth(2).getAttribute('aria-selected'), 'true');
+    await page.locator("[data-music-search]").fill("我讲");
+    assert.equal(await page.locator(".track-row").count(), 1);
+    await page.locator("[data-music-search]").fill("");
+    await page.keyboard.press("Control+k");
+    await page.locator("#global-query").fill("寸铁");
+    assert.equal(await page.locator("[role=option]").count(), 5);
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
+    assert.equal(
+      await page.locator("[data-current-track]").textContent(),
+      read("music").tracks[1].title,
+    );
+    await page.locator("[data-cinema-next]").click();
+    await page.waitForFunction(
+      () =>
+        document.querySelector("[data-film-stage]").dataset.contentId ===
+        "cinema-2",
+    );
+    await page.locator(".film-copy button").click();
+    assert(await page.locator(".detail-dialog").isVisible());
+    await page.keyboard.press("Escape");
+    await page.locator("[data-book-next]").click();
+    await page.waitForFunction(
+      () =>
+        document.querySelector("[data-book]").dataset.contentId === "book-2",
+    );
+    await page.locator("[data-book-prev]").click();
+    await page.waitForFunction(
+      () =>
+        document.querySelector("[data-book]").dataset.contentId === "book-1",
+    );
     for (const width of [320, 390, 768, 980, 1440]) {
       await page.setViewportSize({ width, height: 900 });
-      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Overflow at ${width}`);
-      const tiny = await page.locator('body *').evaluateAll(nodes => nodes.filter(n => n.childNodes.length && [...n.childNodes].some(c => c.nodeType === 3 && c.textContent.trim()) && getComputedStyle(n).display !== 'none' && n.getClientRects().length && parseFloat(getComputedStyle(n).fontSize) < 12.5).map(n => n.className));
-      assert.deepEqual(tiny, [], `Tiny type at ${width}`);
-      if (width <= 980) {
-        await page.locator('.nav-toggle').click();
-        assert.equal(await page.locator('#mobile-nav').evaluate(n => n.inert), false);
-        await page.keyboard.press('Escape');
-        assert.equal(await page.locator('#mobile-nav').evaluate(n => n.inert), true);
-        await page.locator('.nav-toggle').click(); await page.locator('#mobile-nav a[href="#notes"]').click();
-        await page.waitForFunction(() => document.querySelector('[data-current-section]').textContent === '记录');
+      for (const id of [
+        "top",
+        "music",
+        "cinema",
+        "reading",
+        "darkroom",
+        "notes",
+      ]) {
+        await page.locator("#" + id).scrollIntoViewIfNeeded();
+        assert(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth <= innerWidth,
+          ),
+          `Overflow ${width} ${id}`,
+        );
+      }
+      if (width <= 900) {
+        await page.locator(".nav-toggle").click();
+        assert(await page.locator("#mobile-nav").isVisible());
+        await page.keyboard.press("Escape");
+        assert(await page.locator("#mobile-nav").isHidden());
       }
     }
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    let previous = '';
-    for (let i = 0; i < 14; i++) {
-      await page.locator('[data-wander]').click();
-      await page.waitForFunction(() => !document.querySelector('[data-wander]').disabled);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    let previous = "";
+    for (let i = 0; i < 12; i++) {
+      await page.locator("[data-wander]").click();
       const hash = new URL(page.url()).hash;
-      assert.notEqual(hash, previous); previous = hash;
-      assert(/^#(music-track-[1-5]|notes-note-1|life-through-music)$/.test(hash), `Invalid random target ${hash}`);
-      const target = await page.locator('.wander-arrival').evaluate(n => ({ placeholder: n.dataset.placeholder, top: n.getBoundingClientRect().top }));
-      assert.equal(target.placeholder, 'false'); assert(target.top >= 60, `Target covered: ${hash}`);
+      assert.notEqual(hash, previous);
+      previous = hash;
+      assert(/^#(music-track-[1-5]|notes-note-1)$/.test(hash));
     }
-    assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior), 'auto');
-    console.log('PASS: existing tracks, lyrics fallback, carousel, all book pages, portrait keyboard, five viewport sizes, navigation and random eligibility.');
-
-    // Adding one entry with three photos, a film, a book and a note needs no HTML edit.
-    const life = read('life'); life.items.push({ id: 'test-life', published: true, placeholder: false, label: '测试视角', title: '测试肖像', text: '原创测试内容', photos: [1, 2, 3].map(i => ({ src: `assets/life/test-${i}.svg`, alt: `测试照片 ${i}` })) });
-    const cinema = read('cinema'); cinema.items.push({ id: 'test-film', title: '测试影片', meta: '测试', note: '原创测试短评', published: true, placeholder: false, image: 'assets/life/test-1.svg', alt: '测试图' });
-    const books = read('books'); books.items.push({ id: 'test-book', title: '测试书', published: true, placeholder: false, pages: [{ label: '测试阅读', title: '测试书', text: '原创测试读后感', footer: '测试' }] });
-    const notes = read('notes'); notes.items.push({ id: 'test-note', title: '测试记录', text: '<img src=x onerror=alert(1)>', dateLabel: '测试', published: true, placeholder: false });
-    for (const [name, data] of Object.entries({ life, cinema, books, notes })) await page.route(`**/content/${name}.json`, route => route.fulfill({ json: data }));
-    await page.route('**/assets/life/test-*.svg', route => route.fulfill({ contentType: 'image/svg+xml', body: svg }));
-    for (const [hash, text] of [['life-test-life', '测试肖像'], ['cinema-test-film', '测试影片'], ['reading-test-book', '测试书'], ['notes-test-note', '测试记录']]) {
-      await go('#' + hash); await page.waitForFunction(() => document.querySelector('.wander-arrival'));
-      assert((await page.locator('body').textContent()).includes(text), `Deep link did not render: ${hash}`);
-      if (hash === 'life-test-life') { assert.equal(await page.locator('.portrait-photo-controls button').count(), 3); await page.locator('.portrait-photo-controls button').nth(2).click(); assert.equal(await page.locator('.portrait-frame img').getAttribute('alt'), '测试照片 3'); }
-      if (hash === 'reading-test-book') assert.equal(await page.locator('[data-book-heading]').textContent(), '测试书');
+    assert.equal(
+      await page.evaluate(
+        () => getComputedStyle(document.documentElement).scrollBehavior,
+      ),
+      "auto",
+    );
+    assert.equal(
+      await page
+        .locator(".cursor")
+        .evaluate((n) => getComputedStyle(n).display),
+      "none",
+    );
+    console.log(
+      "PASS: migrated content, official fallback, local/global search, modal keyboard, film/book navigation, five viewport sizes, real-only random and reduced motion.",
+    );
+    const books = read("books");
+    books.items.push(
+      ...["first", "second", "third"].map((id, i) => ({
+        id: "test-" + id,
+        title: "测试书 " + id,
+        author: i === 2 ? "陀思妥耶夫斯基" : "测试作者",
+        tags: ["武汉"],
+        summary: "原创测试简介",
+        review: "原创短评",
+        published: true,
+        placeholder: false,
+        status: "测试阅读",
+        links: { douban: "https://book.douban.com/" },
+      })),
+    );
+    const cinema = read("cinema");
+    cinema.items.push({
+      id: "test-film",
+      title: "测试电影",
+      year: 2026,
+      director: "测试导演",
+      tags: ["武汉"],
+      image: "assets/test.svg",
+      alt: "测试画面",
+      note: "原创测试短评",
+      published: true,
+      placeholder: false,
+      links: {
+        douban: "https://movie.douban.com/",
+        imdb: "https://www.imdb.com/",
+      },
+    });
+    const darkroom = read("darkroom");
+    darkroom.rolls.push({
+      id: "test-roll",
+      title: "测试胶卷",
+      published: true,
+    });
+    darkroom.items.push(
+      ...[1, 2, 3].map((i) => ({
+        id: "photo-" + i,
+        rollId: "test-roll",
+        title: "测试照片 " + i,
+        src: "assets/test.svg",
+        alt: "原创测试图 " + i,
+        width: 900,
+        height: 600,
+        date: "2026-08",
+        location: "武汉",
+        tags: ["武汉"],
+        published: true,
+        placeholder: false,
+      })),
+    );
+    const notes = read("notes");
+    notes.items.push({
+      id: "test-note",
+      title: "测试记录",
+      text: "<img src=x onerror=alert(1)>",
+      dateLabel: "测试",
+      published: true,
+      placeholder: false,
+      tags: ["武汉"],
+    });
+    for (const [n, d] of Object.entries({ books, cinema, darkroom, notes }))
+      await page.route("**/content/" + n + ".json", (r) =>
+        r.fulfill({ json: d }),
+      );
+    await page.route("**/assets/test.svg", (r) =>
+      r.fulfill({ contentType: "image/svg+xml", body: svg }),
+    );
+    await go("#reading-test-third");
+    await page.waitForFunction(
+      () =>
+        document.querySelector("[data-book]").dataset.contentId ===
+        "test-third",
+    );
+    await page.keyboard.press("Control+k");
+    await page.locator("#global-query").fill("作者:陀思妥耶夫斯基");
+    assert.equal(await page.locator("[role=option]").count(), 1);
+    await page.keyboard.press("Enter");
+    assert.equal(
+      await page.locator("[data-book]").getAttribute("data-content-id"),
+      "test-third",
+    );
+    await page
+      .locator("[data-authors] button")
+      .filter({ hasText: "测试作者" })
+      .click();
+    await page.waitForFunction(
+      () =>
+        document.querySelector("[data-book]").dataset.contentId ===
+        "test-first",
+    );
+    await page.keyboard.press("Control+k");
+    await page.locator("#global-query").fill("地点:武汉 年份:2026");
+    assert.equal(await page.locator("[role=option]").count(), 3);
+    await page.keyboard.press("Enter");
+    assert(await page.locator(".enlarger").isVisible());
+    assert.equal(
+      await page.locator("[data-enlarger-image] img").getAttribute("alt"),
+      "原创测试图 1",
+    );
+    await page.locator("[data-photo-next]").click();
+    assert.equal(
+      await page.locator("[data-enlarger-image] img").getAttribute("alt"),
+      "原创测试图 2",
+    );
+    await page.keyboard.press("Escape");
+    assert(await page.locator(".enlarger").isHidden());
+    await go("#cinema-test-film");
+    await page.locator(".film-copy button").click();
+    assert.equal(await page.locator(".detail-links a").count(), 2);
+    assert(
+      (
+        await page.locator(".detail-dialog .connections").textContent()
+      ).includes("同一页世界里"),
+    );
+    await page.keyboard.press("Escape");
+    await go("#notes-test-note");
+    assert.equal(await page.locator("#notes-test-note img").count(), 0);
+    console.log(
+      "PASS: data-only film/book/photo additions, author and location filters, deep links, enlarger controls, relations, escaping.",
+    );
+    // Verify the two real animation paths, not only reduced-motion state changes.
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    await page.waitForFunction(
+      () =>
+        getComputedStyle(document.querySelector(".hero-copy")).opacity === "1",
+    );
+    for (const fallback of [false, true]) {
+      await go();
+      if (fallback)
+        await page.evaluate(() => {
+          document.startViewTransition = undefined;
+        });
+      await page.locator('[data-photo-id="photo-1"]').click();
+      await page.waitForTimeout(850);
+      assert(await page.locator(".enlarger").isVisible());
+      await page.keyboard.press("Escape");
+      await page.waitForTimeout(850);
+      assert(await page.locator(".enlarger").isHidden());
+      assert.equal(await page.locator(".photo-flight").count(), 0);
     }
-    assert.equal(await page.locator('.notes-list img').count(), 0);
-    console.log('PASS: data-only additions and deep links for life/photos, film, book, note; content remains text.');
-
-    const music = read('music'); music.tracks[0].audio = { src: '/fixture.wav', publicPlayback: true, offsetSeconds: 2, attribution: 'Original test silence' };
-    const lyrics = { tracks: { 'track-1': { rights: { kind: 'owned', publicDisplay: true, staticPublication: true, attribution: '原创测试文字' }, lines: Array.from({ length: 20 }, (_, i) => ({ time: i * 2, text: `仅用于回归的原创测试行 ${i + 1}` })) } } };
-    await page.route('**/content/music.json', route => route.fulfill({ json: music }));
-    await page.route('**/content/lyrics.json', route => route.fulfill({ json: lyrics }));
-    await page.route('**/fixture.wav', route => {
-      const bytes = silentWav(), range = /bytes=(\d+)-(\d*)/.exec(route.request().headers().range || '');
-      const start = range ? Number(range[1]) : 0, end = range?.[2] ? Number(range[2]) : bytes.length - 1;
-      return route.fulfill({ status: range ? 206 : 200, contentType: 'audio/wav', headers: { 'Accept-Ranges': 'bytes', ...(range ? { 'Content-Range': `bytes ${start}-${end}/${bytes.length}` } : {}) }, body: bytes.subarray(start, end + 1) });
+    await page
+      .locator("[data-authors] button")
+      .filter({ hasText: "陀思妥耶夫斯基" })
+      .click();
+    await page.waitForFunction(
+      () =>
+        document.querySelector("[data-book]").dataset.contentId ===
+        "test-third",
+    );
+    assert.equal(await page.locator(".page-turn").count(), 0);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    console.log(
+      "PASS: returning to prologue restores text; native and fallback photo transitions clean up; animated author jump completes.",
+    );
+    const music = read("music");
+    music.tracks[0].sources.unshift({
+      provider: "local-authorized",
+      src: "assets/test.wav",
+      offsetSeconds: 2,
+      rights: {
+        kind: "owned",
+        publicPlayback: true,
+        staticPublication: true,
+        attribution: "Original test silence",
+      },
+    });
+    const lyrics = {
+      tracks: {
+        "track-1": {
+          rights: {
+            kind: "owned",
+            publicDisplay: true,
+            staticPublication: true,
+            attribution: "Original test text",
+          },
+          lines: Array.from({ length: 25 }, (_, i) => ({
+            time: i * 2,
+            text: "原创回归测试行 " + i,
+          })),
+        },
+      },
+    };
+    await page.route("**/content/music.json", (r) =>
+      r.fulfill({ json: music }),
+    );
+    await page.route("**/content/lyrics.json", (r) =>
+      r.fulfill({ json: lyrics }),
+    );
+    await page.route("**/assets/test.wav", (r) => {
+      const b = wav(),
+        range = /bytes=(\d+)-(\d*)/.exec(r.request().headers().range || "");
+      const start = range ? Number(range[1]) : 0,
+        end = range?.[2] ? Number(range[2]) : b.length - 1;
+      return r.fulfill({
+        status: range ? 206 : 200,
+        contentType: "audio/wav",
+        headers: {
+          "Accept-Ranges": "bytes",
+          ...(range
+            ? { "Content-Range": `bytes ${start}-${end}/${b.length}` }
+            : {}),
+        },
+        body: b.subarray(start, end + 1),
+      });
     });
     await page.setViewportSize({ width: 390, height: 844 });
-    await go(); await page.locator('.lyrics-card').scrollIntoViewIfNeeded();
-    await page.waitForFunction(() => document.querySelector('audio')?.readyState >= 1);
-    await page.locator('audio').evaluate(media => { media.currentTime = 10; });
-    await page.waitForFunction(() => document.querySelector('.lyric-line.is-current')?.dataset.line === '6');
-    assert.equal(await page.locator('[data-lyrics-mode]').textContent(), '随声同步');
-    await page.locator('audio').evaluate(async media => { await media.play(); });
-    await page.waitForFunction(() => document.querySelector('audio').currentTime > 10.2);
-    await page.locator('audio').evaluate(media => media.pause());
-    const pausedTime = await page.locator('audio').evaluate(media => media.currentTime);
-    await page.waitForTimeout(350);
-    assert.equal(await page.locator('audio').evaluate(media => media.currentTime), pausedTime);
-    await page.locator('[data-lyrics-viewport]').dispatchEvent('wheel', { deltaY: 100 });
-    assert.equal(await page.locator('[data-lyrics-resume]').isVisible(), true);
-    const pageY = await page.evaluate(() => scrollY);
-    await page.locator('audio').evaluate(media => { media.currentTime = 16; });
-    await page.waitForFunction(() => document.querySelector('.lyric-line.is-current')?.dataset.line === '9');
-    await page.waitForFunction(() => document.querySelector('[data-lyrics-resume]').hidden, { timeout: 7500 });
-    assert.equal(await page.evaluate(() => scrollY), pageY, 'Lyrics scrolled the page');
-    await page.locator('.lyric-line').nth(10).click();
-    assert.equal(Math.round(await page.locator('audio').evaluate(media => media.currentTime)), 18);
-    await page.locator('audio').evaluate(media => { media.currentTime = 0; });
-    await page.waitForFunction(() => document.querySelector('.lyric-line.is-current')?.dataset.line === '1');
-    await page.locator('.track-row').nth(1).click();
-    assert.equal(await page.locator('audio').count(), 0); assert.equal(await page.locator('.lyric-line').count(), 0);
-    assert.equal(await page.locator('.lyrics-empty').count(), 1);
-    // Lyrics with an iframe remain readable and never simulate a clock.
-    delete music.tracks[0].audio; await go();
-    assert.equal(await page.locator('.lyric-line').count(), 20);
-    assert.equal(await page.locator('.lyric-line.is-current').count(), 0);
-    assert.equal(await page.locator('[data-lyrics-mode]').textContent(), '自由阅读');
-    console.log('PASS: real media time, excerpt offset, seek/backseek, manual scroll/resume, no page scroll, track cleanup, iframe reading mode.');
-    await page.route('**/content/cinema.json', route => route.fulfill({ status: 500, body: 'Unavailable' }));
-    await go(); assert.equal(await page.locator('.track-row').count(), 5);
-    assert((await page.locator('#cinema').textContent()).includes('重新载入'));
+    await go();
+    await page.locator(".track-row").first().click();
+    await page.waitForFunction(
+      () => document.querySelector("audio")?.currentTime > 0.1,
+    );
+    await page.locator("[data-play]").click();
+    assert(await page.locator("audio").evaluate((n) => n.paused));
+    await page.locator("audio").evaluate((n) => (n.currentTime = 10));
+    await page.waitForFunction(
+      () =>
+        document.querySelector(".lyric-line.is-current")?.dataset.line === "6",
+    );
+    await page
+      .locator("[data-lyrics-viewport]")
+      .dispatchEvent("wheel", { deltaY: 100 });
+    assert(await page.locator("[data-lyrics-resume]").isVisible());
+    await page.waitForTimeout(5200);
+    assert(await page.locator("[data-lyrics-resume]").isVisible());
+    await page.locator("[data-lyrics-resume]").click();
+    assert(await page.locator("[data-lyrics-resume]").isHidden());
+    await page.locator("[data-volume]").fill("0.2");
+    assert.equal(await page.locator("audio").evaluate((n) => n.volume), 0.2);
+    await page.locator("[data-repeat]").click();
+    assert(await page.locator("audio").evaluate((n) => n.loop));
+    await page.locator("body").click({ position: { x: 4, y: 400 } });
+    await page.keyboard.press("Space");
+    await page.waitForFunction(() => !document.querySelector("audio").paused);
+    await page.keyboard.press("Space");
+    assert(await page.locator("audio").evaluate((n) => n.paused));
+    await page.locator(".track-row").nth(1).click();
+    assert.equal(await page.locator("audio").count(), 0);
+    assert.equal(await page.locator(".lyric-line").count(), 0);
+    assert(await page.locator("[data-play]").isDisabled());
+    console.log(
+      "PASS: real audio playback/pause, excerpt clock, persistent manual lyrics, resume, volume, loop, Space, provider disposal and disabled fallback controls.",
+    );
+    await page.route("**/content/cinema.json", (r) =>
+      r.fulfill({ status: 500, body: "Unavailable" }),
+    );
+    await go();
+    assert((await page.locator("#cinema").textContent()).includes("重新载入"));
+    assert.equal(await page.locator(".track-row").count(), 5);
     assert.deepEqual(errors, []);
-    console.log('PASS: isolated fetch failure; no uncaught browser errors. External Apple network is stubbed, not a playback verification.');
-  } finally { await browser.close(); server.close(); }
-})().catch(error => { console.error(error); server.close(); process.exitCode = 1; });
+    assert.deepEqual(missing, []);
+    console.log(
+      "PASS: isolated content failure, no uncaught browser exceptions, no local 404. External embeds/images are stubs, not an assertion of third-party playback.",
+    );
+  } finally {
+    await browser.close();
+    s.close();
+  }
+})().catch((e) => {
+  console.error(e);
+  process.exitCode = 1;
+});

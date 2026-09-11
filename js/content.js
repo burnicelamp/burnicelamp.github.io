@@ -1,119 +1,224 @@
-// Content is untrusted text. Never interpolate it into HTML.
-export const q = (s, parent = document) => parent.querySelector(s);
-export const qa = (s, parent = document) => [...parent.querySelectorAll(s)];
-export function el(tag, className, text) {
-  const node = document.createElement(tag);
-  if (className) node.className = className;
-  if (text != null) node.textContent = text;
-  return node;
+// Shared DOM and content boundary. Content is always rendered as text, never HTML.
+export const q = (s, p = document) => p.querySelector(s);
+export const qa = (s, p = document) => [...p.querySelectorAll(s)];
+export function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
 }
+export const visible = (items = []) =>
+  items.filter((x) => x.published !== false);
+export const real = (x) => x.published !== false && x.placeholder === false;
+export const reduced = () =>
+  matchMedia("(prefers-reduced-motion: reduce)").matches;
 export function safeUrl(value, { local = true } = {}) {
-  if (typeof value !== 'string' || !value.trim()) return '';
+  if (typeof value !== "string" || !value.trim()) return "";
   try {
-    const url = new URL(value, document.baseURI);
-    return url.protocol === 'https:' || (local && url.origin === location.origin) ? url.href : '';
-  } catch { return ''; }
+    const u = new URL(value, document.baseURI);
+    return u.protocol === "https:" ||
+      (local &&
+        u.origin === location.origin &&
+        ["http:", "https:"].includes(u.protocol))
+      ? u.href
+      : "";
+  } catch {
+    return "";
+  }
 }
-export function photo(data, className = '') {
-  const image = el('img', className);
-  const src = safeUrl(data.src);
-  image.alt = data.alt || '';
-  image.loading = 'lazy'; image.decoding = 'async';
-  if (src) image.src = src;
-  image.addEventListener('error', () => {
-    const fallback = el('div', 'image-unavailable', data.alt || '画面暂不可见');
-    image.replaceWith(fallback);
-  }, { once: true });
-  return image;
+export function photo(data, cls = "", priority = false) {
+  const n = el("img", cls);
+  n.alt = data.alt || "";
+  n.decoding = "async";
+  n.loading = priority ? "eager" : "lazy";
+  if (priority) n.fetchPriority = "high";
+  if (data.width && data.height) {
+    n.width = data.width;
+    n.height = data.height;
+  }
+  const url = safeUrl(data.src || data.image);
+  if (url) n.src = url;
+  if (data.variants?.length) {
+    n.srcset = data.variants
+      .filter((v) => safeUrl(v.src) && v.width > 0)
+      .map((v) => `${safeUrl(v.src)} ${v.width}w`)
+      .join(", ");
+    n.sizes = data.sizes || "(max-width: 700px) 90vw, 50vw";
+  }
+  n.addEventListener(
+    "error",
+    () => {
+      n.replaceWith(el("div", "image-unavailable", data.alt || "画面暂不可见"));
+    },
+    { once: true },
+  );
+  return n;
 }
-export const visible = (items = []) => items.filter(item => item.published !== false);
-export const real = item => item.published !== false && item.placeholder === false;
+export function link(label, url) {
+  const n = el("a", "", label);
+  const href = safeUrl(url);
+  if (href) {
+    n.href = href;
+    n.target = "_blank";
+    n.rel = "noreferrer";
+  }
+  return n;
+}
+export function button(label, fn, cls = "") {
+  const n = el("button", cls, label);
+  n.type = "button";
+  n.addEventListener("click", fn);
+  return n;
+}
+export function notify(message) {
+  const n = q(".notice");
+  n.textContent = message;
+  n.classList.add("visible");
+  clearTimeout(notify.timer);
+  notify.timer = setTimeout(() => n.classList.remove("visible"), 3500);
+}
 export async function loadContent() {
-  const names = ['music', 'lyrics', 'cinema', 'books', 'notes', 'life'];
-  const entries = await Promise.all(names.map(async name => {
-    try {
-      const response = await fetch(new URL(`../content/${name}.json`, import.meta.url));
-      if (!response.ok) throw Error(`HTTP ${response.status}`);
-      const data = await response.json();
-      if (!data || typeof data !== 'object') throw Error('Expected an object');
-      if (name !== 'lyrics' && !Array.isArray(data[name === 'music' ? 'tracks' : 'items'])) throw Error('Expected items');
-      return [name, data];
-    } catch (error) {
-      console.error(`Unable to load ${name} content`, error);
-      return [name, { error: true, items: [], tracks: [] }];
-    }
-  }));
-  return Object.fromEntries(entries);
+  const names = [
+    "site",
+    "music",
+    "lyrics",
+    "cinema",
+    "books",
+    "darkroom",
+    "notes",
+    "relations",
+  ];
+  return Object.fromEntries(
+    await Promise.all(
+      names.map(async (name) => {
+        try {
+          const r = await fetch(
+            new URL(`../content/${name}.json`, import.meta.url),
+          );
+          if (!r.ok) throw Error(`${r.status}`);
+          const d = await r.json();
+          if (!d || typeof d !== "object") throw Error("Invalid JSON");
+          if (
+            ["music", "cinema", "books", "darkroom", "notes"].includes(name) &&
+            !Array.isArray(d[name === "music" ? "tracks" : "items"])
+          )
+            throw Error("Missing entries");
+          return [name, d];
+        } catch (e) {
+          console.warn(`Content unavailable: ${name}`, e.message);
+          return [
+            name,
+            {
+              error: true,
+              items: [],
+              tracks: [],
+              rolls: [],
+              links: [],
+              spaces: [],
+            },
+          ];
+        }
+      }),
+    ),
+  );
 }
-export function renderContent(data) {
-  const targets = [];
-  const register = (item, section, node, title = item.title, index = 0) => {
-    node.dataset.contentId = item.id;
-    node.dataset.placeholder = String(item.placeholder !== false);
-    node.id = `${section}-${item.id}`;
-    if (real(item)) targets.push({ id: node.id, item, section, node, title, index });
-  };
-  const music = data.music;
-  const musicText = text => (text || '').replaceAll('{count}', new Intl.NumberFormat('zh-CN-u-nu-hanidec').format(visible(music.tracks).length));
-  q('[data-music-intro]').textContent = musicText(music.intro);
-  if (music.album) {
-    const a = music.album;
-    const art = q('[data-album-art]');
-    art.href = safeUrl(a.url); art.setAttribute('aria-label', `在 Apple Music 打开${a.title}`);
-    art.append(photo({ src: a.image, alt: a.alt }), el('span', '', '在 Apple Music 打开'));
-    q('[data-album-meta]').append(el('p', '', a.meta), el('h3', '', a.title), el('span', '', musicText(a.selection)));
+export function populateShell(data) {
+  const s = data.site;
+  for (const nav of qa("[data-navigation]"))
+    for (const space of s.spaces || []) {
+      const a = el("a", "", space.title);
+      a.href = "#" + space.id;
+      nav.append(a);
+    }
+  for (const space of s.spaces || []) {
+    if (space.id === "top") continue;
+    const h = q(`[data-heading=${space.id}]`);
+    const title = el("div");
+    const kicker = el("p", "eyebrow");
+    kicker.append(
+      el("span", "space-index", space.number),
+      document.createTextNode(space.english),
+    );
+    const name = el("h2", "", space.title);
+    name.id = space.id + "-title";
+    title.append(kicker, name);
+    h.append(
+      title,
+      el(
+        "p",
+        "",
+        data[space.id === "reading" ? "books" : space.id]?.intro || "",
+      ),
+    );
   }
-  visible(music.tracks).forEach(track => {
-    const row = el('button', 'track-row'); row.type = 'button';
-    row.dataset.trackTitle = track.title;
-    row.dataset.embedSrc = safeUrl(track.embedSrc);
-    row.dataset.appleUrl = safeUrl(track.appleUrl);
-    row.setAttribute('aria-pressed', 'false');
-    const label = el('span'); const indicator = el('i'); indicator.setAttribute('aria-hidden', 'true');
-    label.append(indicator, el('b', '', track.title)); row.append(label, el('small', '', track.duration));
-    register(track, 'music', row); q('[data-track-list]').append(row);
-  });
-  q('[data-cinema-intro]').textContent = data.cinema.intro || '';
-  visible(data.cinema.items).forEach((item, index) => {
-    const card = el('article', 'poster-card'); card.dataset.posterCard = ''; card.tabIndex = -1;
-    const style = ['one', 'two', 'three', 'four'].includes(item.artStyle) ? item.artStyle : 'one';
-    const art = el('div', `poster-art poster-art--${style}`);
-    if (item.image) art.append(photo({ src: item.image, alt: item.alt || item.title }));
-    else art.append(el('span', '', item.emptyLabel || item.title));
-    const copy = el('div', 'poster-copy'); copy.append(el('h3', '', item.title), el('p', '', item.meta), el('small', '', item.note));
-    card.append(art, copy); register(item, 'cinema', card, item.title, index); q('[data-poster-rail]').append(card);
-  });
-  q('[data-books-intro]').textContent = data.books.intro || '';
-  q('[data-book-heading]').textContent = data.books.title || '';
-  q('[data-book-description]').textContent = data.books.description || '';
-  const books = visible(data.books.items);
-  const pages = books.flatMap(book => book.pages.map((page, i) => ({ book, page, first: i === 0 })));
-  pages.forEach(({ book, page, first }, index) => {
-    const sheet = el('article', 'book-sheet'); sheet.dataset.bookSheet = '';
-    sheet.style.setProperty('--sheet', String(pages.length - index));
-    const front = el('div', 'book-page book-page--front');
-    if (book.image && first) { front.classList.add('has-cover'); front.append(photo({ src: book.image, alt: book.alt || page.title }, 'book-cover')); }
-    front.append(el('span', '', page.label), el('h4', '', page.title), el('p', '', page.text), el('small', '', page.footer));
-    const back = el('div', 'book-page book-page--back'); back.setAttribute('aria-hidden', 'true');
-    back.append(el('span', '', page.label), el('h4', '', page.title), el('p', '', page.text));
-    sheet.append(front, back); if (first) register(book, 'reading', sheet, book.title || page.title, index);
-    q('[data-book]').append(sheet);
-  });
-  visible(data.notes.items).forEach(item => {
-    const article = el('article'); article.tabIndex = -1;
-    const time = el('time', '', item.dateLabel); if (item.date) time.dateTime = item.date;
-    const copy = el('div'); copy.append(el('h3', '', item.title), el('p', '', item.text));
-    article.append(time, copy); register(item, 'notes', article); q('.notes-list').append(article);
-  });
-  const destinations = { music: '[data-track-list]', cinema: '[data-poster-rail]', books: '[data-book-description]', notes: '.notes-list', life: '.portrait-story' };
-  for (const [name, selector] of Object.entries(destinations)) {
+  if (s.hero) {
+    q("[data-hero-eyebrow]").textContent = s.hero.eyebrow;
+    q("#hero-title").textContent = s.hero.title;
+    q("[data-hero-footer]").textContent = s.hero.footer;
+    const p = s.hero.portrait;
+    q("[data-hero-image]").append(
+      photo({ ...p, sizes: "(max-width: 700px) 100vw, 65vw" }, "", true),
+    );
+    q("[data-portrait-credit]").textContent = p.credit;
+    q("[data-portrait-credit]").href = safeUrl(p.source);
+  }
+  q("[data-footer]").textContent = s.footer || "";
+  for (const [name, section] of Object.entries({
+    music: "music",
+    cinema: "cinema",
+    books: "reading",
+    darkroom: "darkroom",
+    notes: "notes",
+    site: "top",
+  })) {
     if (data[name].error) {
-      const message = el('p', 'content-message', '内容暂时没有抵达。');
-      const retry = el('button', 'text-button', '重新载入'); retry.addEventListener('click', () => location.reload());
-      message.append(retry); q(selector).replaceChildren(message);
-    } else if (visible(data[name][name === 'music' ? 'tracks' : 'items']).length === 0) {
-      q(selector).append(el('p', 'content-message', '这里先留一页空白。'));
+      const message = el("p", "load-error", "内容暂时没有抵达。");
+      message.append(button("重新载入", () => location.reload()));
+      q("#" + section).prepend(message);
     }
   }
-  return { targets, books, pages };
+}
+export function swipe(node, onStep) {
+  let start,
+    swiped = 0;
+  node.addEventListener("pointerdown", (e) => {
+    if (
+      e.target.closest("input,a") ||
+      (e.target.closest("button") && !e.target.closest(".film-art"))
+    )
+      return;
+    start = { x: e.clientX, y: e.clientY };
+  });
+  node.addEventListener("pointerup", (e) => {
+    if (!start) return;
+    const dx = e.clientX - start.x,
+      dy = e.clientY - start.y;
+    start = null;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      swiped = Date.now();
+      onStep(dx < 0 ? 1 : -1);
+    }
+  });
+  node.addEventListener(
+    "click",
+    (e) => {
+      if (Date.now() - swiped < 300) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    },
+    true,
+  );
+  node.addEventListener("pointercancel", () => (start = null));
+}
+export async function animate(node, frames, options = {}) {
+  if (reduced()) return;
+  const a = node.animate(frames, {
+    duration: 600,
+    easing: "cubic-bezier(.22,1,.36,1)",
+    ...options,
+  });
+  try {
+    await a.finished;
+  } catch {}
 }
