@@ -2,12 +2,12 @@
 
 目标是在中国大陆常见浏览器中合法播放，保持 Pages 静态站可用。没有任何第三方音乐平台能仅凭一个公开链接就保证对所有访客提供长期稳定、免费完整、自定义控制的流媒体。本次不接入破解接口，不下载商业歌曲，不使用 YouTube。
 
-| 来源 | 核实的官方入口 | 本站实现 | 限制 |
-| --- | --- | --- | --- |
-| 自有 / 直接授权录音 | 站主提供许可及资源 | local-authorized + HTMLAudioElement | 需明确录音公开播放和静态分发权；音源自身的网络可用性仍要检查 |
-| Apple Music | [MusicKit](https://developer.apple.com/musickit/)、[MusicKit Web 文档](https://js-cdn.music.apple.com/musickit/v3/docs/iframe.html?path=/story/get-started--page) | 保留已有官方嵌入，预留能力适配契约 | 自定义完整播放需开发者 token、访客授权、有效订阅；曲库和地区仍依平台规则 |
-| 网易云音乐 | [官方外链播放器](https://music.163.com/outchain/player) | 官方 url / embed 适配 | 核实外链页面存在，未核实这五首歌均可在其中播放；不声称其提供可自由使用的自定义音频 API |
-| Bilibili | [官方外链播放器说明](https://player.bilibili.com/) | 可见官方视频 iframe 或来源链接 | 文档说明 bvid/aid、autoplay 等参数；仅使用可合法嵌入的内容，不抽音轨，不据此声称有任意音乐分发权 |
+| 来源                | 核实的官方入口                                                                                                                                                    | 本站实现                            | 限制                                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 自有 / 直接授权录音 | 站主提供许可及资源                                                                                                                                                | local-authorized + HTMLAudioElement | 需明确录音公开播放和静态分发权；音源自身的网络可用性仍要检查                                     |
+| Apple Music         | [MusicKit](https://developer.apple.com/musickit/)、[MusicKit Web 文档](https://js-cdn.music.apple.com/musickit/v3/docs/iframe.html?path=/story/get-started--page) | 保留已有官方嵌入，预留能力适配契约  | 自定义完整播放需开发者 token、访客授权、有效订阅；曲库和地区仍依平台规则                         |
+| 网易云音乐          | [官方外链播放器](https://music.163.com/outchain/player)                                                                                                           | 官方 url / embed 适配               | 核实外链页面存在，未核实这五首歌均可在其中播放；不声称其提供可自由使用的自定义音频 API           |
+| Bilibili            | [官方外链播放器说明](https://player.bilibili.com/)                                                                                                                | 可见官方视频 iframe 或来源链接      | 文档说明 bvid/aid、autoplay 等参数；仅使用可合法嵌入的内容，不抽音轨，不据此声称有任意音乐分发权 |
 
 核实方式：Apple 与 Commons 文档通过网页浏览核对；Bilibili 官方说明与网易外链页面从本机 HTTP 获取（200）。这只能证明入口存在，不证明中国大陆所有运营商、设备、访客都能完整播放。Bilibili 文档的 iframe 参数也不是本站可用的跨域音频时钟。没有对其未公开控制接口作推断。
 
@@ -19,3 +19,10 @@
 
 歌词是独立权限；同步只能来自真实音频时钟，不能靠动画估计。参见 [歌词来源说明](LYRICS-SOURCES.md)。
 
+## 第三阶段核查（2026-09-11）
+
+五首真实选曲当前都是 Apple 官方嵌入来源，没有已授权本地音频。官方嵌入和自定义媒体控制分开呈现；没有真实时钟便不显示进度、音量、循环、歌词同步或迷你播放状态。iframe 可持续留在声场，离开页面其他空间不会销毁它；切换曲目才替换源。
+
+官方网页播放器可通过分享菜单取得嵌入代码：[Apple 支持](https://support.apple.com/en-gb/guide/music-web/apdm0783785d/web)。需要真正可控的 Apple 自定义播放器时，应使用 [MusicKit on the Web](https://developer.apple.com/musickit/) 和有效开发者令牌，参见 [官方入门](https://js-cdn.music.apple.com/musickit/v3/docs/iframe.html?path=%2Fstory%2Fget-started--page)。本次不添加凭证、不绕过订阅或地区限制。
+
+当前网络中观察到官方嵌入等待后仍显示空白/音乐图标，未能验证实际试听。重载与外链始终可用；load 仅证明 iframe 文档返回，不证明完整播放。自动化测试的 Apple iframe 是明确的测试 stub，音频测试使用原创静音 WAV，不替代真实账号或不同网络中的完整曲目播放验收。

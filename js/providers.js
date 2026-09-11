@@ -106,7 +106,7 @@ export class OfficialAdapter {
       { apple: "Apple Music", netease: "网易云音乐", bilibili: "哔哩哔哩" }[
         source.provider
       ] || "原始来源";
-    this.message = "此曲由平台提供播放；请使用下方官方播放器。";
+    this.message = this.label + " 官方播放";
   }
   open() {
     const src = providerUrl(this.source.embed, this.source.provider, true);
@@ -126,8 +126,25 @@ export class OfficialAdapter {
     );
     this.host.replaceChildren(f);
     this.frame = f;
+    this.host.dataset.provider = this.source.provider;
+    const state = el("p", "embed-state", "正在载入官方播放器…");
+    state.setAttribute("role", "status");
+    this.host.append(state);
+    f.addEventListener("load", () => {
+      clearTimeout(this.timer);
+      state.textContent = "无法播放时，可重新加载或前往来源平台。";
+    });
+    this.timer = setTimeout(
+      () => (state.textContent = "播放器响应较慢，可重新加载或前往来源平台。"),
+      12000,
+    );
+    f.addEventListener("error", () => {
+      clearTimeout(this.timer);
+      state.textContent = "播放器未能载入，请重试或前往来源平台。";
+    });
   }
   dispose() {
+    clearTimeout(this.timer);
     this.host.replaceChildren();
   }
 }

@@ -1,3 +1,4 @@
+import { remember, saved, share } from "./journey.js";
 import {
   q,
   qa,
@@ -16,7 +17,9 @@ const time = (t) =>
     ? `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`
     : "0:00";
 export function initMusic(data, entries, connections) {
-  const tracks = visible(data.music.tracks),
+  const tracks = visible(data.music.tracks).filter(
+      (t) => t.placeholder === false,
+    ),
     host = q("[data-provider-host]"),
     lyrics = new LyricsView(q(".lyrics-card"), data.lyrics);
   let current = -1,
@@ -30,9 +33,42 @@ export function initMusic(data, entries, connections) {
     progress = q("[data-progress]"),
     volume = q("[data-volume]"),
     status = q("[data-player-status]");
+  const sharing = el("div", "player-sharing");
+  q(".listening-desk").append(sharing);
+  const retry = button(
+    "重新加载播放器",
+    () => {
+      const index = current;
+      current = -1;
+      choose(index, false);
+    },
+    "provider-retry",
+  );
+  q(".listening-desk").append(retry);
+  const mini = el("aside", "mini-player");
+  mini.hidden = true;
+  mini.setAttribute("aria-label", "正在听");
+  const miniReturn = button("", () =>
+    q("#music").scrollIntoView({ block: "start", behavior: "smooth" }),
+  );
+  const miniPlay = button("暂停", () => toggle());
+  mini.append(miniReturn, miniPlay);
+  document.body.append(mini);
+  let inRoom = true;
+  new IntersectionObserver((es) => {
+    inRoom = es[0].isIntersecting;
+    sync();
+  }).observe(q("#music"));
   function sync() {
     const a = adapter;
-    if (!a) return;
+    if (!a) {
+      mini.hidden = true;
+      return;
+    }
+    mini.hidden = a.mode !== "audio" || inRoom;
+    miniReturn.textContent =
+      (a.paused ? "已暂停 · " : "正在听 · ") + (tracks[current]?.title || "");
+    miniPlay.textContent = a.paused ? "播放" : "暂停";
     play.textContent = a.mode === "audio" && !a.paused ? "Ⅱ" : "▶";
     play.setAttribute(
       "aria-label",
@@ -95,6 +131,8 @@ export function initMusic(data, entries, connections) {
     host.replaceChildren();
     current = index;
     const t = tracks[index];
+    remember("music", t.id);
+    sharing.replaceChildren(share("music", t.id));
     q("[data-current-track]").textContent = t.title;
     q("[data-current-artist]").textContent = [t.artist, t.album, t.year]
       .filter(Boolean)
@@ -125,6 +163,16 @@ export function initMusic(data, entries, connections) {
     adapter = createAdapter(t, host);
     const source = sourceFor(t);
     q("[data-source-label]").textContent = adapter?.label || "";
+    q("#music").dataset.playback = adapter?.mode || "none";
+    const audio = adapter?.mode === "audio";
+    play.hidden = !audio;
+    q("[data-shuffle]").hidden = !audio;
+    q("[data-repeat]").hidden = !audio;
+    q(".timeline").hidden = !audio;
+    q(".volume").hidden = !audio;
+    retry.hidden = !adapter || (adapter.mode === "official" && !source?.embed);
+    q("[data-previous]").textContent = "← 上一首";
+    q("[data-next]").textContent = "下一首 →";
     const a = q("[data-platform-link]");
     const platformUrl = safeUrl(source?.url, { local: false });
     a.hidden = !platformUrl;
@@ -161,6 +209,12 @@ export function initMusic(data, entries, connections) {
         cleanups.push(live.subscribe(event, sync));
       cleanups.push(live.subscribe("ended", () => step(1, true)));
       cleanups.push(
+        live.subscribe("waiting", () => (status.textContent = "正在缓冲…")),
+      );
+      cleanups.push(
+        live.subscribe("playing", () => (status.textContent = live.message)),
+      );
+      cleanups.push(
         live.subscribe("error", () => {
           status.textContent = "音源暂时无法播放，请重试或前往来源平台。";
           play.textContent = "▶";
@@ -196,8 +250,21 @@ export function initMusic(data, entries, connections) {
     renderQueue();
     connections(q("[data-music-relations]"), "music:" + t.id, {
       kind: "music",
-      title: "如果你喜欢这首",
+      title: "继续探索",
     });
+    const siblings = tracks.filter(
+      (x) =>
+        x.id !== t.id &&
+        x.album &&
+        x.album === t.album &&
+        x.artist === t.artist,
+    );
+    if (siblings.length) {
+      const r = q("[data-music-relations]");
+      r.replaceChildren(el("p", "", "继续听这张专辑 · " + t.album));
+      for (const x of siblings.slice(0, 4))
+        r.append(button(x.title, () => choose(tracks.indexOf(x), true)));
+    }
     sync();
   }
   async function toggle() {
@@ -269,10 +336,20 @@ export function initMusic(data, entries, connections) {
     q("[data-next]").disabled =
     q("[data-shuffle]").disabled =
       tracks.length < 2;
-  if (tracks.length) choose(0);
+  if (tracks.length)
+    choose(
+      Math.max(
+        0,
+        tracks.findIndex((t) => t.id === saved().music),
+      ),
+    );
   else {
     q("[data-current-track]").textContent = "留给下一段声音";
     lyrics.setTrack({ id: "", title: "声场" });
+    q(".transport").hidden = true;
+    q(".timeline").hidden = true;
+    q(".volume").hidden = true;
+    retry.hidden = true;
   }
   return {
     open(id, autoplay = true) {

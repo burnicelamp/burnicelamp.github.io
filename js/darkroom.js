@@ -1,3 +1,4 @@
+import { remember, saved, share, showLayer, hrefFor } from "./journey.js";
 import {
   q,
   qa,
@@ -10,9 +11,11 @@ import {
   animate,
 } from "./content.js";
 export function initDarkroom(data, connections) {
-  const all = visible(data.items).filter((p) =>
-    data.rolls?.some((r) => r.id === p.rollId && r.published !== false),
-  );
+  const all = visible(data.items)
+    .filter((p) => p.placeholder === false)
+    .filter((p) =>
+      data.rolls?.some((r) => r.id === p.rollId && r.published !== false),
+    );
   let roll = data.rolls?.find((r) => r.published !== false)?.id || "",
     selected = -1,
     origin = null,
@@ -20,6 +23,8 @@ export function initDarkroom(data, connections) {
   const dialog = q(".enlarger"),
     sheet = q("[data-contact-sheet]");
   const rolls = visible(data.rolls || []);
+  const developed = new Set();
+  q("#darkroom").classList.toggle("is-empty", !all.length);
   const list = () => {
     const cover = rolls.find((r) => r.id === roll)?.coverId;
     return all
@@ -33,6 +38,7 @@ export function initDarkroom(data, connections) {
             es.forEach((e) => {
               if (e.isIntersecting) {
                 e.target.classList.add("developed");
+                developed.add(e.target.dataset.photo);
                 observer.unobserve(e.target);
               }
             });
@@ -63,6 +69,12 @@ export function initDarkroom(data, connections) {
         "figure",
         `contact-frame ${ratio < 0.9 ? "portrait" : ratio > 1.6 ? "landscape" : ""}`,
       );
+      frame.dataset.photo = p.id;
+      frame.classList.toggle("lead-frame", i === 0);
+      frame.classList.toggle(
+        "closing-frame",
+        i === photos.length - 1 && photos.length > 2,
+      );
       const b = button("", () => open(p.id, b));
       b.setAttribute("aria-label", "放大 " + (p.alt || p.title));
       b.dataset.photoId = p.id;
@@ -82,7 +94,8 @@ export function initDarkroom(data, connections) {
       );
       frame.append(b, caption);
       sheet.append(frame);
-      if (reduced() || !observer) frame.classList.add("developed");
+      if (reduced() || !observer || developed.has(p.id))
+        frame.classList.add("developed");
       else observer.observe(frame);
     });
   }
@@ -90,7 +103,28 @@ export function initDarkroom(data, connections) {
     const p = list()[selected];
     if (!p) return;
     const host = q("[data-enlarger-image]");
-    host.replaceChildren(photo({ ...p, sizes: "95vw" }, "", true));
+    remember("darkroom", p.id);
+    if (dialog.open && history.state?.layer === dialog.className)
+      history.replaceState(history.state, "", hrefFor("darkroom", p.id));
+    host.classList.remove("zoomed");
+    const img = photo({ ...p, sizes: "95vw" }, "", true);
+    host.replaceChildren(img);
+    const loading = el("span", "photo-loading", "正在显影…");
+    host.append(loading);
+    const done = () => loading.remove();
+    img.addEventListener("load", done, { once: true });
+    img.addEventListener("error", done, { once: true });
+    if (img.complete) done();
+    const tools = q("[data-photo-tools]");
+    tools.replaceChildren(
+      share("darkroom", p.id),
+      button("查看细节", (e) => {
+        host.classList.toggle("zoomed");
+        e.currentTarget.textContent = host.classList.contains("zoomed")
+          ? "适合窗口"
+          : "查看细节";
+      }),
+    );
     q("[data-photo-counter]").textContent =
       `${String(selected + 1).padStart(2, "0")} / ${String(list().length).padStart(2, "0")}`;
     q("[data-photo-caption]").replaceChildren(
@@ -111,7 +145,7 @@ export function initDarkroom(data, connections) {
       change();
       return;
     }
-    if (document.startViewTransition) {
+    if (document.startViewTransition && !dialog.open) {
       from.style.viewTransitionName = "enlarged-photo";
       let target;
       const t = document.startViewTransition(() => {
@@ -185,7 +219,7 @@ export function initDarkroom(data, connections) {
         origin?.querySelector("img"),
         () => {
           fill();
-          if (!dialog.open) dialog.showModal();
+          showLayer(dialog, hrefFor("darkroom", p.id));
         },
         () => q("[data-enlarger-image] img"),
       );
@@ -206,7 +240,7 @@ export function initDarkroom(data, connections) {
         () => dialog.close(),
         () => target?.querySelector("img"),
       );
-      target?.focus({ preventScroll: true });
+      origin?.focus({ preventScroll: true });
     } finally {
       busy = false;
     }
@@ -246,6 +280,9 @@ export function initDarkroom(data, connections) {
     b.dataset.roll = r.id;
     q("[data-rolls]").append(b);
   });
+  const tools = el("div", "photo-tools");
+  tools.dataset.photoTools = "";
+  dialog.querySelector("header").after(tools);
   render();
   return {
     open(id) {

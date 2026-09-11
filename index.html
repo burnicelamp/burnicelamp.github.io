@@ -61,7 +61,7 @@
       <div class="header-actions">
         <button data-search-open aria-label="搜索整个世界">
           搜索 <kbd>⌘ K</kbd></button
-        ><button data-wander disabled>随便看看 ↗</button
+        ><button data-wander disabled>随便看看</button
         ><button
           class="nav-toggle"
           aria-expanded="false"
@@ -111,7 +111,7 @@
         <div class="sound-layout">
           <div class="listening-desk">
             <div class="record-art" data-cover></div>
-            <p class="eyebrow">NOW SELECTED <span data-source-label></span></p>
+            <p class="eyebrow">当前选曲 <span data-source-label></span></p>
             <h3 data-current-track></h3>
             <p class="muted" data-current-artist></p>
             <div class="transport" role="group" aria-label="音乐播放控制">
@@ -162,7 +162,7 @@
           <div class="listening-text">
             <aside class="lyrics-card" aria-labelledby="lyrics-title">
               <header>
-                <p class="eyebrow">WORDS IN THE AIR</p>
+                <p class="eyebrow">歌词</p>
                 <span data-lyrics-mode></span>
               </header>
               <h3 id="lyrics-title" class="sr-only" data-lyrics-title></h3>
@@ -260,7 +260,7 @@
         <div
           class="book-scene"
           tabindex="0"
-          aria-label="阅读书页，左右方向键翻页"
+          aria-label="阅读书页，左右方向键切换书目"
         >
           <div
             class="author-bookmarks"
@@ -271,7 +271,7 @@
         </div>
         <div class="book-controls">
           <button data-book-prev>← 前一本</button
-          ><button class="mobile-page-toggle" data-book-side>翻看右页 →</button
+          ><button class="mobile-page-toggle" data-book-side>阅读内页 →</button
           ><span data-book-count aria-live="polite"></span
           ><button data-book-next>后一本 →</button>
         </div>
@@ -303,7 +303,7 @@
     <dialog class="search-dialog" aria-labelledby="search-title">
       <div class="search-top">
         <span id="search-title">在这个世界里寻找</span
-        ><button data-search-close aria-label="关闭搜索">Esc</button>
+        ><button data-search-close aria-label="关闭搜索">关闭 ×</button>
       </div>
       <div class="search-input-wrap">
         <span aria-hidden="true">⌕</span
@@ -320,7 +320,7 @@
           aria-describedby="search-help"
         />
       </div>
-      <p id="search-help">试试 作者:陀思妥耶夫斯基 · 地点:武汉 · 年份:2026</p>
+      <p id="search-help">输入关键词，寻找收藏</p>
       <div id="search-results" role="listbox" aria-label="搜索结果"></div>
       <footer>
         <span data-search-count role="status"></span

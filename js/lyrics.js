@@ -115,6 +115,7 @@ export class LyricsView {
     const attribution = q("[data-lyrics-attribution]", this.root);
     attribution.replaceChildren();
     const mode = q("[data-lyrics-mode]", this.root);
+    this.root.hidden = !this.entry;
     if (!this.entry) {
       mode.textContent = "留给声音";
       const empty = el("div", "lyrics-empty");

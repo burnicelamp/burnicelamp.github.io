@@ -3,89 +3,130 @@ import {
   el,
   button,
   photo,
-  visible,
+  real,
   link,
   swipe,
   animate,
   reduced,
 } from "./content.js";
 import { search } from "./catalog.js";
+import { remember, saved, share } from "./journey.js";
+function picker(host, label, onchange) {
+  const s = el("select", "collection-picker");
+  s.setAttribute("aria-label", label);
+  s.addEventListener("change", () => onchange(Number(s.value)));
+  host.append(s);
+  return s;
+}
+function options(select, items, index) {
+  select.replaceChildren(
+    ...items.map((x, i) => {
+      const o = el(
+        "option",
+        "",
+        String(i + 1).padStart(2, "0") + " · " + x.title,
+      );
+      o.value = i;
+      return o;
+    }),
+  );
+  select.value = index;
+  select.hidden = items.length < 2;
+}
 export function initCinema(data, entries, detail) {
-  const items = visible(data.items);
-  let selection = 0,
-    filtered = items,
-    animationToken = 0;
-  const stage = q("[data-film-stage]");
+  const items = (data.items || []).filter(real);
+  let filtered = items,
+    selection = Math.max(
+      0,
+      items.findIndex((x) => x.id === saved().cinema),
+    );
+  const stage = q("[data-film-stage]"),
+    section = q("#cinema");
+  const select = picker(q("#cinema .space-toolbar"), "快速定位电影", show);
+  section.classList.toggle("is-empty", !items.length);
   function render() {
     stage.replaceChildren();
+    delete stage.dataset.contentId;
     const item = filtered[selection];
     q("[data-cinema-count]").textContent = filtered.length
-      ? `${String(selection + 1).padStart(2, "0")} / ${String(filtered.length).padStart(2, "0")}`
-      : "00 / 00";
+      ? selection + 1 + " / " + filtered.length
+      : "";
     q("[data-cinema-prev]").disabled = selection <= 0;
-    q("[data-cinema-next]").disabled = q("[data-next-frame]").disabled =
-      selection >= filtered.length - 1;
+    q("[data-cinema-next]").disabled = selection >= filtered.length - 1;
+    q("[data-next-frame]").hidden = !filtered[selection + 1];
+    q("[data-next-frame]").replaceChildren();
+    options(select, filtered, selection);
     if (!item) {
-      stage.append(el("div", "search-empty", "没有找到这部电影。"));
-      q("[data-next-frame]").replaceChildren();
+      const empty = el("div", "screening-empty");
+      empty.append(
+        el("span", "screening-light"),
+        el("h3", "", items.length ? "没有找到这部电影" : "等待第一场放映"),
+        el(
+          "p",
+          "",
+          items.length
+            ? "换个片名、导演，或清除搜索。"
+            : "灯光已暗下，银幕暂时留白。",
+        ),
+      );
+      if (items.length)
+        empty.append(
+          button("显示全部片目", () => {
+            q("[data-cinema-search]").value = "";
+            filtered = items;
+            selection = 0;
+            render();
+          }),
+        );
+      stage.append(empty);
       return;
     }
     stage.dataset.contentId = item.id;
+    remember("cinema", item.id);
     const art = button("", () => detail("cinema", item.id), "film-art");
-    art.setAttribute("aria-label", `展开 ${item.title}`);
-    if (item.image)
+    art.setAttribute("aria-label", "展开 " + item.title);
+    if (item.image) {
       art.append(
         photo({ src: item.image, alt: item.alt || item.title, ...item.media }),
       );
-    else art.append(el("div", "film-placeholder"));
+      const portrait = (item.media?.width || 0) < (item.media?.height || 0);
+      art.classList.toggle("is-poster", portrait);
+    } else art.append(el("div", "film-placeholder"));
     const copy = el("div", "film-copy");
     copy.append(
       el(
         "span",
-        "eyebrow",
-        item.placeholder
-          ? "PRIVATE SCREENING · 待放映"
-          : [item.year, item.director].filter(Boolean).join(" / "),
+        "film-meta",
+        [item.year, item.director].filter(Boolean).join(" / "),
       ),
       el("h3", "", item.title),
-      el("p", "", item.note || item.emptyLabel || ""),
-      button("进入放映详情 ↗", () => detail("cinema", item.id)),
+      el("p", "", item.note || ""),
+      button("展开这部电影", () => detail("cinema", item.id)),
+      share("cinema", item.id),
     );
     stage.append(art, copy);
     const next = filtered[selection + 1];
-    q("[data-next-frame]").replaceChildren();
-    if (next?.image)
-      q("[data-next-frame]").append(
-        photo({ src: next.image, alt: next.alt || next.title }),
-      );
-    if (next) q("[data-next-frame]").append(el("span", "", next.title));
+    if (next) {
+      if (next.image)
+        q("[data-next-frame]").append(
+          photo({ src: next.image, alt: next.alt || next.title }),
+        );
+      q("[data-next-frame]").append(el("span", "", "下一部 · " + next.title));
+    }
   }
-  async function show(i) {
+  function show(i) {
     if (i < 0 || i >= filtered.length || i === selection) return;
     const direction = i > selection ? 1 : -1;
-    const token = ++animationToken;
-    stage.getAnimations().forEach((a) => a.cancel());
-    await animate(
-      stage,
-      [
-        { transform: "translateX(0) scale(1)", opacity: 1 },
-        { transform: `translateX(${-direction * 8}%) scale(.97)`, opacity: 0 },
-      ],
-      { duration: 220 },
-    );
-    if (token !== animationToken) return;
     selection = i;
+    stage.getAnimations().forEach((a) => a.cancel());
     render();
     animate(
       stage,
       [
-        {
-          transform: `translateX(${direction * 12}%) scale(1.06)`,
-          opacity: 0.35,
-        },
-        { transform: "translateX(0) scale(1)", opacity: 1 },
+        { opacity: 0.35, transform: "translateX(" + direction * 4 + "%)" },
+        { opacity: 1, transform: "translateX(0)" },
       ],
-      { duration: 650 },
+      { duration: 380 },
     );
   }
   const step = (d) => show(selection + d);
@@ -100,7 +141,6 @@ export function initCinema(data, entries, detail) {
   });
   swipe(q(".screening"), step);
   q("[data-cinema-search]").addEventListener("input", () => {
-    animationToken++;
     const query = q("[data-cinema-search]").value;
     const ids = new Set(
       search(
@@ -115,195 +155,209 @@ export function initCinema(data, entries, detail) {
   render();
   return {
     open(id) {
-      animationToken++;
       q("[data-cinema-search]").value = "";
       filtered = items;
-      const i = items.findIndex((x) => x.id === id);
-      if (i >= 0) {
-        selection = i;
-        render();
-      }
+      selection = Math.max(
+        0,
+        items.findIndex((i) => i.id === id),
+      );
+      render();
       return q(".screening");
     },
   };
 }
-export function initBooks(data, entries, connections) {
-  const books = visible(data.items);
-  let items = books,
-    current = 0,
-    target = 0,
-    flipping = false,
-    mobileRight = false;
-  const root = q("[data-book]");
-  function paper(book, side, index) {
-    const p = el("article", `paper paper-${side}`);
-    const legacy = book.pages?.[side === "left" ? 0 : 1];
-    p.append(
-      el(
-        "span",
-        "eyebrow",
-        side === "left" ? "BURNLAMP / READING NOTES" : "BETWEEN THE PAGES",
-      ),
-    );
-    if (side === "left") {
-      if (book.image)
-        p.append(
-          photo({ src: book.image, alt: book.alt || book.title }, "book-cover"),
-        );
-      else
-        p.append(
-          el("span", "blank-number", String(index + 1).padStart(2, "0")),
-        );
-      const h = el("h3");
-      const url = Object.values(book.links || {}).find(Boolean);
-      h.append(
-        url ? link(book.title, url) : document.createTextNode(book.title),
-      );
-      p.append(
-        h,
-        el(
-          "p",
-          "book-meta",
-          [book.author, book.publisher, book.year, book.readDate]
-            .filter(Boolean)
-            .join(" · "),
-        ),
-        el("small", "", book.status || legacy?.label || ""),
-      );
-    } else {
-      p.append(
-        el("div", "paper-ghost", book.title),
-        el("h3", "", book.placeholder ? "这一页，\n先留白。" : book.title),
-        el("p", "", book.summary || legacy?.text || ""),
-        el("span", "review-label", book.review ? "页边一笔" : ""),
-        el("p", "review", book.review || ""),
-      );
-      const url = Object.values(book.links || {}).find(Boolean);
-      if (url) p.append(link("书籍详情 ↗", url));
-      p.append(
-        el("small", "", book.placeholder ? "等待真实内容" : book.status || ""),
-      );
+// Paragraph-aware sheets keep long notes inside a bounded, readable book.
+function sheets(text) {
+  const result = [];
+  let chunk = "";
+  for (const paragraph of String(text || "").split(/\n/)) {
+    for (let at = 0; at < paragraph.length || at === 0; at += 540) {
+      const part = paragraph.slice(at, at + 540);
+      if (chunk.length + part.length > 620) {
+        result.push(chunk);
+        chunk = "";
+      }
+      chunk += (chunk ? "\n\n" : "") + part;
     }
-    return p;
   }
+  if (chunk) result.push(chunk);
+  return result.length ? result : [""];
+}
+export function initBooks(data, entries, connections) {
+  const books = (data.items || []).filter(real);
+  let items = books,
+    current = Math.max(
+      0,
+      books.findIndex((x) => x.id === saved().books),
+    ),
+    page = 0;
+  const root = q("[data-book]"),
+    section = q("#reading");
+  section.classList.toggle("is-empty", !books.length);
+  const select = picker(q("#reading .space-toolbar"), "快速定位书籍", go);
+  q("[data-book-side]").hidden = true;
   function render() {
-    const b = items[current];
     root.replaceChildren();
-    root.classList.toggle("show-right", mobileRight);
-    q("[data-book-side]").textContent = mobileRight
-      ? "← 回到左页"
-      : "翻看右页 →";
+    delete root.dataset.contentId;
+    options(select, items, current);
+    const b = items[current];
     q("[data-book-count]").textContent = items.length
-      ? `${String(current + 1).padStart(2, "0")} / ${String(items.length).padStart(2, "0")}`
-      : "00 / 00";
-    q("[data-book-status]").textContent = b?.status || "";
+      ? current + 1 + " / " + items.length + " 本"
+      : "";
     q("[data-book-prev]").disabled = current <= 0;
     q("[data-book-next]").disabled = current >= items.length - 1;
-    q("[data-book-side]").disabled = !b;
+    q("[data-book-status]").textContent = b?.status || "";
     if (!b) {
-      root.append(el("div", "paper", "没有找到这本书。"));
+      const left = el("article", "paper paper-left");
+      left.append(
+        el("span", "book-stamp", "书页"),
+        el("h3", "", books.length ? "没有找到这本书" : "还未落笔"),
+        el("p", "", "在别人的句子里，停留片刻。"),
+      );
+      const right = el("article", "paper paper-right");
+      right.append(
+        el("span", "book-stamp", "页边留白"),
+        el("h3", "", books.length ? "换个词，再找找。" : "留给下一次阅读。"),
+      );
+      if (books.length)
+        right.append(
+          button("显示全部书目", () => {
+            q("[data-books-search]").value = "";
+            items = books;
+            current = page = 0;
+            render();
+          }),
+        );
+      root.append(left, right);
       q("[data-book-relations]").replaceChildren();
       return;
     }
     root.dataset.contentId = b.id;
-    root.append(paper(b, "left", current), paper(b, "right", current));
+    remember("books", b.id);
+    const left = el("article", "paper paper-left");
+    left.append(el("span", "book-stamp", "阅读札记"));
+    if (b.image)
+      left.append(photo({ src: b.image, alt: b.alt || b.title }, "book-cover"));
+    else left.append(el("div", "book-monogram", b.title.slice(0, 1)));
+    left.append(
+      el("h3", "", b.title),
+      el(
+        "p",
+        "book-meta",
+        [b.author, b.publisher, b.year].filter(Boolean).join(" · "),
+      ),
+    );
+    const short = el(
+      "p",
+      "book-core",
+      (b.review || b.summary || "").slice(0, 100),
+    );
+    left.append(short);
+    const right = el("article", "paper paper-right");
+    right.append(
+      el("span", "book-stamp", page ? "续页" : "页边一笔"),
+      el("h3", "", b.title),
+      el("p", "book-meta", b.author || ""),
+    );
+    const pages = sheets([b.review, b.summary].filter(Boolean).join("\n\n"));
+    page = Math.min(page, pages.length - 1);
+    right.append(el("p", "review", pages[page]));
+    const controls = el("div", "paper-pagination");
+    const prev = button("← 上一页", () => turn(page - 1));
+    prev.disabled = page === 0;
+    const next = button("下一页 →", () => turn(page + 1));
+    next.disabled = page === pages.length - 1;
+    controls.append(
+      prev,
+      el("span", "", page + 1 + " / " + pages.length + " 页"),
+      next,
+    );
+    if (pages.length > 1) right.append(controls);
+    const actions = el("div", "paper-actions");
+    const url = Object.values(b.links || {}).find(Boolean);
+    if (url) actions.append(link("书籍资料 ↗", url));
+    actions.append(share("books", b.id));
+    right.append(actions);
+    root.append(left, right);
+    q("[data-authors]")
+      .querySelectorAll("button")
+      .forEach((n) =>
+        n.setAttribute("aria-pressed", String(n.textContent === b.author)),
+      );
+    const selectedAuthor = q('[data-authors] [aria-pressed="true"]');
+    if (selectedAuthor) {
+      const rail = q("[data-authors]");
+      if (
+        selectedAuthor.offsetLeft < rail.scrollLeft ||
+        selectedAuthor.offsetLeft + selectedAuthor.offsetWidth >
+          rail.scrollLeft + rail.clientWidth
+      )
+        rail.scrollLeft = selectedAuthor.offsetLeft - 24;
+    }
     connections(q("[data-book-relations]"), "books:" + b.id);
   }
-  async function move() {
-    if (flipping) return;
-    flipping = true;
-    try {
-      while (current !== target) {
-        const direction = Math.sign(target - current);
-        const distance = Math.abs(target - current);
-        if (reduced()) {
-          current = target;
-          render();
-          break;
-        }
-        const leaf = el("div", "page-turn");
-        leaf.setAttribute("aria-hidden", "true");
-        root.append(leaf);
-        const small = matchMedia("(max-width:700px)").matches;
-        const duration = distance > 1 ? Math.max(100, 320 / distance) : 760;
-        const anim = leaf.animate(
-          direction > 0
-            ? [
-                { transform: "rotateY(0deg)", opacity: 1 },
-                { transform: "rotateY(-80deg)", offset: 0.5, opacity: 1 },
-                { transform: `rotateY(${small ? -160 : -179}deg)`, opacity: 0 },
-              ]
-            : [
-                { transform: `rotateY(${small ? -160 : -179}deg)`, opacity: 0 },
-                { transform: "rotateY(-85deg)", offset: 0.5, opacity: 1 },
-                { transform: "rotateY(0deg)", opacity: 1 },
-              ],
-          { duration, easing: "cubic-bezier(.32,.03,.25,1)" },
-        );
-        try {
-          await anim.finished;
-        } catch {}
-        leaf.remove();
-        current += direction;
-        mobileRight = false;
-        render();
-      }
-    } finally {
-      flipping = false;
-    }
+  function turn(i) {
+    const b = items[current];
+    if (!b) return;
+    const length = sheets(
+      [b.review, b.summary].filter(Boolean).join("\n\n"),
+    ).length;
+    if (i < 0 || i >= length) return;
+    page = i;
+    render();
+    animate(q(".paper-right"), [{ opacity: 0.4 }, { opacity: 1 }], {
+      duration: 240,
+    });
   }
   function go(i) {
-    target = Math.max(0, Math.min(items.length - 1, i));
-    if (items.length) move();
-  }
-  q("[data-book-prev]").addEventListener("click", () => go(target - 1));
-  q("[data-book-next]").addEventListener("click", () => go(target + 1));
-  q("[data-book-side]").addEventListener("click", () => {
-    mobileRight = !mobileRight;
+    if (i < 0 || i >= items.length || i === current) return;
+    const direction = i > current ? 1 : -1;
+    current = i;
+    page = 0;
+    root.getAnimations().forEach((a) => a.cancel());
     render();
-    animate(
-      root,
-      [
-        { opacity: 0.55, transform: "rotateY(-4deg)" },
-        { opacity: 1, transform: "rotateY(0deg)" },
-      ],
-      { duration: 500 },
-    );
-  });
+    if (!reduced()) {
+      const leaf = el("div", "page-turn");
+      leaf.setAttribute("aria-hidden", "true");
+      root.append(leaf);
+      animate(
+        leaf,
+        [
+          {
+            transform: "rotateY(" + (direction > 0 ? 0 : -170) + "deg)",
+            opacity: 0.9,
+          },
+          {
+            transform: "rotateY(" + (direction > 0 ? -170 : 0) + "deg)",
+            opacity: 0,
+          },
+        ],
+        { duration: 420 },
+      ).then(() => leaf.remove());
+    }
+  }
+  q("[data-book-prev]").addEventListener("click", () => go(current - 1));
+  q("[data-book-next]").addEventListener("click", () => go(current + 1));
   q(".book-scene").addEventListener("keydown", (e) => {
-    if (e.target.closest("input,a")) return;
+    if (e.target.closest("input,a,button,select")) return;
     if (["ArrowLeft", "ArrowRight"].includes(e.key)) {
       e.preventDefault();
-      go(target + (e.key === "ArrowRight" ? 1 : -1));
+      go(current + (e.key === "ArrowRight" ? 1 : -1));
     }
   });
-  swipe(q(".book-scene"), (d) => {
-    if (
-      matchMedia("(max-width:700px)").matches &&
-      ((d === 1 && !mobileRight) || (d === -1 && mobileRight))
-    ) {
-      mobileRight = !mobileRight;
-      render();
-    } else go(target + d);
-  });
-  const authors = [
-    ...new Set(
-      books
-        .filter((b) => !b.placeholder)
-        .map((b) => b.author)
-        .filter(Boolean),
-    ),
-  ];
-  authors.forEach((author) =>
+  swipe(q(".book-scene"), (d) => turn(page + d));
+  const authors = [...new Set(books.map((b) => b.author).filter(Boolean))];
+  for (const author of authors)
     q("[data-authors]").append(
       button(author, () => {
-        q("[data-books-search]").value = "";
         items = books;
-        go(books.findIndex((b) => b.author === author));
+        q("[data-books-search]").value = "";
+        const i = books.findIndex((b) => b.author === author);
+        if (i === current) render();
+        else go(i);
       }),
-    ),
-  );
-  q("[data-books-search]").addEventListener("input", async () => {
+    );
+  q("[data-books-search]").addEventListener("input", () => {
     const query = q("[data-books-search]").value;
     const ids = new Set(
       search(
@@ -311,11 +365,8 @@ export function initBooks(data, entries, connections) {
         query,
       ).map((e) => e.id),
     );
-    target = current;
-    while (flipping) await new Promise((resolve) => setTimeout(resolve, 30));
     items = query.trim() ? books.filter((b) => ids.has(b.id)) : books;
-    current = target = 0;
-    mobileRight = false;
+    current = page = 0;
     render();
   });
   render();
@@ -323,7 +374,12 @@ export function initBooks(data, entries, connections) {
     open(id) {
       q("[data-books-search]").value = "";
       items = books;
-      go(books.findIndex((b) => b.id === id));
+      current = Math.max(
+        0,
+        books.findIndex((x) => x.id === id),
+      );
+      page = 0;
+      render();
       return q(".book-scene");
     },
   };

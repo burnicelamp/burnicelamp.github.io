@@ -48,7 +48,25 @@ export function photo(data, cls = "", priority = false) {
   n.addEventListener(
     "error",
     () => {
-      n.replaceWith(el("div", "image-unavailable", data.alt || "画面暂不可见"));
+      const fallback = el(
+        "span",
+        "image-unavailable",
+        "画面暂不可见 · " + (data.alt || ""),
+      );
+      const retry = el("span", "image-retry", "重新加载");
+      retry.tabIndex = 0;
+      retry.setAttribute("role", "button");
+      const reload = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        fallback.replaceWith(photo(data, cls, priority));
+      };
+      retry.addEventListener("click", reload);
+      retry.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") reload(e);
+      });
+      fallback.append(retry);
+      n.replaceWith(fallback);
     },
     { once: true },
   );
@@ -141,7 +159,7 @@ export function populateShell(data) {
     );
     const name = el("h2", "", space.title);
     name.id = space.id + "-title";
-    title.append(kicker, name);
+    title.append(name);
     h.append(
       title,
       el(

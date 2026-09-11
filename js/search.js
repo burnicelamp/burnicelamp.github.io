@@ -1,4 +1,5 @@
-import { q, qa, el } from "./content.js";
+import { showLayer, leaveLayer } from "./journey.js";
+import { q, qa, el, button } from "./content.js";
 import { search, kinds } from "./catalog.js";
 export function initSearch(entries, go) {
   const dialog = q(".search-dialog"),
@@ -7,6 +8,26 @@ export function initSearch(entries, go) {
   let results = [],
     active = 0,
     opener;
+  const help = q("#search-help");
+  const example =
+    entries.find((e) => e.artist)?.artist || entries[0]?.title || "";
+  help.textContent = example
+    ? "试试「" + example + "」"
+    : "输入关键词，寻找收藏";
+  const filters = el("details", "search-filters");
+  filters.append(el("summary", "", "按作者、年份或空间筛选"));
+  const tips = el(
+    "p",
+    "",
+    "可组合使用 作者:、艺人:、导演:、地点:、年份:、标签:、类型:。例如 " +
+      (example ? "艺人:" + example : "类型:记录"),
+  );
+  filters.append(tips);
+  help.after(filters);
+  const platform = /Mac|iPhone|iPad/.test(navigator.platform)
+    ? "⌘ K"
+    : "Ctrl K";
+  q("[data-search-open] kbd").textContent = platform;
   function select(i) {
     active = Math.max(0, Math.min(results.length - 1, i));
     qa("[role=option]", list).forEach((n, j) =>
@@ -38,12 +59,23 @@ export function initSearch(entries, go) {
         ),
       );
       n.append(copy, el("small", "", kinds[e.kind] + " ↗"));
-      n.addEventListener("pointermove", () => select(i));
+      n.addEventListener("pointermove", (event) => {
+        if (event.pointerType === "mouse") select(i);
+      });
       n.addEventListener("click", () => activate(i));
       list.append(n);
     });
-    if (!results.length)
-      list.append(el("p", "search-empty", "还没有这一页。换个词，再找找。"));
+    if (!results.length) {
+      const empty = el("div", "search-empty", "没有找到相符内容。");
+      empty.append(
+        button("清除条件，看看全部", () => {
+          input.value = "";
+          render();
+          input.focus();
+        }),
+      );
+      list.append(empty);
+    }
     q("[data-search-count]").textContent =
       `${results.length} 个真实内容${results.length > 100 ? " · 显示前 100 个" : ""}`;
     select(0);
@@ -51,13 +83,12 @@ export function initSearch(entries, go) {
   function activate(i) {
     const e = results[i];
     if (!e) return;
-    dialog.close();
-    go(e);
+    leaveLayer(dialog, () => go(e));
   }
   function open() {
     opener = document.activeElement;
     for (const d of qa("dialog[open]")) d.close();
-    dialog.showModal();
+    showLayer(dialog);
     render();
     input.focus();
     input.select();

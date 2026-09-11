@@ -12,7 +12,7 @@ export function initNavigation() {
     toggle.setAttribute("aria-expanded", String(!menu.hidden));
   });
   menu.append(
-    button("随便看看 ↗", () => {
+    button("随便看看", () => {
       close();
       q("[data-wander]").click();
     }),
@@ -97,7 +97,11 @@ export function initNavigation() {
       px = e.clientX;
       py = e.clientY;
       document.body.classList.add("custom-cursor");
-      cursor.style.opacity = "1";
+      cursor.style.opacity = e.target.closest(
+        "input,textarea,select,p,h1,h2,h3,[contenteditable],button,a",
+      )
+        ? "0"
+        : "1";
       cursor.classList.toggle(
         "over-target",
         Boolean(e.target.closest("button,a,input")),
