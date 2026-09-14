@@ -1,3 +1,4 @@
+import { initMotion } from "./motion.js";
 import {
   initLayers,
   saved,
@@ -68,6 +69,7 @@ async function start() {
   controllers.books = initBooks(data.books, entries, detail.connections);
   controllers.darkroom = initDarkroom(data.darkroom, detail.connections);
   controllers.notes = renderNotes(data.notes, detail.open, detail.connections);
+  initMotion();
   startJourney();
   initSearch(entries, go);
   q("[data-wander]").disabled = !entries.length;

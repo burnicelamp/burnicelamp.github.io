@@ -1,0 +1,66 @@
+/* Material feedback lives on objects, never on readable pages or controls. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .record-art {
+    perspective: 900px;
+  }
+  .record-art img,
+  .record-art .album-placeholder {
+    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transition:
+      transform 420ms var(--ease),
+      opacity 0.3s;
+    backface-visibility: hidden;
+  }
+  .record-art::after {
+    content: "";
+    position: absolute;
+    inset: 3% 22% 3% 0;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      transparent 20%,
+      #fff 49%,
+      transparent 75%
+    );
+    opacity: 0;
+    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transition:
+      opacity 0.35s,
+      transform 0.42s var(--ease);
+    mix-blend-mode: soft-light;
+  }
+  .record-art.has-cover::after {
+    inset: 2.5% 13.5% 2.5% 1.5%;
+  }
+  .record-art.material-active::after {
+    opacity: 0.08;
+  }
+  .paper .book-cover {
+    transform-origin: 15% 70%;
+    transition:
+      transform 0.4s var(--ease),
+      box-shadow 0.4s var(--ease);
+  }
+  .paper .book-cover:hover {
+    transform: perspective(800px) rotateY(-5deg) translateY(-3px);
+    box-shadow: 13px 17px 25px #373b3333;
+  }
+  .contact-frame {
+    transition: border-color 0.25s;
+  }
+  .contact-frame:has(button:hover),
+  .contact-frame:focus-within {
+    border-color: #aa8a6066;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .record-art img,
+  .record-art .album-placeholder,
+  .paper .book-cover {
+    transform: none !important;
+  }
+  .record-art::after {
+    display: none !important;
+  }
+}
