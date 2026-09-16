@@ -42,7 +42,7 @@ export function initCinema(data, entries, detail) {
     );
   const stage = q("[data-film-stage]"),
     section = q("#cinema");
-  const select = picker(q("#cinema .space-toolbar"), "快速定位电影", show);
+  const select = picker(q("#cinema .space-toolbar"), "快速定位影视", show);
   section.classList.toggle("is-empty", !items.length);
   function render() {
     stage.replaceChildren();
@@ -97,13 +97,34 @@ export function initCinema(data, entries, detail) {
       el(
         "span",
         "film-meta",
-        [item.year, item.director].filter(Boolean).join(" / "),
+        item.meta || [item.year, item.director].filter(Boolean).join(" / "),
       ),
       el("h3", "", item.title),
       el("p", "", item.note || ""),
       button("展开这部电影", () => detail("cinema", item.id)),
       share("cinema", item.id),
     );
+    if (item.originalTitle) copy.insertBefore(el("p", "film-original-title", item.originalTitle), copy.querySelector("h3").nextSibling);
+    if (item.gallery?.length) {
+      const rail = el("div", "film-gallery-controls");
+      rail.setAttribute("role", "group");
+      rail.setAttribute("aria-label", "选择影视图片");
+      const credit = el("p", "film-image-credit");
+      const selectImage = (index) => {
+        const frame = item.gallery[index];
+        art.replaceChildren(photo(frame));
+        art.classList.toggle("is-poster", frame.width < frame.height);
+        [...rail.children].forEach((b, i) => b.setAttribute("aria-pressed", String(i === index)));
+        credit.replaceChildren(document.createTextNode((index + 1) + " / " + item.gallery.length + " · "), link(frame.alt + " ↗", frame.source));
+      };
+      item.gallery.forEach((frame, i) => {
+        const b = button(String(i + 1).padStart(2, "0"), () => selectImage(i));
+        b.setAttribute("aria-label", "查看图片 " + (i + 1) + "：" + frame.alt);
+        rail.append(b);
+      });
+      copy.append(rail, credit);
+      selectImage(0);
+    }
     stage.append(art, copy);
     const next = filtered[selection + 1];
     if (next) {
@@ -170,7 +191,7 @@ export function initCinema(data, entries, detail) {
 function sheets(text) {
   const result = [];
   let chunk = "";
-  for (const paragraph of String(text || "").split(/\n/)) {
+  for (const paragraph of String(text || "").split(/\n\s*\n/)) {
     for (let at = 0; at < paragraph.length || at === 0; at += 540) {
       const part = paragraph.slice(at, at + 540);
       if (chunk.length + part.length > 620) {
@@ -182,6 +203,10 @@ function sheets(text) {
   }
   if (chunk) result.push(chunk);
   return result.length ? result : [""];
+}
+function bookText(b) {
+  const quote = b.quote ? "摘句\n“" + b.quote.text + "”\n" + b.quote.attribution : "";
+  return [quote, b.summary, b.review].filter(Boolean).join("\n\n");
 }
 export function initBooks(data, entries, connections) {
   const books = (data.items || []).filter(real);
@@ -196,6 +221,11 @@ export function initBooks(data, entries, connections) {
   section.classList.toggle("is-empty", !books.length);
   const select = picker(q("#reading .space-toolbar"), "快速定位书籍", go);
   q("[data-book-side]").hidden = true;
+  if (data.bibliographyNote) {
+    const note = el("details", "bibliography-note");
+    note.append(el("summary", "", "关于书目与版本"), el("p", "", data.bibliographyNote));
+    q("#reading .space-toolbar").after(note);
+  }
   function render() {
     root.replaceChildren();
     delete root.dataset.contentId;
@@ -235,7 +265,7 @@ export function initBooks(data, entries, connections) {
     root.dataset.contentId = b.id;
     remember("books", b.id);
     const left = el("article", "paper paper-left");
-    left.append(el("span", "book-stamp", "阅读札记"));
+    left.append(el("span", "book-stamp", b.category || "阅读札记"));
     if (b.image)
       left.append(photo({ src: b.image, alt: b.alt || b.title }, "book-cover"));
     else left.append(el("div", "book-monogram", b.title.slice(0, 1)));
@@ -250,7 +280,7 @@ export function initBooks(data, entries, connections) {
     const short = el(
       "p",
       "book-core",
-      (b.review || b.summary || "").slice(0, 100),
+      (b.summary || b.review || "").slice(0, 100),
     );
     left.append(short);
     const right = el("article", "paper paper-right");
@@ -259,7 +289,7 @@ export function initBooks(data, entries, connections) {
       el("h3", "", b.title),
       el("p", "book-meta", b.author || ""),
     );
-    const pages = sheets([b.review, b.summary].filter(Boolean).join("\n\n"));
+    const pages = sheets(bookText(b));
     page = Math.min(page, pages.length - 1);
     right.append(el("p", "review", pages[page]));
     const controls = el("div", "paper-pagination");
@@ -276,6 +306,7 @@ export function initBooks(data, entries, connections) {
     const actions = el("div", "paper-actions");
     const url = Object.values(b.links || {}).find(Boolean);
     if (url) actions.append(link("书籍资料 ↗", url));
+    if (b.quote?.source) actions.append(link("摘句出处 ↗", b.quote.source));
     actions.append(share("books", b.id));
     right.append(actions);
     root.append(left, right);
@@ -300,7 +331,7 @@ export function initBooks(data, entries, connections) {
     const b = items[current];
     if (!b) return;
     const length = sheets(
-      [b.review, b.summary].filter(Boolean).join("\n\n"),
+      bookText(b),
     ).length;
     if (i < 0 || i >= length) return;
     page = i;

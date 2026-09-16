@@ -3460,3 +3460,21 @@ summary:focus-visible {
     width: 100%;
   }
 }
+
+/* Cinema and bibliography content additions. */
+.film-original-title { font-family: Georgia, serif; font-size: .9rem; opacity: .65; overflow-wrap: anywhere; }
+.film-gallery-controls { display: flex; gap: .6rem; margin-top: 1.5rem; }
+.film-gallery-controls button { border: 1px solid currentColor; padding: .45rem .8rem; background: transparent; color: inherit; opacity: .55; }
+.film-gallery-controls button[aria-pressed="true"] { opacity: 1; background: #b8905633; }
+.film-image-credit { font-size: .72rem !important; line-height: 1.7 !important; opacity: .7; }
+.film-detail-gallery { display: grid; gap: 2rem; margin: 2rem 0; }
+.film-detail-gallery figure { margin: 0; }
+.film-detail-gallery img { width: 100%; max-height: 70vh; object-fit: contain; background: #111; }
+.film-detail-gallery figcaption { font-size: .75rem; line-height: 1.8; opacity: .7; margin-top: .6rem; }
+.detail-synopsis { white-space: pre-line; line-height: 1.9; }
+.bibliography-note { margin: 0 0 1.5rem; max-width: 55rem; font-size: .78rem; line-height: 1.8; opacity: .75; }
+.bibliography-note summary { cursor: pointer; }
+.bibliography-note p { margin-top: .8rem; }
+@media (max-width: 700px) {
+  [data-content-id="cinema-1"] .film-art:not(.is-poster) img { object-position: 78% 50%; }
+}

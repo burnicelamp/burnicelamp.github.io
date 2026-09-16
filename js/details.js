@@ -48,6 +48,12 @@ export function initDetails(data, entries, go) {
           .join(" · "),
       ),
     );
+    if (kind === "cinema") {
+      host.append(el("p", "film-original-title", item.originalTitle || ""));
+      host.append(el("p", "detail-meta", [item.meta, item.genre, item.cast && "主演：" + item.cast].filter(Boolean).join(" · ")));
+      if (item.summary) host.append(el("p", "detail-synopsis", item.summary));
+      if (item.review) host.append(el("p", "detail-synopsis", item.review));
+    }
     if (item.rating != null) host.append(el("p", "", `评分 ${item.rating}`));
     if (typeof item.rewatch === "boolean")
       host.append(el("p", "", item.rewatch ? "愿意重看" : "暂不重看"));
@@ -55,13 +61,26 @@ export function initDetails(data, entries, go) {
     for (const [key, label] of Object.entries({
       douban: "豆瓣 ↗",
       imdb: "IMDb ↗",
+      official: "官方资料 ↗",
+      reference: "作品资料 ↗",
       publisher: "出版社 ↗",
       googleBooks: "Google Books ↗",
     }))
       if (item.links?.[key]) links.append(link(label, item.links[key]));
     host.append(links);
     host.append(share(kind, id));
-    if (item.image)
+    if (kind === "cinema" && item.gallery?.length) {
+      const gallery = el("div", "film-detail-gallery");
+      for (const frame of item.gallery) {
+        const figure = el("figure");
+        figure.append(photo(frame));
+        const caption = el("figcaption");
+        caption.append(document.createTextNode(frame.alt + " · "), link(frame.credit + " ↗", frame.source));
+        figure.append(caption);
+        gallery.append(figure);
+      }
+      host.append(gallery);
+    } else if (item.image)
       host.append(photo({ src: item.image, alt: item.alt || item.title }));
     const r = el("div", "connections");
     connections(r, kind + ":" + id);

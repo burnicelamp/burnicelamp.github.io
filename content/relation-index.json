@@ -71,6 +71,665 @@
         "reason": "寸铁 · 近人可读"
       }
     ],
+    "cinema:cinema-1": [
+      {
+        "key": "cinema:cinema-3",
+        "reason": "剧情 · 犯罪"
+      },
+      {
+        "key": "cinema:cinema-2",
+        "reason": "剧情"
+      },
+      {
+        "key": "cinema:cinema-4",
+        "reason": "剧情"
+      }
+    ],
+    "cinema:cinema-2": [
+      {
+        "key": "cinema:cinema-1",
+        "reason": "剧情"
+      },
+      {
+        "key": "cinema:cinema-3",
+        "reason": "剧情"
+      },
+      {
+        "key": "cinema:cinema-4",
+        "reason": "剧情"
+      }
+    ],
+    "cinema:cinema-3": [
+      {
+        "key": "cinema:cinema-1",
+        "reason": "犯罪 · 剧情"
+      },
+      {
+        "key": "cinema:cinema-2",
+        "reason": "剧情"
+      },
+      {
+        "key": "cinema:cinema-4",
+        "reason": "剧情"
+      }
+    ],
+    "cinema:cinema-4": [
+      {
+        "key": "cinema:cinema-1",
+        "reason": "剧情"
+      },
+      {
+        "key": "cinema:cinema-2",
+        "reason": "剧情"
+      },
+      {
+        "key": "cinema:cinema-3",
+        "reason": "剧情"
+      }
+    ],
+    "books:dostoevsky-poor-folk": [
+      {
+        "key": "books:dostoevsky-stepanchikovo",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-humiliated",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-dead-house",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      }
+    ],
+    "books:dostoevsky-double": [
+      {
+        "key": "books:dostoevsky-landlady",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-white-nights",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-uncles-dream",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      }
+    ],
+    "books:dostoevsky-prokharchin": [
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-polzunkov",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-nine-letters": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-polzunkov",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-landlady": [
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-white-nights",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-uncles-dream",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      }
+    ],
+    "books:dostoevsky-weak-heart": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-polzunkov",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-polzunkov": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-honest-thief": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-christmas-wedding": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-white-nights": [
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-landlady",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-uncles-dream",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      }
+    ],
+    "books:dostoevsky-another-wife": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-netochka": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      }
+    ],
+    "books:dostoevsky-little-hero": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-uncles-dream": [
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-landlady",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-white-nights",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      }
+    ],
+    "books:dostoevsky-stepanchikovo": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-humiliated",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-dead-house",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      }
+    ],
+    "books:dostoevsky-humiliated": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-stepanchikovo",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-dead-house",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      }
+    ],
+    "books:dostoevsky-dead-house": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-stepanchikovo",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-humiliated",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      }
+    ],
+    "books:dostoevsky-nasty-story": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-winter-notes": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      }
+    ],
+    "books:dostoevsky-underground": [
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-landlady",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-white-nights",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      }
+    ],
+    "books:dostoevsky-crocodile": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-crime-punishment": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-stepanchikovo",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-humiliated",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      }
+    ],
+    "books:dostoevsky-gambler": [
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-landlady",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-white-nights",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      }
+    ],
+    "books:dostoevsky-idiot": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-stepanchikovo",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-humiliated",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      }
+    ],
+    "books:dostoevsky-eternal-husband": [
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-landlady",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-white-nights",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      }
+    ],
+    "books:dostoevsky-demons": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-stepanchikovo",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-humiliated",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      }
+    ],
+    "books:dostoevsky-bobok": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-adolescent": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-stepanchikovo",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-humiliated",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      }
+    ],
+    "books:dostoevsky-heavenly-tree": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-peasant-marey": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-gentle-creature": [
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-landlady",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      },
+      {
+        "key": "books:dostoevsky-white-nights",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 中篇小说"
+      }
+    ],
+    "books:dostoevsky-ridiculous-dream": [
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-nine-letters",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      },
+      {
+        "key": "books:dostoevsky-weak-heart",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 短篇小说"
+      }
+    ],
+    "books:dostoevsky-karamazov": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-stepanchikovo",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-humiliated",
+        "reason": "陀思妥耶夫斯基 · 俄国文学 · 长篇小说"
+      }
+    ],
+    "books:dostoevsky-writers-diary": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      }
+    ],
+    "books:dostoevsky-pushkin-speech": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      }
+    ],
+    "books:dostoevsky-petersburg-chronicle": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      }
+    ],
+    "books:dostoevsky-letters": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      }
+    ],
+    "books:dostoevsky-notebooks": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      }
+    ],
+    "books:dostoevsky-criticism": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      }
+    ],
+    "books:dostoevsky-poems": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      }
+    ],
+    "books:dostoevsky-translations": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-double",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      },
+      {
+        "key": "books:dostoevsky-prokharchin",
+        "reason": "陀思妥耶夫斯基 · 俄国文学"
+      }
+    ],
+    "books:book-1": [],
+    "books:book-2": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-stepanchikovo",
+        "reason": "长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-humiliated",
+        "reason": "长篇小说"
+      }
+    ],
+    "books:book-3": [
+      {
+        "key": "books:dostoevsky-poor-folk",
+        "reason": "长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-stepanchikovo",
+        "reason": "长篇小说"
+      },
+      {
+        "key": "books:dostoevsky-humiliated",
+        "reason": "长篇小说"
+      }
+    ],
     "notes:note-1": []
   }
 }

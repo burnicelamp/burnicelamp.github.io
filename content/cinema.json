@@ -3,83 +3,277 @@
   "items": [
     {
       "id": "cinema-1",
-      "title": "等待第一场放映",
-      "meta": "年份 · 导演",
-      "note": "",
-      "placeholder": true,
+      "title": "风骚律师",
+      "meta": "2015—2022 · 美国 · 6季 / 63集",
+      "note": "一个名字的改变，往往早于一个人承认自己的改变。",
+      "placeholder": false,
       "published": true,
-      "image": null,
-      "alt": "",
+      "image": "https://www.sonypictures.com/sites/default/files/banner-images/2022-03/bettercallsaul_banner_2572x1100_s6.jpg",
+      "alt": "吉米站在餐厅霓虹灯前",
       "artStyle": "one",
       "emptyLabel": "放映厅留白",
-      "year": null,
-      "director": "",
-      "tags": [],
+      "year": 2015,
+      "director": "文斯·吉里根、彼得·古尔德（主创）",
+      "tags": [
+        "犯罪",
+        "剧情"
+      ],
       "links": {
-        "douban": "",
-        "imdb": ""
+        "official": "https://www.sonypictures.com/tv/bettercallsaul",
+        "imdb": "https://www.imdb.com/title/tt3032476/"
       },
-      "rewatch": null
+      "rewatch": null,
+      "originalTitle": "Better Call Saul",
+      "cast": "鲍勃·奥登科克 / 蕾亚·塞洪 / 乔纳森·班克斯",
+      "genre": "犯罪 / 剧情",
+      "summary": "吉米·麦吉尔从四处奔忙的小律师走向索尔·古德曼。执业规则、兄长的目光、金·韦克斯勒的选择与犯罪世界的诱惑，共同改变着他的生活。",
+      "review": "观看线索\n留意办公室、停车场和漫长的空镜：这部剧经常把决定留在动作里，而不是台词里。律师线与犯罪线缓慢靠近，也让每一次小小的妥协有了重量。",
+      "rating": null,
+      "sources": [
+        {
+          "label": "官方作品资料",
+          "url": "https://www.sonypictures.com/tv/bettercallsaul"
+        }
+      ],
+      "gallery": [
+        {
+          "src": "https://www.sonypictures.com/sites/default/files/banner-images/2022-03/bettercallsaul_banner_2572x1100_s6.jpg",
+          "alt": "吉米站在餐厅霓虹灯前",
+          "source": "https://www.sonypictures.com/tv/bettercallsaul",
+          "credit": "Sony Pictures Television",
+          "width": 2572,
+          "height": 1100,
+          "usage": "external-reference"
+        },
+        {
+          "src": "https://www.sonypictures.com/sites/default/files/title-key-art/bettercallsaul_onesheet_1400x2100.jpg",
+          "alt": "《风骚律师》官方海报",
+          "source": "https://www.sonypictures.com/tv/bettercallsaul",
+          "credit": "Sony Pictures Television",
+          "width": 1400,
+          "height": 2100,
+          "usage": "external-reference"
+        },
+        {
+          "src": "https://www.sonypictures.com/sites/default/files/email-backgrounds/bettercallsaul_register_1400x380_s6v2.jpg",
+          "alt": "金·韦克斯勒的第六季官方横幅",
+          "source": "https://www.sonypictures.com/tv/bettercallsaul",
+          "credit": "Sony Pictures Television",
+          "width": 1400,
+          "height": 380,
+          "usage": "external-reference"
+        }
+      ],
+      "media": {
+        "width": 2572,
+        "height": 1100
+      }
     },
     {
       "id": "cinema-2",
-      "title": "下一帧，尚未发生",
-      "meta": "年份 · 导演",
-      "note": "",
-      "placeholder": true,
+      "title": "海边的曼彻斯特",
+      "meta": "2016 · 美国 · 137分钟",
+      "note": "有些悲伤没有被解决，只是与日子一起继续。",
+      "placeholder": false,
       "published": true,
-      "image": null,
-      "alt": "",
+      "image": "https://images.squarespace-cdn.com/content/v1/5a1c2452268b96d901cd3471/1536282566039-2B5M1LT96G1XM124SHVV/image-asset.jpeg",
+      "alt": "李与帕特里克走在小镇街道上",
       "artStyle": "two",
       "emptyLabel": "放映厅留白",
-      "year": null,
-      "director": "",
-      "tags": [],
+      "year": 2016,
+      "director": "肯尼斯·罗纳根",
+      "tags": [
+        "剧情",
+        "家庭"
+      ],
       "links": {
-        "douban": "",
-        "imdb": ""
+        "official": "https://www.manchesterbytheseathemovie.cia-adv.com/",
+        "imdb": "https://www.imdb.com/title/tt4034228/"
       },
-      "rewatch": null
+      "rewatch": null,
+      "originalTitle": "Manchester by the Sea",
+      "cast": "卡西·阿弗莱克 / 卢卡斯·赫奇斯 / 米歇尔·威廉姆斯",
+      "genre": "剧情 / 家庭",
+      "summary": "独自生活的维修工李·钱德勒因兄长去世回到海边小镇，并面对照顾侄子帕特里克的责任。故乡的街道和人们，让他难以摆脱的往事重新进入眼前。",
+      "review": "观看线索\n影片把回忆嵌在日常动作之间，不总是提前提醒时间已经改变。海港的冷色、笨拙的交谈与偶尔的笑声，使哀伤保持着生活本来的质地。",
+      "rating": null,
+      "sources": [
+        {
+          "label": "官方作品资料",
+          "url": "https://www.manchesterbytheseathemovie.cia-adv.com/"
+        }
+      ],
+      "gallery": [
+        {
+          "src": "https://images.squarespace-cdn.com/content/v1/5a1c2452268b96d901cd3471/1536282566039-2B5M1LT96G1XM124SHVV/image-asset.jpeg",
+          "alt": "李与帕特里克走在小镇街道上",
+          "source": "https://screenplayed.com/scriptlibrary/manchester-by-the-sea-2016",
+          "credit": "Amazon Studios / Roadside Attractions · Screenplayed 收录",
+          "width": 2404,
+          "height": 1352,
+          "usage": "external-reference"
+        },
+        {
+          "src": "https://d2eib6r9tuf5y8.cloudfront.net/l/assets/img/article/article-1213-hvq7nfqy/article-1213-nlzxfjpt.jpg",
+          "alt": "李在酒吧里与人发生冲突",
+          "source": "https://www.catchplay.com/sg/ed-says/article-1213-hvq7nfqy",
+          "credit": "Amazon Studios / Roadside Attractions · CATCHPLAY+",
+          "width": 690,
+          "height": 465,
+          "usage": "external-reference"
+        },
+        {
+          "src": "https://d2eib6r9tuf5y8.cloudfront.net/l/assets/img/article/article-1213-hvq7nfqy/article-1213-qthbdzbj.jpg",
+          "alt": "一家人在渔船上度过的时光",
+          "source": "https://www.catchplay.com/sg/ed-says/article-1213-hvq7nfqy",
+          "credit": "Amazon Studios / Roadside Attractions · CATCHPLAY+",
+          "width": 690,
+          "height": 465,
+          "usage": "external-reference"
+        }
+      ],
+      "media": {
+        "width": 2404,
+        "height": 1352
+      }
     },
     {
       "id": "cinema-3",
-      "title": "留给一部电影",
-      "meta": "年份 · 导演",
-      "note": "",
-      "placeholder": true,
+      "title": "三块广告牌",
+      "meta": "2017 · 英国 / 美国 · 115分钟",
+      "note": "当愤怒被写成路边的大字，它也开始改变路过的人。",
+      "placeholder": false,
       "published": true,
-      "image": null,
-      "alt": "",
+      "image": "https://media.vanityfair.com/photos/59adaeac4a3663211bf43810/master/w_2560%2Cc_limit/three-billboards-ebbing-missouri.jpg",
+      "alt": "米尔德雷德站在红色广告牌旁",
       "artStyle": "three",
       "emptyLabel": "放映厅留白",
-      "year": null,
-      "director": "",
-      "tags": [],
+      "year": 2017,
+      "director": "马丁·麦克唐纳",
+      "tags": [
+        "剧情",
+        "犯罪",
+        "黑色幽默"
+      ],
       "links": {
-        "douban": "",
-        "imdb": ""
+        "official": "https://www.searchlightpictures.com/threebillboardsoutsideebbingmissouri",
+        "imdb": "https://www.imdb.com/title/tt5027774/"
       },
-      "rewatch": null
+      "rewatch": null,
+      "originalTitle": "Three Billboards Outside Ebbing, Missouri",
+      "cast": "弗兰西斯·麦克多蒙德 / 伍迪·哈里森 / 山姆·洛克威尔",
+      "genre": "剧情 / 犯罪 / 黑色幽默",
+      "summary": "女儿遇害案迟迟没有进展，米尔德雷德租下镇外三块广告牌，向警察局长公开质问。她的行动将个人悲痛变成整个小镇无法绕开的冲突。",
+      "review": "观看线索\n不要太快把人物分为受害者与恶人。粗粝的笑话、突然的暴力与片刻的温柔并置，让正义和报复之间的距离变得难以判断。",
+      "rating": null,
+      "sources": [
+        {
+          "label": "官方作品资料",
+          "url": "https://www.searchlightpictures.com/threebillboardsoutsideebbingmissouri"
+        }
+      ],
+      "gallery": [
+        {
+          "src": "https://media.vanityfair.com/photos/59adaeac4a3663211bf43810/master/w_2560%2Cc_limit/three-billboards-ebbing-missouri.jpg",
+          "alt": "米尔德雷德站在红色广告牌旁",
+          "source": "https://www.vanityfair.com/hollywood/2017/09/three-billboards-outside-ebbing-missouri-review",
+          "credit": "Fox Searchlight Pictures · Vanity Fair 收录",
+          "width": 1200,
+          "height": 800,
+          "usage": "external-reference"
+        },
+        {
+          "src": "https://leftlion.co.uk/media/opjnm5lb/9152eee1-56dc-4e2f-aac3-d4a3cf7cd5ba.jpg?autoorient=true&format=jpg&height=720&sourceHeight=720&sourceWidth=1440&v=1d934d53a8344a0&width=1440",
+          "alt": "米尔德雷德与警长在门廊交谈",
+          "source": "https://leftlion.co.uk/features/2018/01/film-review-three-billboards-outside-ebbing-missouri/",
+          "credit": "Fox Searchlight Pictures · LeftLion 收录",
+          "width": 1440,
+          "height": 720,
+          "usage": "external-reference"
+        },
+        {
+          "src": "https://images6.alphacoders.com/910/thumb-1920-910772.jpg",
+          "alt": "米尔德雷德与威洛比坐在秋千上",
+          "source": "https://wall.alphacoders.com/big.php?i=910772",
+          "credit": "Fox Searchlight Pictures · Wallpaper Abyss 收录",
+          "width": 1920,
+          "height": 1280,
+          "usage": "external-reference"
+        }
+      ],
+      "media": {
+        "width": 1200,
+        "height": 800
+      }
     },
     {
       "id": "cinema-4",
-      "title": "片尾之后",
-      "meta": "年份 · 导演",
-      "note": "",
-      "placeholder": true,
+      "title": "纸牌屋",
+      "meta": "2013—2018 · 美国 · 6季 / 73集",
+      "note": "权力的房间里，每一次靠近都可能同时是一次交易。",
+      "placeholder": false,
       "published": true,
-      "image": null,
-      "alt": "",
+      "image": "https://www.sonypictures.com/sites/default/files/chameleon/title-television/DP_3637526_HOUSE%20OF%20CARDS%20-%20SEASON%2001_1400x2100_3.jpg",
+      "alt": "《纸牌屋》第1季官方海报",
       "artStyle": "four",
       "emptyLabel": "放映厅留白",
-      "year": null,
-      "director": "",
-      "tags": [],
+      "year": 2013,
+      "director": "鲍·威利蒙（主创）；大卫·芬奇等（导演）",
+      "tags": [
+        "政治",
+        "剧情",
+        "惊悚"
+      ],
       "links": {
-        "douban": "",
-        "imdb": ""
+        "official": "https://www.netflix.com/title/70178217",
+        "imdb": "https://www.imdb.com/title/tt1856010/"
       },
-      "rewatch": null
+      "rewatch": null,
+      "originalTitle": "House of Cards",
+      "cast": "凯文·史派西 / 罗宾·怀特 / 迈克尔·凯利",
+      "genre": "政治 / 剧情 / 惊悚",
+      "summary": "弗兰克·安德伍德在政治承诺落空后，开始策划自己的上升之路。他与克莱尔既是伴侣，也是利益共同体，彼此的野心不断改变联盟的边界。",
+      "review": "观看线索\n直接望向镜头的独白，使观众被拉进权术的后台。可留意门、走廊、餐桌与座位如何安排人与人的权力距离；此处收录的是美国版剧集。",
+      "rating": null,
+      "sources": [
+        {
+          "label": "官方作品资料",
+          "url": "https://www.netflix.com/title/70178217"
+        }
+      ],
+      "gallery": [
+        {
+          "src": "https://www.sonypictures.com/sites/default/files/chameleon/title-television/DP_3637526_HOUSE%20OF%20CARDS%20-%20SEASON%2001_1400x2100_3.jpg",
+          "alt": "《纸牌屋》第1季官方海报",
+          "source": "https://www.sonypictures.com/tv/houseofcardsseason01",
+          "credit": "MRC · Sony Pictures Entertainment",
+          "width": 1400,
+          "height": 2100,
+          "usage": "external-reference"
+        },
+        {
+          "src": "https://www.sonypictures.com/sites/default/files/chameleon/title-television/DP_3637505_HOUSE%20OF%20CARDS%20-%20SEASON%2002_1400x2100_3.jpg",
+          "alt": "《纸牌屋》第2季官方海报",
+          "source": "https://www.sonypictures.com/tv/houseofcardsseason02",
+          "credit": "MRC · Sony Pictures Entertainment",
+          "width": 1400,
+          "height": 2100,
+          "usage": "external-reference"
+        },
+        {
+          "src": "https://www.sonypictures.com/sites/default/files/chameleon/title-television/DP_3637529_HOUSE%20OF%20CARDS%20-%20SEASON%2003_1400x2100_3.jpg",
+          "alt": "《纸牌屋》第3季官方海报",
+          "source": "https://www.sonypictures.com/tv/houseofcardsseason03",
+          "credit": "MRC · Sony Pictures Entertainment",
+          "width": 1400,
+          "height": 2100,
+          "usage": "external-reference"
+        }
+      ],
+      "media": {
+        "width": 1400,
+        "height": 2100
+      }
     }
   ],
   "version": 2

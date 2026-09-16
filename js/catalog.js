@@ -47,6 +47,7 @@ export function catalog(data) {
           item.text,
           item.summary,
           item.review,
+          ...(["books", "cinema"].includes(kind) ? [item.originalTitle, item.category, item.cast, item.quote?.text] : []),
           item.alt,
           item.caption,
           ...(item.tags || []),

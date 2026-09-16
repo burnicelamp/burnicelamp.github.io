@@ -105,9 +105,11 @@ function wav() {
         document.querySelector("[data-current-track]").textContent === title,
       read("music").tracks[1].title,
     );
-    assert.equal(await page.locator(".film-copy").count(), 0);
-    assert(await page.locator("#cinema .space-toolbar").isHidden());
-    assert(await page.locator("#reading .book-controls").isHidden());
+    const publishedFilms = read("cinema").items.filter(x => x.published && !x.placeholder);
+    const publishedBooks = read("books").items.filter(x => x.published && !x.placeholder);
+    assert.equal(await page.locator(".film-copy").count(), publishedFilms.length ? 1 : 0);
+    assert.equal(await page.locator("#cinema .space-toolbar").isHidden(), !publishedFilms.length);
+    assert.equal(await page.locator("#reading .book-controls").isHidden(), !publishedBooks.length);
     assert.equal(await page.locator(".notes-list article").count(), 1);
     assert.equal(
       await page
@@ -151,7 +153,13 @@ function wav() {
       const hash = new URL(page.url()).hash;
       assert.notEqual(hash, previous);
       previous = hash;
-      assert(/^#(music-track-[1-5]|notes-note-1)$/.test(hash));
+      const knownHashes = [
+        ...read("music").tracks.filter(x => x.published && !x.placeholder).map(x => "#music-" + x.id),
+        ...read("notes").items.filter(x => x.published && !x.placeholder).map(x => "#notes-" + x.id),
+        ...publishedFilms.map(x => "#cinema-" + x.id),
+        ...publishedBooks.map(x => "#reading-" + x.id),
+      ];
+      assert(knownHashes.includes(hash));
     }
     assert.equal(
       await page.evaluate(
@@ -173,7 +181,7 @@ function wav() {
       ...["first", "second", "third"].map((id, i) => ({
         id: "test-" + id,
         title: "测试书 " + id,
-        author: i === 2 ? "陀思妥耶夫斯基" : "测试作者",
+        author: i === 2 ? "测试独立作者" : "测试作者",
         tags: ["武汉"],
         summary: "原创测试简介",
         review: "原创短评",
@@ -246,7 +254,7 @@ function wav() {
         "test-third",
     );
     await page.keyboard.press("Control+k");
-    await page.locator("#global-query").fill("作者:陀思妥耶夫斯基");
+    await page.locator("#global-query").fill("作者:测试独立作者");
     assert.equal(await page.locator("[role=option]").count(), 1);
     await page.keyboard.press("Enter");
     assert.equal(
@@ -319,7 +327,7 @@ function wav() {
     }
     await page
       .locator("[data-authors] button")
-      .filter({ hasText: "陀思妥耶夫斯基" })
+      .filter({ hasText: "测试独立作者" })
       .click();
     await page.waitForFunction(
       () =>

@@ -47,6 +47,19 @@ export function validate(data = readAll()) {
         assert(item.cover.alt?.trim());
       }
       for (const u of Object.values(item.links || {})) if (u) url(u);
+      if (kind === "cinema" && item.gallery) {
+        assert(Array.isArray(item.gallery) && item.gallery.length > 0);
+        for (const frame of item.gallery) {
+          asset(frame.src);
+          assert(frame.alt?.trim() && frame.credit?.trim(), `Missing gallery attribution: ${item.id}`);
+          assert(frame.width > 0 && frame.height > 0, `Missing gallery dimensions: ${item.id}`);
+          url(frame.source);
+        }
+      }
+      if (kind === "books" && item.quote) {
+        assert(item.quote.text?.trim() && item.quote.attribution?.trim(), `Missing excerpt attribution: ${item.id}`);
+        url(item.quote.source);
+      }
       if (kind === "music") {
         assert(Array.isArray(item.sources), `Missing sources: ${item.id}`);
         for (const s of item.sources) {
