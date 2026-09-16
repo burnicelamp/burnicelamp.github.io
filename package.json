@@ -5,10 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "node tools/serve.mjs",
+    "preflight": "node tools/preflight.mjs",
     "validate": "node tools/validate-content.mjs",
     "build:content": "node tools/build-search.mjs",
     "test": "node tests/content-check.mjs",
-    "test:browser": "node tests/browser-check.cjs && node tests/cinema-books-interaction-check.cjs && node tests/motion-check.cjs"
+    "test:browser": "node tests/browser-check.cjs && node tests/cinema-books-interaction-check.cjs && node tests/motion-check.cjs",
+    "check": "npm run build:content && npm run validate && npm test",
+    "check:full": "npm run check && npm run test:browser",
+    "verify:cinema-media": "node tools/verify-cinema-media.cjs",
+    "review:capture": "node tools/review-capture.cjs",
+    "review:record": "node tools/review-record.cjs"
   },
   "devDependencies": {
     "sharp": "0.35.4",
