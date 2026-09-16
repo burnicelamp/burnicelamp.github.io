@@ -5,6 +5,7 @@
 原生 HTML、CSS、JavaScript，网站无运行依赖、无打包步骤，内容保留在 content/\*.json。
 
 - [内容维护指南](CONTENT-GUIDE.md)：照片导入、扩充音乐 / 电影 / 书籍 / 记录、索引生成与发布。
+- [设计宗旨](docs/DESIGN-PRINCIPLES.md)：高级、智能、大气三条最高设计约束与决策检查。
 - [音乐方案](docs/MUSIC-PROVIDERS.md)：真实播放能力、官方平台降级和待补凭证。
 - [素材来源](docs/ASSET-SOURCES.md)：Public Domain 肖像及其他资源边界。
 - [验证记录](docs/REGRESSION.md)。

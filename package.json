@@ -8,7 +8,7 @@
     "validate": "node tools/validate-content.mjs",
     "build:content": "node tools/build-search.mjs",
     "test": "node tests/content-check.mjs",
-    "test:browser": "node tests/browser-check.cjs"
+    "test:browser": "node tests/browser-check.cjs && node tests/cinema-books-interaction-check.cjs && node tests/motion-check.cjs"
   },
   "devDependencies": {
     "sharp": "0.35.4",

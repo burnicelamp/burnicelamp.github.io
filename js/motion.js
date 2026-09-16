@@ -106,7 +106,7 @@ export function initMotion() {
     scanFrame = 0;
     document
       .querySelectorAll(
-        ".sound-layout,.screening,.book-scene,.notes-list article",
+        ".sound-layout,.cinema-stage,.reading-stage,.notes-list article",
       )
       .forEach((node) => {
         if (node.closest(".is-empty") || watched.has(node) || seen.has(node))

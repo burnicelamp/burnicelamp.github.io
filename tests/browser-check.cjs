@@ -55,6 +55,9 @@ function wav() {
   await page.route("https://is1-ssl.mzstatic.com/**", (r) =>
     r.fulfill({ contentType: "image/svg+xml", body: svg }),
   );
+  await page.route("https://image.tmdb.org/**", (r) =>
+    r.fulfill({ contentType: "image/svg+xml", body: svg }),
+  );
   let visit = 0;
   const go = async (hash = "") => {
     await page.goto(base + "/?visit=" + ++visit + hash, {
@@ -107,9 +110,9 @@ function wav() {
     );
     const publishedFilms = read("cinema").items.filter(x => x.published && !x.placeholder);
     const publishedBooks = read("books").items.filter(x => x.published && !x.placeholder);
-    assert.equal(await page.locator(".film-copy").count(), publishedFilms.length ? 1 : 0);
-    assert.equal(await page.locator("#cinema .space-toolbar").isHidden(), !publishedFilms.length);
-    assert.equal(await page.locator("#reading .book-controls").isHidden(), !publishedBooks.length);
+    assert.equal(await page.locator(".cinema-info").count(), publishedFilms.length ? 1 : 0);
+    assert.equal(await page.locator("[data-cinema-catalog]").isHidden(), !publishedFilms.length);
+    assert.equal(await page.locator("#reading .reading-switcher").isHidden(), !publishedBooks.length);
     assert.equal(await page.locator(".notes-list article").count(), 1);
     assert.equal(
       await page
@@ -261,9 +264,14 @@ function wav() {
       await page.locator("[data-book]").getAttribute("data-content-id"),
       "test-third",
     );
+    await page.locator("[data-book-catalog]").click();
+    await page.locator("[data-books-search]").fill("测试作者");
+    assert.equal(await page.locator(".author-group").count(), 1);
+    assert(await page.locator(".author-group").evaluate((node) => node.open));
+    assert.equal(await page.locator(".author-works button").count(), 2);
     await page
-      .locator("[data-authors] button")
-      .filter({ hasText: "测试作者" })
+      .locator(".author-works button")
+      .filter({ hasText: "测试书 first" })
       .click();
     await page.waitForFunction(
       () =>
@@ -288,7 +296,7 @@ function wav() {
     await page.waitForTimeout(150);
     assert(await page.locator(".enlarger").isHidden());
     await go("#cinema-test-film");
-    await page.locator(".film-copy button").first().click();
+    await page.locator(".cinema-actions .film-detail-trigger").click();
     assert.equal(await page.locator(".detail-links a").count(), 2);
     assert(
       (
@@ -325,18 +333,15 @@ function wav() {
       assert(await page.locator(".enlarger").isHidden());
       assert.equal(await page.locator(".photo-flight").count(), 0);
     }
-    await page
-      .locator("[data-authors] button")
-      .filter({ hasText: "测试独立作者" })
-      .click();
+    await page.locator("[data-book-catalog]").click();
+    await page.locator("[data-books-search]").fill("测试独立作者");
+    await page.locator(".author-works button").click();
     await page.waitForFunction(
       () =>
         document.querySelector("[data-book]").dataset.contentId ===
         "test-third",
     );
-    await page.waitForFunction(
-      () => document.querySelectorAll(".page-turn").length === 0,
-    );
+    assert.equal(await page.locator(".page-turn").count(), 0);
     await page.emulateMedia({ reducedMotion: "reduce" });
     console.log(
       "PASS: returning to prologue restores text; native and fallback photo transitions clean up; animated author jump completes.",
@@ -431,16 +436,16 @@ function wav() {
     );
 
     // Third-phase fixtures are intercepted in memory and never written to content/.
-    books.items = Array.from({ length: 80 }, (_, i) => ({
+    books.items = Array.from({ length: 100 }, (_, i) => ({
       id: "stress-book-" + i,
       title:
-        i === 79
+        i === 99
           ? "很长的书名：关于时间、记忆与那些值得反复阅读的句子"
           : "测试书目 " + i,
       author: "作者 " + i,
       summary: "简介。".repeat(25),
       review:
-        i === 79
+        i === 99
           ? "自己的阅读感受，逐页安静读下去。".repeat(120)
           : "一段真实字段格式的测试短评。",
       published: true,
@@ -479,32 +484,36 @@ function wav() {
       published: true,
     }));
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await go("#reading-stress-book-79");
+    await go("#reading-stress-book-99");
     await page.waitForFunction(
       () =>
         document.querySelector("[data-book]").dataset.contentId ===
-        "stress-book-79",
+        "stress-book-99",
     );
-    assert.equal(
-      await page.locator('[aria-label="快速定位书籍"] option').count(),
-      80,
+    await page.locator("[data-book-catalog]").click();
+    assert.equal(await page.locator(".author-group").count(), 100);
+    assert.equal(await page.locator(".author-works button").count(), 100);
+    await page.keyboard.press("Escape");
+    const longText = await page.locator(".book-reading-page").textContent();
+    assert(longText.includes("自己的阅读感受"));
+    assert(longText.length > 1500);
+    await page.locator("[data-book-catalog]").click();
+    await page.locator("[data-books-search]").fill("测试书目 0");
+    await page.getByRole("button", { name: "测试书目 0", exact: true }).click();
+    await page.waitForFunction(
+      () => document.querySelector("[data-book]").dataset.contentId === "stress-book-0",
     );
-    const oldText = await page.locator(".paper-right .review").textContent();
-    await page.locator(".paper-pagination button").last().click();
-    assert(
-      (await page.locator(".paper-pagination").textContent()).includes("2 /"),
-    );
-    assert.equal(
-      await page.locator("[data-book]").getAttribute("data-content-id"),
-      "stress-book-79",
-    );
-    await page.locator('[aria-label="快速定位书籍"]').selectOption("0");
     assert.equal(
       await page.locator("[data-book]").getAttribute("data-content-id"),
       "stress-book-0",
     );
-    assert((await page.locator(".paper-pagination").count()) === 0);
-    await page.locator('[aria-label="快速定位书籍"]').selectOption("79");
+    assert.equal(await page.locator(".paper-pagination").count(), 0);
+    await page.locator("[data-book-catalog]").click();
+    await page.locator("[data-books-search]").fill("很长的书名");
+    await page.locator(".author-works button").click();
+    await page.waitForFunction(
+      () => document.querySelector("[data-book]").dataset.contentId === "stress-book-99",
+    );
     const out = process.env.SCREENSHOT_DIR;
     if (out) {
       fs.mkdirSync(out, { recursive: true });
@@ -514,11 +523,13 @@ function wav() {
     }
     await page.setViewportSize({ width: 390, height: 844 });
     await page.locator("#reading").scrollIntoViewIfNeeded();
-    assert(await page.locator(".paper-right").isVisible());
+    assert(await page.locator(".book-reading-page").isVisible());
     assert(
-      (await page.locator(".paper-right").textContent()).includes("作者 79"),
+      (await page.locator(".book-title-page").textContent()).includes("作者 99"),
     );
-    assert(await page.locator(".paper-right .review").isVisible());
+    assert(
+      await page.locator(".book-reading-page .book-reading-block").first().isVisible(),
+    );
     if (out)
       await page.screenshot({
         path: path.join(out, "fixture-book-mobile.png"),
@@ -557,10 +568,12 @@ function wav() {
     await page.waitForTimeout(250);
     await page.route("**/assets/test.svg", (r) => r.abort());
     await go("#cinema-stress-film-0");
-    await page.locator(".image-retry").first().waitFor({ state: "visible" });
-    assert(await page.locator(".image-retry").first().isVisible());
+    await page
+      .locator("[data-cinema-status] button")
+      .waitFor({ state: "visible" });
+    assert(await page.locator("[data-cinema-status] button").isVisible());
     console.log(
-      "PASS: 80-book direct jumps, bounded inner pages, mobile title/author/review, photo Back/Forward and zoom, year filters, search recovery and image retry.",
+      "PASS: 100-book author directory, full long-form text, mobile title/author/review, photo Back/Forward and zoom, year filters, search recovery and image retry.",
     );
 
     await page.route("**/content/cinema.json", (r) =>

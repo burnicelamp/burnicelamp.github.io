@@ -36,13 +36,13 @@
   .record-art.material-active::after {
     opacity: 0.08;
   }
-  .paper .book-cover {
+  .book-title-page .book-cover {
     transform-origin: 15% 70%;
     transition:
       transform 0.4s var(--ease),
       box-shadow 0.4s var(--ease);
   }
-  .paper .book-cover:hover {
+  .book-title-page .book-cover:hover {
     transform: perspective(800px) rotateY(-5deg) translateY(-3px);
     box-shadow: 13px 17px 25px #373b3333;
   }
@@ -57,7 +57,7 @@
 @media (prefers-reduced-motion: reduce) {
   .record-art img,
   .record-art .album-placeholder,
-  .paper .book-cover {
+  .book-title-page .book-cover {
     transform: none !important;
   }
   .record-art::after {

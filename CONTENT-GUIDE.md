@@ -1,5 +1,7 @@
 # BURNLAMP 内容指南 · 第三阶段
 
+开始任何视觉或交互调整前，必须先阅读 [BURNLAMP 设计宗旨](docs/DESIGN-PRINCIPLES.md)。“高级、智能、大气”是高于具体组件样式的长期约束。
+
 网站是原生 HTML / CSS / ES Modules，GitHub Pages 从 main 根目录发布。内容始终来自 `content/*.json`，新增内容无需修改 HTML、CSS 或核心组件。先读本文件，再动内容。正式域名 `burnlamp.is-my.id`；保留 CNAME、.nojekyll、canonical、robots.txt、sitemap.xml 与部署来源。
 
 ## 给下一次 Codex 对话

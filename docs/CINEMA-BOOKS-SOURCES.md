@@ -4,9 +4,18 @@
 
 ## 影视
 
-四部作品的 `links.official` 为官方资料入口；海报／剧照的每一项 `gallery` 都包含来源页、署名和实际检查到的像素尺寸。影片简介参考 Sony Pictures、Netflix、Searchlight Pictures 与《海边的曼彻斯特》宣传网站，文字另行撰写。
+四部作品的 `links.official` 为官方资料入口；横版剧照／宣传图的每一项 `gallery` 都包含来源页、署名和实际检查到的像素尺寸。影片简介参考 Sony Pictures、Netflix、Searchlight Pictures 与《海边的曼彻斯特》宣传网站，文字另行撰写。
 
-图片采用 HTTPS 外部引用，不下载到 GitHub 仓库，不声明拥有版权或已获永久托管许可。图片版权归相应权利人；来源页会在主画面和详情中展示。第三方服务可能更改链接或限制访问，图片失败时保留文字、来源入口和重新加载按钮。
+图片采用 TMDB 原图 CDN 的 HTTPS 外部引用，不下载到 GitHub 仓库，不声明拥有版权或已获永久托管许可。图片版权归相应权利人；来源只在详情资料区展示，不遮挡主画面。第三方服务可能更改链接或限制访问，图片失败时保留当前画面、文字、来源入口和重新加载按钮。
+
+本轮逐张载入并核对了 12 张素材；URL 均不重复，全部为真实横版 16:9，最小宽度 1920px，没有放大低清图、竖图裁切、模糊填充或拼接：
+
+| 作品 | TMDB 横版素材索引 | 三张实测尺寸 |
+| --- | --- | --- |
+| 风骚律师 | [Backdrops](https://www.themoviedb.org/tv/60059-better-call-saul/images/backdrops) | 3840×2160、1920×1080、3840×2160 |
+| 海边的曼彻斯特 | [Backdrops](https://www.themoviedb.org/movie/334541-manchester-by-the-sea/images/backdrops) | 3840×2160、1920×1080、3840×2160 |
+| 三块广告牌 | [Backdrops](https://www.themoviedb.org/movie/359940-three-billboards-outside-ebbing-missouri/images/backdrops) | 3840×2160、1920×1080、3840×2160 |
+| 纸牌屋 | [Backdrops](https://www.themoviedb.org/tv/1425-house-of-cards/images/backdrops) | 1920×1080、1920×1080、1920×1080 |
 
 - [风骚律师 · Sony Pictures](https://www.sonypictures.com/tv/bettercallsaul)
 - [海边的曼彻斯特 · 宣传资料](https://www.manchesterbytheseathemovie.cia-adv.com/)

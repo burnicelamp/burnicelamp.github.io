@@ -36,6 +36,7 @@
       fetchpriority="high"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./cinema-books.css" />
     <link rel="stylesheet" href="./motion.css" />
     <script type="application/ld+json">
       {
@@ -212,72 +213,136 @@
           </div>
         </div>
       </section>
-      <section id="cinema" class="space cinema" aria-labelledby="cinema-title">
+      <section id="cinema" class="space cinema-room" aria-labelledby="cinema-title">
         <header class="space-heading" data-heading="cinema"></header>
-        <div class="space-toolbar">
-          <label class="local-search"
-            ><span>片目</span
-            ><input
-              data-cinema-search
-              type="search"
-              placeholder="片名、导演、年份、标签"
-              aria-label="搜索电影"
-          /></label>
-          <div class="step-controls">
-            <button data-cinema-prev aria-label="上一部电影">←</button
-            ><span data-cinema-count aria-live="polite"></span
-            ><button data-cinema-next aria-label="下一部电影">→</button>
-          </div>
+        <div class="cinema-commandbar">
+          <button
+            class="catalog-trigger"
+            data-cinema-catalog
+            aria-haspopup="dialog"
+            aria-controls="cinema-catalog"
+          >
+            <span>片目</span>
+            <strong data-cinema-catalog-label>选择作品</strong>
+          </button>
+          <p class="cinema-position" data-cinema-count aria-live="polite"></p>
         </div>
         <div
-          class="screening"
+          class="cinema-stage"
           tabindex="0"
-          aria-label="私人放映厅，左右方向键切换"
+          aria-label="影视图集，左右方向键切换当前作品的画面"
         >
-          <div class="film-stage" data-film-stage></div>
-          <button
-            class="next-frame"
-            data-next-frame
-            aria-label="下一部电影"
-          ></button>
+          <div class="cinema-visual" data-film-frame></div>
         </div>
+        <p class="cinema-status" data-cinema-status aria-live="polite"></p>
+        <div class="cinema-gallery-nav" aria-label="当前作品图集导航">
+          <button data-film-prev aria-label="上一张画面">←</button>
+          <div class="cinema-progress" data-film-progress></div>
+          <button data-film-next aria-label="下一张画面">→</button>
+          <p data-film-frame-label aria-live="polite"></p>
+        </div>
+        <article class="cinema-info" data-film-info>
+          <div class="cinema-identity">
+          <p class="cinema-meta" data-film-meta></p>
+            <h3 data-film-title></h3>
+            <p class="cinema-original-title" data-film-original></p>
+          </div>
+          <div class="cinema-summary">
+            <p data-film-note></p>
+            <div class="cinema-actions" data-film-actions></div>
+          </div>
+        </article>
+        <nav class="film-switcher" aria-label="切换影视作品">
+          <button data-cinema-prev>
+            <span>上一部</span><strong data-cinema-prev-title></strong>
+          </button>
+          <button data-cinema-next>
+            <span>下一部</span><strong data-cinema-next-title></strong>
+          </button>
+        </nav>
       </section>
+      <dialog
+        id="cinema-catalog"
+        class="catalog-dialog cinema-catalog-dialog"
+        aria-labelledby="cinema-catalog-title"
+      >
+        <div class="catalog-dialog__inner">
+          <header class="catalog-dialog__header">
+            <div>
+              <p class="eyebrow">SCREEN INDEX</p>
+              <h2 id="cinema-catalog-title">片目</h2>
+            </div>
+            <button data-cinema-catalog-close aria-label="关闭片目">关闭</button>
+          </header>
+          <label class="catalog-search">
+            <span>搜索片名、导演、年份或标签</span>
+            <input data-cinema-search type="search" autocomplete="off" />
+          </label>
+          <div class="cinema-catalog-list" data-cinema-catalog-list></div>
+          <p class="catalog-empty" data-cinema-empty hidden>没有找到这部作品。</p>
+        </div>
+      </dialog>
       <section
         id="reading"
-        class="space reading"
+        class="space reading-room"
         aria-labelledby="reading-title"
       >
         <header class="space-heading" data-heading="reading"></header>
-        <div class="space-toolbar">
-          <label class="local-search"
-            ><span>书目</span
-            ><input
-              data-books-search
-              type="search"
-              placeholder="书名、作者、标签"
-              aria-label="搜索书籍" /></label
-          ><span data-book-status aria-live="polite"></span>
+        <div class="reading-commandbar">
+          <button
+            class="catalog-trigger"
+            data-book-catalog
+            aria-haspopup="dialog"
+            aria-controls="book-catalog"
+          >
+            <span>作者与书目</span>
+            <strong data-book-catalog-label>打开目录</strong>
+          </button>
+          <p class="reading-current" data-book-status aria-live="polite"></p>
         </div>
         <div
-          class="book-scene"
+          class="reading-stage"
           tabindex="0"
           aria-label="阅读书页，左右方向键切换书目"
         >
-          <div
-            class="author-bookmarks"
-            aria-label="作者书签"
-            data-authors
-          ></div>
-          <div class="book" data-book></div>
+          <div class="reading-book" data-book></div>
         </div>
-        <div class="book-controls">
-          <button data-book-prev>← 前一本</button
-          ><button class="mobile-page-toggle" data-book-side>阅读内页 →</button
-          ><span data-book-count aria-live="polite"></span
-          ><button data-book-next>后一本 →</button>
-        </div>
+        <nav class="reading-switcher" aria-label="切换书目">
+          <button data-book-prev>
+            <span>上一项</span><strong data-book-prev-title></strong>
+          </button>
+          <p data-book-count aria-live="polite"></p>
+          <button data-book-next>
+            <span>下一项</span><strong data-book-next-title></strong>
+          </button>
+        </nav>
         <div class="connections book-connections" data-book-relations></div>
       </section>
+      <dialog
+        id="book-catalog"
+        class="catalog-dialog book-catalog-dialog"
+        aria-labelledby="book-catalog-title"
+      >
+        <div class="catalog-dialog__inner">
+          <header class="catalog-dialog__header">
+            <div>
+              <p class="eyebrow">AUTHORS &amp; WORKS</p>
+              <h2 id="book-catalog-title">作者与书目</h2>
+            </div>
+            <button data-book-catalog-close aria-label="关闭作者与书目">关闭</button>
+          </header>
+          <label class="catalog-search">
+            <span>搜索作者、书名或标签</span>
+            <input data-books-search type="search" autocomplete="off" />
+          </label>
+          <div class="book-directory-tools">
+            <p data-book-directory-count></p>
+            <button data-book-directory-reset hidden>返回全部作品</button>
+          </div>
+          <div class="book-directory" data-book-directory></div>
+          <p class="catalog-empty" data-books-empty hidden>没有找到作者或书目。</p>
+        </div>
+      </dialog>
       <section
         id="darkroom"
         class="space darkroom"
