@@ -9,9 +9,10 @@
     "validate": "node tools/validate-content.mjs",
     "build:content": "node tools/build-search.mjs",
     "test": "node tests/content-check.mjs",
-    "test:browser": "node tests/browser-check.cjs && node tests/cinema-books-interaction-check.cjs && node tests/motion-check.cjs",
-    "check": "npm run build:content && npm run validate && npm test",
-    "check:full": "npm run check && npm run test:browser",
+    "test:browser": "node tools/check.mjs --browser-only",
+    "check": "node tools/check.mjs",
+    "check:full": "node tools/check.mjs --full",
+    "audit:production": "node tools/audit-production.cjs",
     "verify:cinema-media": "node tools/verify-cinema-media.cjs",
     "review:capture": "node tools/review-capture.cjs",
     "review:record": "node tools/review-record.cjs"

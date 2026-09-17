@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
+const { launchBrowser } = require("../tests/browser-runtime.cjs");
 
 const root = path.resolve(__dirname, "..");
 const target = path.resolve(process.env.REVIEW_DIR || path.join(root, "..", "visual-review"));
@@ -10,10 +10,7 @@ const target = path.resolve(process.env.REVIEW_DIR || path.join(root, "..", "vis
   const local = server();
   await new Promise((resolve) => local.listen(0, "127.0.0.1", resolve));
   const base = `http://127.0.0.1:${local.address().port}`;
-  const browser = await chromium.launch({
-    headless: true,
-    channel: process.env.BROWSER_CHANNEL || "msedge",
-  });
+  const browser = await launchBrowser();
   fs.mkdirSync(target, { recursive: true });
   const report = { base, captures: [], errors: [] };
 

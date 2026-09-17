@@ -1,6 +1,7 @@
 work/
 outputs/
 node_modules/
+.tmp/
 test-results/
 playwright-report/
 .env

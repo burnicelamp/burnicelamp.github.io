@@ -1,7 +1,7 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
+const { launchBrowser } = require("./browser-runtime.cjs");
 
 const root = path.resolve(__dirname, "..");
 const cinema = JSON.parse(
@@ -25,10 +25,7 @@ const svg = (label, color) =>
   const local = server();
   await new Promise((resolve) => local.listen(0, "127.0.0.1", resolve));
   const base = `http://127.0.0.1:${local.address().port}`;
-  const browser = await chromium.launch({
-    headless: true,
-    channel: process.env.BROWSER_CHANNEL || "msedge",
-  });
+  const browser = await launchBrowser();
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));

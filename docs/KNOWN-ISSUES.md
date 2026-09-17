@@ -1,6 +1,6 @@
 # BURNLAMP 问题、处置与经验清单
 
-更新日期：2026-09-16
+更新日期：2026-09-17
 
 本清单来自三类可核对证据：本次对话的实际命令与错误、当前工作区保留的审计／发布产物，以及仓库从 2026-09-03 起的提交记录和 `docs/REGRESSION.md`。当前可用的跨对话记忆注册中没有更早的 BURNLAMP 详细对话全文，因此本文档不声称覆盖无法读取的聊天内容。
 
@@ -18,23 +18,28 @@
 - **现象**：初始源码是公开 `main` 的打包快照，目录中没有 `.git`。`git status`、分支、diff 和普通 push 都不可用。
 - **风险**：容易把快照误当为已同步仓库，也无法用 Git 自动识别本次变更。
 - **处置**：当时以完整快照做本地实现和回归，发布前另行获取远端 SHA 和 tree。
-- **以后**：优先用真实 clone/worktree；无 `.git` 时必须在开工记录中明示。
-- **状态**：长期约束。
+- **本轮改进**：新增 `tools/bootstrap-repository.ps1`。它只接受不存在或空目录，显式使用 OpenSSL clone，随后 fetch 并核对 `HEAD` 与 `origin/main`，避免把快照直接伪装成工作树。
+- **本轮结果**：网络恢复后脚本成功 clone 并确认 `main @ b79284a790bd47d691e8854839749207c5796cca`；已将这份完整 `.git` 元数据移入当前修改目录，源代码未被覆盖。当前目录现为真实 `main` 工作树，`HEAD` 与 `origin/main` 一致，本轮改动由 `git status` 正常列出。
+- **以后**：优先用真实 clone/worktree；无 `.git` 时必须在开工记录中明示，不创建伪历史。
+- **状态**：已解决。
 
 ### A2. 该 Codex Windows Git 运行时在 clone 阶段异常中止
 
 - **现象**：使用运行时自带 Git 执行 HTTPS clone 时异常终止。`git-remote-http.exe` 和 `git-remote-https.exe` 位于 `mingw64\bin`，但 Git 在 `mingw64\libexec\git-core` 查找 helper。
-- **尝试**：把两个 helper 复制到 Git 的 `libexec\git-core`，解决了一层路径问题，但 clone 仍不稳定，不适合在该任务中继续反复重试。
-- **处置**：改用 GitHub Git Data API 创建 blobs、tree、commit 并非强制更新 `main`。
-- **以后**：先用系统 Git；出现同样 helper 症状时不要把时间耗在无限 clone 上。API 只是有授权的发布降级。
-- **状态**：已降级；运行时故障未在项目内根治。
+- **进一步诊断**：helper 路径修复后，运行时级 Git 配置仍强制 `http.sslBackend=schannel`，因此 `ls-remote` 明确报 `SEC_E_NO_CREDENTIALS`。把当前用户 Git HTTPS 后端覆盖为 `openssl` 后，该错误消失；随后失败变为 GitHub 443 连接超时，证明 TLS 凭据故障与外网不可达是两层问题。
+- **本轮处置**：用户级 Git 已设置 `http.sslBackend=openssl`；仓库恢复脚本也显式传入这一设置，不依赖某次会话的环境变量。发布 API 仍只作为有授权的降级。
+- **验证**：网络恢复后 `git ls-remote`、clone 和后续 fetch 均成功，远端 `main` 返回 `b79284a790bd47d691e8854839749207c5796cca`。
+- **以后**：先运行 `git ls-remote`，再运行安全 clone 脚本；不在网络超时时无限重试，也不创建与远端无关的本地历史冒充真实工作树。
+- **补充复现**：真实 clone 与脚本内验证 fetch 成功后，后续一次普通 fetch 又报 `remote helper 'https' aborted session`，说明传输仍有间歇性故障；它没有破坏已经建立的工作树，远端引用仍可核对。
+- **状态**：Schannel 根因和工作树恢复已解决；间歇性 helper／网络中止仍按有界重试或已授权 Git Data API 降级处理。
 
 ### A3. GitHub CLI 不可用
 
 - **现象**：环境中没有可用的 `gh` 命令。
 - **影响**：不能直接使用 `gh auth`、`gh api` 或 `gh run watch`。
 - **处置**：认证使用 Git Credential Manager，GitHub 读写使用 HTTPS API，Pages 状态使用 GitHub 页面／API 核对。
-- **状态**：环境约束。
+- **补充**：`gh` 是便利工具，不是本项目正常 Git 提交、推送或 Pages 核验的前置条件；当前环境也没有 `winget`，且 GitHub 网络超时，不为安装它引入另一套不稳定下载链路。
+- **状态**：可选环境能力缺失，不阻塞项目内检查；待网络可用时可再安装。
 
 ### A4. 初始没有已保存的 GitHub 凭据
 
@@ -84,8 +89,9 @@
 
 - **现象**：`Invoke-WebRequest` 报“Authentication failed”；`curl.exe` 报 `SEC_E_NO_CREDENTIALS (0x8009030e)`。这不是站点需要登录，而是当前 Windows Schannel 执行环境的 TLS/凭据问题。
 - **对照**：同一时间 Node `fetch` 请求正式域名返回 200，服务器为 GitHub Pages；DNS 正确 CNAME 到 `burnicelamp.github.io`。
+- **本轮处置**：Git 已改用 OpenSSL，因此不再经过这条 Schannel 失败路径；PowerShell / 系统 curl 仍可能复现，站点审计统一走 Node / Playwright。
 - **以后**：不用单一 Schannel 客户端的失败判定正式站离线；用 Node/Playwright 和 DNS 交叉验证。
-- **状态**：已降级；环境问题仍可复现。
+- **状态**：Git 路径已解决；系统 Schannel 客户端仍为环境限制。
 
 ### B2. 无头 Edge 在默认沙箱中访问正式站超时
 
@@ -98,16 +104,16 @@
 ### B3. Playwright 默认临时目录不可写
 
 - **现象**：浏览器启动时因 Windows 默认 temp 路径权限发生 `EPERM`。首次设置的相对 temp 路径又指向了不存在的上级目录。
-- **处置**：确认工作区内 `tmp` 存在，再把 `TEMP` 和 `TMP` 设为 `(Resolve-Path '.\tmp').Path`。
-- **以后**：不手写未验证的临时目录；使用 `Resolve-Path` 或先创建后设置。
+- **处置**：`tests/browser-runtime.cjs` 会在每次浏览器启动前创建仓库内 `.tmp`，再把 `TEMP` 和 `TMP` 指向其绝对路径；`.tmp` 已忽略，不会进入提交。
+- **以后**：需要覆盖时设置 `BURNLAMP_TEMP`，不手写未验证的临时目录。
 - **状态**：已解决。
 
 ### B4. Playwright 模块和浏览器二进制不一定在默认位置
 
 - **现象**：项目目录未必有完整 `node_modules`；Codex 运行时有 Playwright 模块，但声明的 Chromium/Firefox/WebKit 路径未必存在。
-- **处置**：通过 `PLAYWRIGHT_MODULE` 指向可用模块，并使用系统 Edge `channel: "msedge"`。
-- **以后**：启动前检查模块和 executable，不因 `executablePath()` 返回字符串就假定文件存在。
-- **状态**：已降级。
+- **处置**：统一浏览器运行时会依次发现显式 `PLAYWRIGHT_MODULE`、项目安装、Codex Node 运行时安装和常规模块解析，并默认使用系统 Edge；所有测试、影视媒体验证、截图和录屏共用同一入口。
+- **以后**：特殊环境可用 `BROWSER_CHANNEL` 或 `BROWSER_EXECUTABLE` 覆盖，不再复制六份加载逻辑。
+- **状态**：已解决；本轮完整浏览器回归无需手动环境变量即通过。
 
 ### B5. `DOMContentLoaded` / `load` 不适合做唯一的正式站就绪信号
 
@@ -120,22 +126,31 @@
 
 - **现象**：本次 Codex PowerShell 可直接运行 Node v24，但 `npm` 命令报“无法识别”。
 - **影响**：`package.json` 的统一 scripts 在正常开发环境中可用，但当前运行时不能假设 `npm` 在 PATH。
-- **处置**：文档同时给出 `node tools/...` 和 `node tests/...` 等价命令。需安装依赖时，再定位完整 Node/npm 运行时或由用户授权安装。
-- **状态**：已降级。
+- **处置**：新增 `tools/check.mjs`，由当前 `node` 直接串行运行内容或完整浏览器检查；`npm run check` 和 `npm run check:full` 也改为同一入口，避免两套流程漂移。
+- **验证**：本轮直接执行 `node tools/check.mjs --full`，6 组检查全部通过。
+- **状态**：项目检查链路已解决；环境本身仍未提供全局 `npm`，首次安装依赖时仍需正常 Node/npm 或其他包管理器。
 
 ### B7. 持续加载状态会吞掉自动化的第一次 Escape
 
 - **现象**：线上审计在目录空搜索中按 Escape 时，托管 Edge 把该按键用于“停止尚未完成的页面加载”，弹层因此未关闭。
 - **对照**：同一版本的本地浏览器回归已在完整加载状态下验证 Escape 关闭与焦点归还。
-- **处置**：正式站审计改用可见关闭控件验证已部署 UI；键盘行为由本地完整加载回归覆盖。
+- **处置**：正式站审计在项目就绪且当前关键图片解码后主动停止残留的浏览器级导航，再实际发送 Escape；本地完整加载回归继续验证焦点归还。
 - **以后**：区分浏览器级“停止加载”与 DOM dialog 的 `cancel` 事件，不把测试环境假阳性当作产品回归。
 - **状态**：已分析，无产品修改必要。
 
 ### B8. GitHub Pages 节点的单次连接超时不能直接判定部署失败
 
 - **现象**：Pages #15 成功后，对正式域名和 `burnicelamp.github.io` 的多个并行 Node `fetch` 有一次在 GitHub Pages IPv4 节点上发生 `UND_ERR_CONNECT_TIMEOUT`。随后改为顺序请求和单文件重试，正式首页、`AGENTS.md`、工作流和问题台账均返回 200。
-- **以后**：线上审计使用有界限的顺序重试，并交叉核对 Pages run、正式域名与原站。不对大批量高清资源做无差别并行压力请求。
-- **状态**：已降级，属于外部网络波动。
+- **本轮处置**：新增 `tools/audit-production.cjs`，对首页、专项 CSS、设计宗旨和两个视口做有界限的顺序重试，输出机器可读报告；`tools/preflight.mjs` 使用同一重试原则。
+- **失败语义**：审计失败也会把时间、目标和具体错误写入 `outputs/production-audit.json`，不会只有终端堆栈或把超时误写为通过。本轮自定义域名与 GitHub Pages 原站在沙箱内外均连接超时，未用旧截图替代本轮结果。
+- **以后**：交叉核对 Pages run、正式域名与原站。不对大批量高清资源做无差别并行压力请求。
+- **状态**：审计流程已解决；外部网络波动本身仍不可由仓库消除。
+
+### B9. Sharp 与 Playwright 一样可能只存在于 Codex 运行时
+
+- **现象**：`node` 可以运行，但项目没有 `node_modules`，图片导入若只 `require("sharp")` 会要求手动设置绝对路径。
+- **处置**：图片优化器现在依次发现 `SHARP_MODULE`、项目安装、Codex Node 运行时安装和常规模块解析；本轮已确认自动加载成功。
+- **状态**：已解决。
 
 ## C. 影视板块遇到的问题
 
@@ -314,3 +329,7 @@
 6. 影视外部图片有独立真实网络与像素尺寸验证。
 7. 测试夹具通过 Playwright 路由／内存注入，不污染正式 `content/`。
 8. 发布需要当轮明确授权；发布后必须核对 Pages SHA 并复验正式域名。
+9. `node tools/check.mjs [--full]` 不依赖 npm 命令即可运行统一检查。
+10. 浏览器工具共享运行时发现、工作区临时目录和 Edge 启动策略；Sharp 同样自动发现。
+11. `node tools/audit-production.cjs` 固化正式站顺序重试、应用就绪信号、桌面／手机操作和机器可读报告。
+12. `tools/bootstrap-repository.ps1` 在网络恢复后安全建立真实工作树，不覆盖非空目录，也不制造伪历史。

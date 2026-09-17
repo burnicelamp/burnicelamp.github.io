@@ -52,12 +52,18 @@ npm run preflight
 node tools/preflight.mjs
 ```
 
-预检会报告 Node 版本、关键文件、CNAME、是否存在 Git 元数据、本地 HEAD、远端 `main` 和正式站 HTTP 状态。
+预检会报告 Node/npm/Git/Playwright、Git HTTPS 后端、工作区临时目录、关键文件、CNAME、是否存在 Git 元数据、本地 HEAD、远端 `main` 和正式站 HTTP 状态。GitHub 与正式站请求使用有界限的顺序重试。
 
 如果当前目录没有 `.git`：
 
 1. 不要声称已创建分支或提交。
-2. 先尝试用系统 Git 正常 clone 到新目录。
+2. 先尝试用系统 Git 正常 clone 到新目录；Windows 当前运行时可执行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/bootstrap-repository.ps1
+```
+
+该脚本拒绝覆盖非空目录，显式使用 OpenSSL，完成后再次 fetch 并核对 `HEAD` 与 `origin/main`。
 3. 如果运行时 Git 存在已知 helper 异常，查看 `docs/KNOWN-ISSUES.md`，不要无限重试。
 4. 仅在用户授权发布、已验证 GitHub 身份和 push 权限时，才可用 Git Data API 作为临时降级。
 
@@ -104,12 +110,10 @@ npm run check
 
 它依次重建索引、验证内容结构，并运行内容回归。
 
-`npm` 不在 PATH 时的等价命令：
+`npm` 不在 PATH 时的统一等价命令：
 
 ```powershell
-node tools/build-search.mjs
-node tools/validate-content.mjs
-node tests/content-check.mjs
+node tools/check.mjs
 ```
 
 #### 布局、导航、动效或共用 JavaScript 变更
@@ -120,15 +124,13 @@ npm run check:full
 
 它在内容检查后运行基础浏览器回归、银幕／书页专项交互回归和动效回归。
 
-`npm` 不在 PATH 时，在上述三个内容命令后继续：
+`npm` 不在 PATH 时使用：
 
 ```powershell
-node tests/browser-check.cjs
-node tests/cinema-books-interaction-check.cjs
-node tests/motion-check.cjs
+node tools/check.mjs --full
 ```
 
-Playwright 可以通过环境变量使用已有安装：
+测试运行时会依次查找项目 `node_modules`、Codex 随 Node 提供的模块和显式环境变量，并自动把 `TEMP` / `TMP` 指向仓库的 `.tmp`。通常无需手动配置。需要覆盖时可使用：
 
 ```powershell
 $env:PLAYWRIGHT_MODULE='C:\path\to\node_modules\playwright'
@@ -136,12 +138,7 @@ $env:BROWSER_CHANNEL='msedge'
 npm run check:full
 ```
 
-如果 Windows 默认临时目录不可写，先创建工作区内临时目录，再设置：
-
-```powershell
-$env:TEMP=(Resolve-Path '.\tmp').Path
-$env:TMP=$env:TEMP
-```
+也可用 `BROWSER_EXECUTABLE` 指定浏览器可执行文件，用 `BURNLAMP_TEMP` 指定临时目录。图片工具同样会自动发现 Codex 运行时中的 Sharp，`SHARP_MODULE` 只作为覆盖。
 
 #### 外部影视图片
 
@@ -209,6 +206,14 @@ npm run review:record
 旧的 `work/publish-github.ps1` 属于某次任务的临时工具，文件清单和提交信息是硬编码的，不能原样重用。
 
 ## 6. 发布后线上验收
+
+先运行可重复的正式站审计：
+
+```powershell
+node tools/audit-production.cjs
+```
+
+它顺序重试正式首页、专项 CSS 与设计宗旨文档，再以 1440px 和 390px 实际操作影视切换、两类目录、空搜索、Escape、深链接、横向溢出和控制台；报告写入 `outputs/production-audit.json`。如浏览器在沙箱内无法联网，保留本地回归结果，并在获准的沙箱外重跑同一命令。
 
 线上验收不依赖单一的 `load` 事件。外部 iframe、字体或媒体可能长时间保持加载态。优先等待：
 

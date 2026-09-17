@@ -82,4 +82,6 @@ npm run review:capture
 npm run review:record
 ```
 
+当前环境只有 `node` 时，直接使用 `node tools/preflight.mjs`、`node tools/check.mjs` 和 `node tools/check.mjs --full`。测试会自动发现项目或 Codex 运行时中的 Playwright、创建仓库内临时目录并使用 Edge；环境变量只用于显式覆盖。
+
 命令用途、Windows / Playwright 环境变量和发布降级方案见 `docs/CODEX-WORKFLOW.md` 与 `docs/KNOWN-ISSUES.md`。

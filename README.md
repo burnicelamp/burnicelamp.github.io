@@ -14,8 +14,8 @@
 - [验证记录](docs/REGRESSION.md)。
 - [第三阶段设计说明](docs/DESIGN-PHASE-3.md)：空间节奏、实际播放能力、可读书页与内容空状态。
 
-开发：`npm install`，`npm run dev`；打开 http://127.0.0.1:8000。
+开发：`npm install`，`npm run dev`；打开 http://127.0.0.1:8000。只有 Node 而没有 npm 的 Codex 运行时可直接执行 `node tools/serve.mjs`。
 
-开工预检：`npm run preflight`。常规检查：`npm run check`。布局、交互或动效变更：`npm run check:full`（默认 Edge；可设置 BROWSER_CHANNEL）。Sharp / Playwright 仅用于维护和开发，不发送给访客。
+开工预检：`npm run preflight`。常规检查：`npm run check`。布局、交互或动效变更：`npm run check:full`。等价的纯 Node 入口是 `node tools/preflight.mjs`、`node tools/check.mjs` 和 `node tools/check.mjs --full`。测试会自动发现项目或 Codex 运行时中的 Playwright、使用仓库内临时目录并默认启动 Edge；正式站复验运行 `node tools/audit-production.cjs`。Sharp / Playwright 仅用于维护和开发，不发送给访客。
 
 发布：GitHub Pages main 根目录。保留 CNAME、.nojekyll、SEO 与 DNS，不需服务器或 API 即可展示已有收藏。不要提交原图、导入清单、密钥、用户 token 或未授权媒体。

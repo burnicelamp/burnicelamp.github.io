@@ -1,15 +1,12 @@
 const assert = require("node:assert/strict");
 const path = require("node:path");
-const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
+const { launchBrowser } = require("./browser-runtime.cjs");
 (async () => {
   const { server } = await import("../tools/serve.mjs");
   const s = server();
   await new Promise((r) => s.listen(0, "127.0.0.1", r));
   const base = "http://127.0.0.1:" + s.address().port;
-  const b = await chromium.launch({
-    channel: process.env.BROWSER_CHANNEL || "msedge",
-    headless: true,
-  });
+  const b = await launchBrowser();
   try {
     const p = await b.newPage({ viewport: { width: 1440, height: 1000 } });
     const errors = [];

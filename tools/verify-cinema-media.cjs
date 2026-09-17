@@ -1,7 +1,7 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
+const { launchBrowser } = require("../tests/browser-runtime.cjs");
 
 const root = path.resolve(__dirname, "..");
 const data = JSON.parse(
@@ -12,10 +12,7 @@ const data = JSON.parse(
   const { server } = await import("./serve.mjs");
   const local = server();
   await new Promise((resolve) => local.listen(0, "127.0.0.1", resolve));
-  const browser = await chromium.launch({
-    headless: true,
-    channel: process.env.BROWSER_CHANNEL || "msedge",
-  });
+  const browser = await launchBrowser();
   const page = await browser.newPage();
   const results = [];
 

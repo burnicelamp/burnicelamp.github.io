@@ -1,7 +1,7 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
+const { launchBrowser } = require("./browser-runtime.cjs");
 const root = path.resolve(__dirname, "..");
 const read = (n) =>
   JSON.parse(
@@ -33,10 +33,7 @@ function wav() {
   const s = server();
   await new Promise((r) => s.listen(0, "127.0.0.1", r));
   const base = "http://127.0.0.1:" + s.address().port;
-  const browser = await chromium.launch({
-    headless: true,
-    channel: process.env.BROWSER_CHANNEL || "msedge",
-  });
+  const browser = await launchBrowser();
   const page = await browser.newPage({
     viewport: { width: 1440, height: 1000 },
   });

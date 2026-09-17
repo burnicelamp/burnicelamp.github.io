@@ -1,9 +1,27 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
 const require = createRequire(import.meta.url);
 export function sharpModule() {
-  return require(process.env.SHARP_MODULE || "sharp");
+  const runtimeRoot = path.dirname(path.dirname(process.execPath));
+  const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const candidates = [
+    process.env.SHARP_MODULE,
+    path.join(projectRoot, "node_modules", "sharp"),
+    path.join(runtimeRoot, "node_modules", "sharp"),
+    "sharp",
+  ].filter(Boolean);
+  for (const candidate of candidates) {
+    try {
+      return require(candidate);
+    } catch (error) {
+      if (error.code !== "MODULE_NOT_FOUND") throw error;
+    }
+  }
+  throw new Error(
+    `Sharp was not found. Checked: ${candidates.join(", ")}. Run npm install or set SHARP_MODULE.`,
+  );
 }
 // sharp drops all metadata by default. Never call keepMetadata/withMetadata.
 export async function optimize(input, outputStem) {
