@@ -83,6 +83,12 @@
 - **以后**：记录并观察 GitHub 托管动作的更新。只有它变成失败或仓库开始自维护 workflow 时，才在项目内调整 action 版本；不为了消除一条托管警告引入额外 CI 复杂度。
 - **状态**：外部托管警告，当前无需代码修复。
 
+### A10. 沙箱账号创建的工作树被本人账号判定为可疑所有权
+
+- **现象**：沙箱内建立的 `.git` 由 `CodexSandboxOnline` SID 持有；切到本人 Windows 账号执行已授权 push 时，Git 报 `detected dubious ownership` 并拒绝操作。
+- **处置**：没有关闭全局安全检查，也没有加入通配目录；只把当前仓库的规范化绝对路径加入用户级 `safe.directory`。随后通过 Windows 凭据管理器确认账号为 `burnicelamp`，普通非强制 push 成功。
+- **状态**：已解决；其他仓库若出现同类问题必须逐个核对路径，不使用 `safe.directory=*`。
+
 ## B. Windows、网络与浏览器验收
 
 ### B1. PowerShell / curl 的 Windows Schannel 在正式域名上报凭据错误
