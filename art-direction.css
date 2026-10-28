@@ -103,8 +103,8 @@ body { background: var(--bg); }
 .world-index-list a b { font: 400 20px/1 sans-serif; text-align: right; }
 
 /* Each room gets an editorial heading and its own material. */
-.space { padding: clamp(96px, 10vw, 150px) var(--gutter) clamp(115px, 11vw, 170px); }
-.space-heading { align-items: end; gap: 32px; margin-bottom: clamp(48px, 6vw, 90px); }
+.space { padding: clamp(80px, 6vw, 100px) var(--gutter) clamp(110px, 10vw, 150px); }
+.space-heading { align-items: end; gap: 32px; margin-bottom: clamp(38px, 4.3vw, 62px); }
 .space-heading .eyebrow { color: #d6a58e; margin-bottom: 20px; font-size: 10px; letter-spacing: .16em; }
 .space-heading .space-index { color: #e0775b; margin-right: 22px; }
 .space-heading h2 { font-size: clamp(54px, 6vw, 94px); line-height: 1.1; letter-spacing: .06em; }
@@ -122,7 +122,7 @@ body { background: var(--bg); }
 .track-row.is-active { background: #e8d7c11a; box-shadow: inset 3px 0 #d66f55; }
 .local-search:focus-within { border-color: #e18a73; }
 .cinema-room { background: #111211; }
-.cinema-room .space-heading, .reading-room .space-heading { margin-bottom: clamp(48px, 6vw, 90px); }
+.cinema-room .space-heading, .reading-room .space-heading { margin-bottom: clamp(38px, 4.3vw, 62px); }
 .catalog-trigger { border-color: #d2c4a580; }
 .cinema-stage { box-shadow: 0 25px 75px #0008; }
 .cinema-info { padding-top: clamp(38px, 5vw, 74px); }
