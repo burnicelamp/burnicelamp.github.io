@@ -141,6 +141,8 @@ body { background: var(--bg); }
 .notes-list h3 { font-size: clamp(28px, 3vw, 43px); }
 .notes-list button { color: #6c5146; }
 .notes-list button:hover:not(:disabled) { color: #873b2c; }
+.notes .notes-filter span, .notes .connections, .notes .connections p,
+.notes .connections button { color: #5d5148; }
 .site-footer { background: #111211; padding: 50px var(--gutter); border-top: 1px solid #ffffff22; }
 
 @media (max-width: 900px) {
