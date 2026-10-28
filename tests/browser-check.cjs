@@ -65,6 +65,12 @@ function wav() {
     );
   };
   try {
+    await go("#reading");
+    await page.waitForFunction(() => {
+      const heading = document.querySelector("#reading .space-heading .eyebrow");
+      const header = document.querySelector(".site-header");
+      return heading && heading.getBoundingClientRect().top >= header.getBoundingClientRect().bottom;
+    });
     await go();
     assert.deepEqual(
       await page

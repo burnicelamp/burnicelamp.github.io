@@ -175,6 +175,11 @@ input:focus-visible,
   color: #aaa9a2;
   padding: 12px 0;
   position: relative;
+  transition: color 180ms ease;
+}
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: var(--ink);
 }
 .site-nav a[aria-current] {
   color: var(--ink);
@@ -371,6 +376,10 @@ input:focus-visible,
   border-bottom: 1px solid var(--line);
   padding: 7px 0;
   min-width: 0;
+  transition: border-color 180ms ease;
+}
+.local-search:focus-within {
+  border-color: #d2b999;
 }
 .local-search span {
   font-size: 12px;
@@ -2222,28 +2231,34 @@ a {
   color: #aba89d;
 }
 .space {
-  padding-top: 56px;
-  padding-bottom: 86px;
+  padding-top: clamp(76px, 8vw, 118px);
+  padding-bottom: clamp(90px, 9vw, 138px);
   scroll-margin-top: 0;
   content-visibility: visible;
 }
 .space-heading {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 30px;
+  align-items: end;
+  margin-bottom: clamp(34px, 4vw, 58px);
   gap: 24px;
 }
+.space-heading .eyebrow {
+  margin-bottom: 15px;
+  color: #c1b9a9;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
 .space-heading h2 {
-  font-size: clamp(32px, 3vw, 46px);
-  letter-spacing: 0.07em;
+  font-size: clamp(42px, 4.2vw, 64px);
+  letter-spacing: 0.08em;
 }
 .space-heading > p {
   font-size: 15px;
   letter-spacing: 0.01em;
 }
 .sound {
-  padding-top: 45px;
+  padding-top: clamp(76px, 8vw, 118px);
   background:
     radial-gradient(ellipse at 12% 47%, #26293688, transparent 62%), #141617;
 }
@@ -2388,16 +2403,16 @@ a {
   font-size: 15px;
 }
 .track-row {
-  min-height: 64px;
-  padding: 12px 8px;
-  transition: background 0.2s;
+  min-height: 70px;
+  padding: 14px 12px;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 .track-row:hover,
 .track-row.is-active {
-  background: #d4c5ad09;
+  background: #d4c5ad12;
 }
 .track-row.is-active {
-  box-shadow: inset 2px 0 #bf9679;
+  box-shadow: inset 2px 0 #d4ab8a;
 }
 .track-row b {
   font-weight: 400;
@@ -2408,9 +2423,7 @@ a {
   font-size: 12px;
 }
 [data-track-list] {
-  max-height: 430px;
-  overflow: auto;
-  scrollbar-width: thin;
+  overflow: visible;
 }
 .listening-text {
   display: flex;
@@ -2662,7 +2675,7 @@ a {
   margin-top: 28px;
 }
 .darkroom {
-  padding-top: 46px;
+  padding-top: clamp(76px, 8vw, 118px);
   background:
     radial-gradient(ellipse at 10% 12%, #49251e44, transparent 52%), #121313;
 }
@@ -2725,10 +2738,10 @@ a {
 .notes {
   grid-template-columns: 1fr 1.55fr;
   gap: 60px;
-  padding-top: 58px;
+  padding-top: clamp(76px, 8vw, 118px);
 }
 .notes .space-heading h2 {
-  font-size: 40px;
+  font-size: clamp(42px, 4.2vw, 64px);
 }
 .notes-list article {
   padding: 24px 0;
@@ -2974,21 +2987,26 @@ summary:focus-visible {
     text-align: right;
   }
   .space {
-    padding-top: 30px;
-    padding-bottom: 48px;
+    padding-top: 60px;
+    padding-bottom: 72px;
   }
   .space-heading {
     display: flex;
-    align-items: baseline;
+    align-items: end;
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
   .space-heading h2 {
-    font-size: 32px;
+    font-size: 36px;
     white-space: nowrap;
   }
+  .space-heading .eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+  }
   .space-heading > p {
-    font-size: 12px;
+    font-size: 13px;
     margin: 0;
     max-width: 19ch;
     line-height: 1.6;
@@ -3225,9 +3243,13 @@ summary:focus-visible {
   }
   .notes {
     display: block;
+    padding-top: 60px;
+  }
+  .darkroom {
+    padding-top: 60px;
   }
   .notes .space-heading h2 {
-    font-size: 32px;
+    font-size: 36px;
   }
   .notes-list {
     margin-top: 24px;

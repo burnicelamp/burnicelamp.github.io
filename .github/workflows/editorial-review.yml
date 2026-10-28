@@ -1,0 +1,32 @@
+name: Editorial review
+on:
+  push:
+    branches: [work/editorial-redesign-20261028]
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      - name: Full regression
+        run: |
+          export BROWSER_EXECUTABLE="$(node -e "console.log(require('playwright').chromium.executablePath())")"
+          npm run check:full
+      - name: Review captures
+        if: success()
+        run: |
+          export BROWSER_EXECUTABLE="$(node -e "console.log(require('playwright').chromium.executablePath())")"
+          npm run review:capture
+          npm run review:record
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: editorial-review
+          path: visual-review/
+          if-no-files-found: ignore
