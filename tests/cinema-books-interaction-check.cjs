@@ -219,7 +219,9 @@ const svg = (label, color) =>
     await bookTrigger.click();
     await page.keyboard.press("Escape");
     await page.locator("#book-catalog").waitFor({ state: "hidden" });
-    await delay(250);
+    await page.waitForFunction(
+      () => document.activeElement === document.querySelector("[data-book-catalog]"),
+    );
     assert(await bookTrigger.evaluate((node) => document.activeElement === node));
     await page.setViewportSize({ width: 390, height: 844 });
     await bookTrigger.click();
