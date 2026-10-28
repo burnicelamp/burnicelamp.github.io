@@ -207,6 +207,11 @@ const svg = (label, color) =>
     await secondAuthor.locator(".author-works button").first().focus();
     await page.keyboard.press("Enter");
     await page.locator("#book-catalog").waitFor({ state: "hidden" });
+    // Closing the dialog returns through browser history before applying the selection.
+    await page.waitForFunction(
+      (previous) => document.querySelector("[data-book]")?.dataset.contentId !== previous,
+      beforeBook,
+    );
     assert.notEqual(
       await page.locator("[data-book]").getAttribute("data-content-id"),
       beforeBook,

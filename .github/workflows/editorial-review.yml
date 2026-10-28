@@ -22,6 +22,8 @@ jobs:
         if: success()
         run: |
           export BROWSER_EXECUTABLE="$(node -e "console.log(require('playwright').chromium.executablePath())")"
+          export REVIEW_DIR="$GITHUB_WORKSPACE/visual-review"
+          export VIDEO_FILE="$GITHUB_WORKSPACE/visual-review/interactions.webm"
           npm run review:capture
           npm run review:record
       - uses: actions/upload-artifact@v4
