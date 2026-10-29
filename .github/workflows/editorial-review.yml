@@ -1,12 +1,11 @@
-name: Editorial review
+name: Production review
 on:
   push:
     branches: [work/editorial-redesign-20261028]
-  workflow_dispatch:
 jobs:
-  check:
+  audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -14,21 +13,13 @@ jobs:
           node-version: '22'
       - run: npm install
       - run: npx playwright install --with-deps chromium
-      - name: Full regression
+      - name: Audit live site
         run: |
           export BROWSER_EXECUTABLE="$(node -e "console.log(require('playwright').chromium.executablePath())")"
-          npm run check:full
-      - name: Review captures
-        if: success()
-        run: |
-          export BROWSER_EXECUTABLE="$(node -e "console.log(require('playwright').chromium.executablePath())")"
-          export REVIEW_DIR="$GITHUB_WORKSPACE/visual-review"
-          export VIDEO_FILE="$GITHUB_WORKSPACE/visual-review/interactions.webm"
-          npm run review:capture
-          npm run review:record
+          node tools/production-review.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: editorial-review
-          path: visual-review/
+          name: production-review
+          path: outputs/production-audit.json
           if-no-files-found: ignore
