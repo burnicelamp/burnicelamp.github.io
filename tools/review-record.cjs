@@ -3,6 +3,9 @@ const path = require("node:path");
 const { launchBrowser } = require("../tests/browser-runtime.cjs");
 
 const root = path.resolve(__dirname, "..");
+const books = JSON.parse(fs.readFileSync(path.join(root, "content", "books.json"), "utf8"));
+const reviewBook = books.items.filter((book) => book.published !== false && book.placeholder === false)[1];
+if (!reviewBook) throw new Error("Review requires at least two published books.");
 const videoDir = path.resolve(
   process.env.VIDEO_TEMP || path.join(root, "..", "review-video-temp"),
 );
@@ -63,11 +66,12 @@ const output = path.resolve(
     await page.locator(".cinema-info").scrollIntoViewIfNeeded();
     await page.waitForTimeout(1400);
 
-    await page.evaluate(() => {
-      location.hash = "#reading-book-2";
-    });
+    await page.evaluate((id) => {
+      location.hash = `#reading-${id}`;
+    }, reviewBook.id);
     await page.waitForFunction(
-      () => document.querySelector("[data-book]")?.dataset.contentId === "book-2",
+      (id) => document.querySelector("[data-book]")?.dataset.contentId === id,
+      reviewBook.id,
     );
     await page.locator(".reading-book").scrollIntoViewIfNeeded();
     await page.waitForTimeout(1600);

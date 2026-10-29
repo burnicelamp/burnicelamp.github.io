@@ -147,7 +147,15 @@ async function start() {
   document.addEventListener("world:visit", updateResume);
   updateResume();
   document.documentElement.dataset.contentReady = "true";
-  if (location.hash) requestAnimationFrame(openHash);
+  if (location.hash) {
+    requestAnimationFrame(() => {
+      const section = [...document.querySelectorAll("main > section")].find(
+        (item) => `#${item.id}` === location.hash,
+      );
+      if (section) section.scrollIntoView({ behavior: "instant", block: "start" });
+      else openHash();
+    });
+  }
 }
 start().catch((error) => {
   console.error("Unable to initialize world", error);

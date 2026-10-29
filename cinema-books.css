@@ -13,12 +13,12 @@
 .cinema-room {
   background: #101212;
   overflow: hidden;
-  padding-top: 52px;
+  padding-top: clamp(76px, 8vw, 118px);
 }
 
 .cinema-room .space-heading,
 .reading-room .space-heading {
-  margin-bottom: 28px;
+  margin-bottom: clamp(34px, 4vw, 58px);
 }
 
 .cinema-commandbar,
@@ -39,6 +39,12 @@
   padding: 8px 0;
   text-align: left;
   border-bottom: 1px solid #d2c4a56b;
+  transition: border-color 180ms ease;
+}
+
+.catalog-trigger:hover,
+.catalog-trigger:focus-visible {
+  border-color: #e5c8a4;
 }
 
 .catalog-trigger span {
@@ -266,6 +272,12 @@
   background: #151817;
   color: var(--ink);
   text-align: left;
+  transition: background-color 180ms ease;
+}
+
+.film-switcher button:hover:not(:disabled),
+.reading-switcher button:hover:not(:disabled) {
+  background: #242723;
 }
 
 .film-switcher button:last-child,
@@ -422,7 +434,7 @@
 }
 
 .reading-room {
-  padding-top: 58px;
+  padding-top: clamp(76px, 8vw, 118px);
   padding-bottom: 120px;
   background:
     radial-gradient(ellipse at 50% 54%, #38352c4f, transparent 64%), #191a18;
@@ -785,7 +797,7 @@
 @media (max-width: 700px) {
   .cinema-room,
   .reading-room {
-    padding-top: 34px;
+    padding-top: 60px;
   }
 
   .cinema-room .space-heading,

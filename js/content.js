@@ -159,7 +159,7 @@ export function populateShell(data) {
     );
     const name = el("h2", "", space.title);
     name.id = space.id + "-title";
-    title.append(name);
+    title.append(kicker, name);
     h.append(
       title,
       el(

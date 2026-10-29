@@ -207,6 +207,11 @@ const svg = (label, color) =>
     await secondAuthor.locator(".author-works button").first().focus();
     await page.keyboard.press("Enter");
     await page.locator("#book-catalog").waitFor({ state: "hidden" });
+    // Closing the dialog returns through browser history before applying the selection.
+    await page.waitForFunction(
+      (previous) => document.querySelector("[data-book]")?.dataset.contentId !== previous,
+      beforeBook,
+    );
     assert.notEqual(
       await page.locator("[data-book]").getAttribute("data-content-id"),
       beforeBook,
@@ -214,7 +219,9 @@ const svg = (label, color) =>
     await bookTrigger.click();
     await page.keyboard.press("Escape");
     await page.locator("#book-catalog").waitFor({ state: "hidden" });
-    await delay(250);
+    await page.waitForFunction(
+      () => document.activeElement === document.querySelector("[data-book-catalog]"),
+    );
     assert(await bookTrigger.evaluate((node) => document.activeElement === node));
     await page.setViewportSize({ width: 390, height: 844 });
     await bookTrigger.click();

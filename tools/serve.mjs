@@ -45,9 +45,13 @@ export function server() {
     });
   });
 }
-if (process.argv[1]?.endsWith("serve.mjs"))
-  server().listen(Number(process.argv[2]) || 8000, "127.0.0.1", () =>
-    console.log(
-      "Preview: http://127.0.0.1:" + (Number(process.argv[2]) || 8000),
-    ),
-  );
+if (process.argv[1]?.endsWith("serve.mjs")) {
+  const args = process.argv.slice(2);
+  const option = (name) => {
+    const index = args.indexOf(name);
+    return index >= 0 ? args[index + 1] : undefined;
+  };
+  const port = Number(option("--port") || args.find((arg) => /^\d+$/.test(arg))) || 8000;
+  const host = option("--host") || "127.0.0.1";
+  server().listen(port, host, () => console.log(`Preview: http://${host}:${port}`));
+}

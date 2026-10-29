@@ -3,6 +3,9 @@ const path = require("node:path");
 const { launchBrowser } = require("../tests/browser-runtime.cjs");
 
 const root = path.resolve(__dirname, "..");
+const books = JSON.parse(fs.readFileSync(path.join(root, "content", "books.json"), "utf8"));
+const reviewBook = books.items.filter((book) => book.published !== false && book.placeholder === false)[1];
+if (!reviewBook) throw new Error("Review requires at least two published books.");
 const target = path.resolve(process.env.REVIEW_DIR || path.join(root, "..", "visual-review"));
 
 (async () => {
@@ -67,7 +70,7 @@ const target = path.resolve(process.env.REVIEW_DIR || path.join(root, "..", "vis
       await page.locator("#cinema-catalog").waitFor({ state: "hidden" });
       await page.waitForTimeout(250);
 
-      await page.goto(`${base}/#reading-book-2`, {
+      await page.goto(`${base}/#reading-${reviewBook.id}`, {
         waitUntil: "domcontentloaded",
       });
       await page.waitForFunction(
@@ -75,7 +78,8 @@ const target = path.resolve(process.env.REVIEW_DIR || path.join(root, "..", "vis
       );
       await page.addStyleTag({ content: ".skip-link{visibility:hidden!important}" });
       await page.waitForFunction(
-        () => document.querySelector("[data-book]")?.dataset.contentId === "book-2",
+        (id) => document.querySelector("[data-book]")?.dataset.contentId === id,
+        reviewBook.id,
       );
       await page.locator("#reading").scrollIntoViewIfNeeded();
       await page.waitForTimeout(450);
