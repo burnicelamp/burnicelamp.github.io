@@ -1,11 +1,11 @@
-name: Editorial review
+name: Production review
 on:
   push:
     branches: [work/editorial-redesign-20261028]
 jobs:
-  check:
+  audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -13,7 +13,13 @@ jobs:
           node-version: '22'
       - run: npm install
       - run: npx playwright install --with-deps chromium
-      - name: Full regression
+      - name: Audit live site
         run: |
           export BROWSER_EXECUTABLE="$(node -e "console.log(require('playwright').chromium.executablePath())")"
-          npm run check:full
+          npm run audit:production
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: production-review
+          path: outputs/production-audit.json
+          if-no-files-found: ignore
