@@ -217,6 +217,7 @@ const svg = (label, color) =>
       beforeBook,
     );
     await bookTrigger.click();
+    await page.locator("[data-books-search]").fill("不会存在的作者");
     await page.keyboard.press("Escape");
     await page.locator("#book-catalog").waitFor({ state: "hidden" });
     await page.waitForFunction(

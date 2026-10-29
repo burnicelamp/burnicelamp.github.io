@@ -65,7 +65,13 @@ export function initLayers() {
   addEventListener("pagehide", () => {
     returning = true;
   });
-  for (const dialog of document.querySelectorAll("dialog"))
+  for (const dialog of document.querySelectorAll("dialog")) {
+    // Search fields otherwise consume the first Escape to clear their value.
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || event.isComposing) return;
+      event.preventDefault();
+      dialog.close();
+    }, true);
     dialog.addEventListener("close", () => {
       if (!returning && history.state?.layer === dialog.className) {
         quietUntil = performance.now() + 200;
@@ -74,6 +80,7 @@ export function initLayers() {
       dialog._origin?.isConnected &&
         dialog._origin.focus({ preventScroll: true });
     });
+  }
   addEventListener("popstate", () => {
     returning = true;
     for (const d of document.querySelectorAll("dialog[open]"))

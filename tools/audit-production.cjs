@@ -46,7 +46,7 @@ async function fetchText(relativePath) {
   });
 }
 
-async function auditProfile(browser, profile, stamp) {
+async function auditProfile(browser, profile, stamp, bookId) {
   const context = await browser.newContext({
     viewport: { width: profile.width, height: profile.height },
     isMobile: profile.mobile,
@@ -94,12 +94,14 @@ async function auditProfile(browser, profile, stamp) {
     assert(frame && Math.abs(frame.width / frame.height - 16 / 9) < 0.025);
 
     const firstFilm = await page.locator("[data-film-title]").textContent();
+    const firstFrame = await page.locator(".cinema-image.is-current").getAttribute("src");
     await page.locator("[data-film-next]").click();
     await page.waitForFunction(
-      (oldTitle) => document.querySelector("[data-film-title]")?.textContent !== oldTitle,
-      firstFilm,
+      (oldFrame) => document.querySelector(".cinema-image.is-current")?.getAttribute("src") !== oldFrame,
+      firstFrame,
     );
     const nextFilm = await page.locator("[data-film-title]").textContent();
+    assert.equal(nextFilm, firstFilm);
 
     await page.locator("[data-cinema-catalog]").click();
     await page.waitForFunction(
@@ -108,11 +110,12 @@ async function auditProfile(browser, profile, stamp) {
     await page.keyboard.press("Escape");
     await page.locator("#cinema-catalog").waitFor({ state: "hidden" });
 
-    await page.evaluate(() => {
-      location.hash = "#reading-book-2";
-    });
+    await page.evaluate((id) => {
+      location.hash = `#reading-${id}`;
+    }, bookId);
     await page.waitForFunction(
-      () => document.querySelector("[data-book]")?.dataset.contentId === "book-2",
+      (id) => document.querySelector("[data-book]")?.dataset.contentId === id,
+      bookId,
     );
     await page.locator("[data-book-catalog]").click();
     await page.locator("[data-books-search]").fill("不会存在的作者");
@@ -146,8 +149,13 @@ async function auditProfile(browser, profile, stamp) {
   const fetched = {};
   fetched.html = await fetchText(`/?audit=${stamp}`);
   fetched.css = await fetchText(`/cinema-books.css?audit=${stamp}`);
+  fetched.editorial = await fetchText(`/art-direction.css?audit=${stamp}`);
   fetched.principles = await fetchText(`/docs/DESIGN-PRINCIPLES.md?audit=${stamp}`);
-  assert(fetched.html.includes("js/app.js"));
+  const books = JSON.parse(await fetchText(`/content/books.json?audit=${stamp}`));
+  const book = books.items.filter((item) => item.published !== false && item.placeholder === false)[1];
+  assert(book, "At least two published books are required for this audit");
+  assert(fetched.html.includes("js/app.js") && fetched.html.includes("art-direction.css"));
+  assert(fetched.editorial.includes(".world-index"));
   assert(fetched.css.includes(".cinema-room") && fetched.css.includes(".reading-room"));
   assert(["高级", "智能", "大气"].every((word) => fetched.principles.includes(word)));
 
@@ -164,7 +172,7 @@ async function auditProfile(browser, profile, stamp) {
       { name: "desktop", width: 1440, height: 1000, mobile: false },
       { name: "mobile", width: 390, height: 844, mobile: true },
     ])
-      report.results.push(await auditProfile(browser, profile, stamp));
+      report.results.push(await auditProfile(browser, profile, stamp, book.id));
     fs.mkdirSync(path.dirname(output), { recursive: true });
     fs.writeFileSync(output, JSON.stringify(report, null, 2));
     console.log(`PASS: production desktop/mobile audit; report: ${output}`);
