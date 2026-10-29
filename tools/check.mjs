@@ -11,6 +11,7 @@ const contentTasks = [
   "tests/content-check.mjs",
 ];
 const browserTasks = [
+  "tests/reference-home-check.cjs",
   "tests/browser-check.cjs",
   "tests/cinema-books-interaction-check.cjs",
   "tests/motion-check.cjs",

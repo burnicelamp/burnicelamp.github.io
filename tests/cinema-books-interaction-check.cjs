@@ -90,7 +90,7 @@ const svg = (label, color) =>
         });
     });
 
-    await page.goto(base, { waitUntil: "domcontentloaded" });
+    await page.goto(base + "/collection.html", { waitUntil: "domcontentloaded" });
     await page.waitForFunction(
       () => document.documentElement.dataset.contentReady === "true",
     );

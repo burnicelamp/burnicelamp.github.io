@@ -18,7 +18,7 @@
 
 ### 运行模式
 
-- `index.html` 是单页空间骨架。
+- `index.html` 是参考站样式的入口，`reference-assets/collection-content.js` 从现有 JSON 生成作品墙内容；`collection.html` 是原有单页空间骨架。
 - `js/app.js` 负责启动和空间组装。
 - `js/content.js` 处理内容加载、图片与手势等共用能力。
 - `js/spaces.js` 承担声场、银幕、书页等主要空间渲染。

@@ -57,7 +57,7 @@ function wav() {
   );
   let visit = 0;
   const go = async (hash = "") => {
-    await page.goto(base + "/?visit=" + ++visit + hash, {
+    await page.goto(base + "/collection.html?visit=" + ++visit + hash, {
       waitUntil: "domcontentloaded",
     });
     await page.waitForFunction(

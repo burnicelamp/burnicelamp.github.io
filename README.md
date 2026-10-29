@@ -2,7 +2,7 @@
 
 [一个私人世界](https://burnlamp.is-my.id/)：序幕 → 声场 → 银幕 → 书页 → 暗房 → 记录。
 
-原生 HTML、CSS、JavaScript，网站无运行依赖、无打包步骤，内容保留在 content/\*.json。
+首页沿用 Antoine Wodniack 参考网站的线上 HTML、CSS 与动画脚本，并按授权调整文字、图片及链接；视觉设计和动态影像归原作者。首页作品卡片与图片墙从 `content/*.json` 读取收藏，原有完整收藏保留在 `collection.html`。作品区视频由参考站提供，依赖该站持续可用；替换素材时应核对权利和格式。原有收藏使用原生 HTML、CSS、JavaScript；线上无需打包。
 
 - [Codex 仓库入口](AGENTS.md)：三个设计宗旨、稳定项目事实、默认执行顺序与发布边界。
 - [维护工作流](docs/CODEX-WORKFLOW.md)：预检、实现、测试、截图录屏、发布和正式站复验。

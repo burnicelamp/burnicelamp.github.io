@@ -15,7 +15,7 @@ const { launchBrowser } = require("./browser-runtime.cjs");
       r.fulfill({ contentType: "text/html", body: "Official embed test stub" }),
     );
     await p.route("https://is1-ssl.mzstatic.com/**", (r) => r.abort());
-    await p.goto(base);
+    await p.goto(base + "/collection.html");
     await p.waitForFunction(
       () => document.documentElement.dataset.contentReady,
     );
@@ -101,7 +101,7 @@ const { launchBrowser } = require("./browser-runtime.cjs");
         body: '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="450"><rect width="300" height="450" fill="#576057"/><path d="M40 60H260M40 70H260" stroke="#d8d1bd"/></svg>',
       }),
     );
-    await p.goto(base);
+    await p.goto(base + "/collection.html");
     await p.waitForFunction(
       () => document.documentElement.dataset.contentReady,
     );
@@ -126,7 +126,7 @@ const { launchBrowser } = require("./browser-runtime.cjs");
       isMobile: true,
       hasTouch: true,
     });
-    await phone.goto(base);
+    await phone.goto(base + "/collection.html");
     await phone.waitForFunction(
       () => document.documentElement.dataset.contentReady,
     );

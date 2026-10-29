@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#121313" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="Burnlamp 的私人世界：声场、银幕、书页、暗房与记录。"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:url" content="https://burnlamp.is-my.id/" />
+    <meta property="og:title" content="BURNLAMP｜一个私人世界" />
+    <meta
+      property="og:description"
+      content="声场、银幕、书页、暗房与偶尔留下的记录。"
+    />
+    <meta
+      property="og:image"
+      content="https://burnlamp.is-my.id/assets/og-card.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>BURNLAMP｜一个私人世界</title>
+    <link rel="canonical" href="https://burnlamp.is-my.id/" />
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link
+      rel="preload"
+      as="image"
+      href="./assets/portrait/dostoevsky-800.webp"
+      imagesrcset="./assets/portrait/dostoevsky-480.webp 480w, ./assets/portrait/dostoevsky-800.webp 800w"
+      imagesizes="(max-width: 700px) 100vw, 65vw"
+      fetchpriority="high"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./cinema-books.css" />
+    <link rel="stylesheet" href="./motion.css" />
+    <link rel="stylesheet" href="./art-direction.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "name": "BURNLAMP",
+        "url": "https://burnlamp.is-my.id/",
+        "mainEntity": {
+          "@type": "Person",
+          "name": "Burnlamp",
+          "url": "https://burnlamp.is-my.id/"
+        }
+      }
+    </script>
+    <script type="module" src="./js/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#music">跳到内容</a>
+    <header class="site-header">
+      <a class="brand" href="#top"
+        >BURNLAMP<span class="brand-dot" aria-hidden="true">.</span></a
+      >
+      <nav class="site-nav" aria-label="空间导航" data-navigation></nav>
+      <div class="header-actions">
+        <button data-search-open aria-label="搜索整个世界">
+          搜索 <kbd>⌘ K</kbd></button
+        ><button data-wander disabled>随便看看</button
+        ><button
+          class="nav-toggle"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+        >
+          目录 ＋
+        </button>
+      </div>
+      <nav
+        id="mobile-nav"
+        aria-label="移动空间导航"
+        hidden
+        data-navigation
+      ></nav>
+    </header>
+    <div class="cursor" aria-hidden="true"><i></i><b></b></div>
+    <div class="notice" role="status" aria-live="polite"></div>
+    <main>
+      <section id="top" class="prologue" aria-labelledby="hero-title">
+        <div class="hero-wordmark" aria-hidden="true">BURNLAMP<span>.</span></div>
+        <div class="hero-image" data-hero-image></div>
+        <div class="hero-image-label" aria-hidden="true"><span>FIG. 01</span><span>THE PRIVATE WORLD<br />OF BURNLAMP</span></div>
+        <div class="hero-vignette" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="hero-edition" aria-hidden="true">PERSONAL ARCHIVE <span>—</span> EST. ON THE WEB</p>
+          <p class="eyebrow" data-hero-eyebrow></p>
+          <h1 id="hero-title"></h1>
+        </div>
+        <div class="hero-baseline">
+          <span data-hero-footer></span
+          ><a href="#music">进入声场 <span aria-hidden="true">↓</span></a>
+        </div>
+        <a
+          class="portrait-credit"
+          data-portrait-credit
+          target="_blank"
+          rel="noreferrer"
+        ></a>
+      </section>
+      <aside class="world-index" aria-label="探索这个世界">
+        <div class="world-index-intro">
+          <p class="index-kicker">THE WORLD, IN FIVE ROOMS <span>↘</span></p>
+          <h2>在这里，<br /><em>慢慢遇见。</em></h2>
+          <p>声音、影像、文字与尚未显影的瞬间。<br />从任何一处开始，走进这个私人世界。</p>
+        </div>
+        <nav class="world-index-list" aria-label="浏览空间">
+          <a href="#music"><span>01</span><strong>声场</strong><small>LISTENING ROOM</small><b aria-hidden="true">↗</b></a>
+          <a href="#cinema"><span>02</span><strong>银幕</strong><small>PRIVATE SCREENING</small><b aria-hidden="true">↗</b></a>
+          <a href="#reading"><span>03</span><strong>书页</strong><small>BETWEEN THE PAGES</small><b aria-hidden="true">↗</b></a>
+          <a href="#darkroom"><span>04</span><strong>暗房</strong><small>THE UNDEVELOPED</small><b aria-hidden="true">↗</b></a>
+          <a href="#notes"><span>05</span><strong>记录</strong><small>FIELD NOTES</small><b aria-hidden="true">↗</b></a>
+        </nav>
+      </aside>
+      <noscript
+        ><p class="load-error">
+          请开启 JavaScript 进入各个空间。<a
+            href="https://music.apple.com/cn/album/1519218381"
+            >Apple Music 选辑 ↗</a
+          >
+        </p></noscript
+      >
+      <section id="music" class="space sound" aria-labelledby="music-title">
+        <header class="space-heading" data-heading="music"></header>
+        <div class="sound-layout">
+          <div class="listening-desk">
+            <div class="record-art" data-cover></div>
+            <p class="eyebrow">当前选曲 <span data-source-label></span></p>
+            <h3 data-current-track></h3>
+            <p class="muted" data-current-artist></p>
+            <div class="transport" role="group" aria-label="音乐播放控制">
+              <button data-shuffle aria-label="随机播放" aria-pressed="false">
+                ⤨</button
+              ><button data-previous aria-label="上一首">←</button
+              ><button class="play" data-play aria-label="播放" disabled>
+                ▶</button
+              ><button data-next aria-label="下一首">→</button
+              ><button data-repeat aria-label="单曲循环" aria-pressed="false">
+                ↻<small>1</small>
+              </button>
+            </div>
+            <div class="timeline">
+              <span data-elapsed>0:00</span
+              ><input
+                data-progress
+                type="range"
+                aria-label="播放进度"
+                min="0"
+                max="100"
+                value="0"
+                step="0.1"
+                disabled
+              /><span data-duration>0:00</span>
+            </div>
+            <label class="volume"
+              >音量
+              <input
+                data-volume
+                aria-label="音量"
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value="0.7"
+                disabled
+            /></label>
+            <p class="source-status" data-player-status role="status"></p>
+            <div data-provider-host></div>
+            <a
+              class="source-link"
+              data-platform-link
+              target="_blank"
+              rel="noreferrer"
+            ></a>
+          </div>
+          <div class="listening-text">
+            <aside class="lyrics-card" aria-labelledby="lyrics-title">
+              <header>
+                <p class="eyebrow">歌词</p>
+                <span data-lyrics-mode></span>
+              </header>
+              <h3 id="lyrics-title" class="sr-only" data-lyrics-title></h3>
+              <div
+                class="lyrics-viewport"
+                data-lyrics-viewport
+                tabindex="0"
+                role="region"
+                aria-label="歌词阅读区"
+              ></div>
+              <div class="lyrics-tools">
+                <p data-lyrics-status></p>
+                <button data-lyrics-resume hidden>回到当前句</button>
+              </div>
+              <div data-lyrics-attribution></div>
+              <a
+                data-lyrics-link
+                class="sr-only"
+                target="_blank"
+                rel="noreferrer"
+                >在平台查看当前曲目</a
+              >
+            </aside>
+            <div class="queue-head">
+              <h3>在这里听</h3>
+              <button
+                data-queue-toggle
+                aria-expanded="true"
+                aria-controls="queue"
+              >
+                播放队列 <span data-queue-count></span>
+              </button>
+            </div>
+            <div id="queue">
+              <label class="local-search"
+                ><span>找一首歌</span
+                ><input
+                  data-music-search
+                  type="search"
+                  placeholder="歌名、艺人、标签"
+                  aria-label="搜索音乐"
+              /></label>
+              <div data-track-list></div>
+            </div>
+            <div class="connections" data-music-relations></div>
+          </div>
+        </div>
+      </section>
+      <section id="cinema" class="space cinema-room" aria-labelledby="cinema-title">
+        <header class="space-heading" data-heading="cinema"></header>
+        <div class="cinema-commandbar">
+          <button
+            class="catalog-trigger"
+            data-cinema-catalog
+            aria-haspopup="dialog"
+            aria-controls="cinema-catalog"
+          >
+            <span>片目</span>
+            <strong data-cinema-catalog-label>选择作品</strong>
+          </button>
+          <p class="cinema-position" data-cinema-count aria-live="polite"></p>
+        </div>
+        <div
+          class="cinema-stage"
+          tabindex="0"
+          aria-label="影视图集，左右方向键切换当前作品的画面"
+        >
+          <div class="cinema-visual" data-film-frame></div>
+        </div>
+        <p class="cinema-status" data-cinema-status aria-live="polite"></p>
+        <div class="cinema-gallery-nav" aria-label="当前作品图集导航">
+          <button data-film-prev aria-label="上一张画面">←</button>
+          <div class="cinema-progress" data-film-progress></div>
+          <button data-film-next aria-label="下一张画面">→</button>
+          <p data-film-frame-label aria-live="polite"></p>
+        </div>
+        <article class="cinema-info" data-film-info>
+          <div class="cinema-identity">
+          <p class="cinema-meta" data-film-meta></p>
+            <h3 data-film-title></h3>
+            <p class="cinema-original-title" data-film-original></p>
+          </div>
+          <div class="cinema-summary">
+            <p data-film-note></p>
+            <div class="cinema-actions" data-film-actions></div>
+          </div>
+        </article>
+        <nav class="film-switcher" aria-label="切换影视作品">
+          <button data-cinema-prev>
+            <span>上一部</span><strong data-cinema-prev-title></strong>
+          </button>
+          <button data-cinema-next>
+            <span>下一部</span><strong data-cinema-next-title></strong>
+          </button>
+        </nav>
+      </section>
+      <dialog
+        id="cinema-catalog"
+        class="catalog-dialog cinema-catalog-dialog"
+        aria-labelledby="cinema-catalog-title"
+      >
+        <div class="catalog-dialog__inner">
+          <header class="catalog-dialog__header">
+            <div>
+              <p class="eyebrow">SCREEN INDEX</p>
+              <h2 id="cinema-catalog-title">片目</h2>
+            </div>
+            <button data-cinema-catalog-close aria-label="关闭片目">关闭</button>
+          </header>
+          <label class="catalog-search">
+            <span>搜索片名、导演、年份或标签</span>
+            <input data-cinema-search type="search" autocomplete="off" />
+          </label>
+          <div class="cinema-catalog-list" data-cinema-catalog-list></div>
+          <p class="catalog-empty" data-cinema-empty hidden>没有找到这部作品。</p>
+        </div>
+      </dialog>
+      <section
+        id="reading"
+        class="space reading-room"
+        aria-labelledby="reading-title"
+      >
+        <header class="space-heading" data-heading="reading"></header>
+        <div class="reading-commandbar">
+          <button
+            class="catalog-trigger"
+            data-book-catalog
+            aria-haspopup="dialog"
+            aria-controls="book-catalog"
+          >
+            <span>作者与书目</span>
+            <strong data-book-catalog-label>打开目录</strong>
+          </button>
+          <p class="reading-current" data-book-status aria-live="polite"></p>
+        </div>
+        <div
+          class="reading-stage"
+          tabindex="0"
+          aria-label="阅读书页，左右方向键切换书目"
+        >
+          <div class="reading-book" data-book></div>
+        </div>
+        <nav class="reading-switcher" aria-label="切换书目">
+          <button data-book-prev>
+            <span>上一项</span><strong data-book-prev-title></strong>
+          </button>
+          <p data-book-count aria-live="polite"></p>
+          <button data-book-next>
+            <span>下一项</span><strong data-book-next-title></strong>
+          </button>
+        </nav>
+        <div class="connections book-connections" data-book-relations></div>
+      </section>
+      <dialog
+        id="book-catalog"
+        class="catalog-dialog book-catalog-dialog"
+        aria-labelledby="book-catalog-title"
+      >
+        <div class="catalog-dialog__inner">
+          <header class="catalog-dialog__header">
+            <div>
+              <p class="eyebrow">AUTHORS &amp; WORKS</p>
+              <h2 id="book-catalog-title">作者与书目</h2>
+            </div>
+            <button data-book-catalog-close aria-label="关闭作者与书目">关闭</button>
+          </header>
+          <label class="catalog-search">
+            <span>搜索作者、书名或标签</span>
+            <input data-books-search type="search" autocomplete="off" />
+          </label>
+          <div class="book-directory-tools">
+            <p data-book-directory-count></p>
+            <button data-book-directory-reset hidden>返回全部作品</button>
+          </div>
+          <div class="book-directory" data-book-directory></div>
+          <p class="catalog-empty" data-books-empty hidden>没有找到作者或书目。</p>
+        </div>
+      </dialog>
+      <section
+        id="darkroom"
+        class="space darkroom"
+        aria-labelledby="darkroom-title"
+      >
+        <header class="space-heading" data-heading="darkroom"></header>
+        <div
+          class="roll-tabs"
+          data-rolls
+          role="group"
+          aria-label="选择胶卷"
+        ></div>
+        <div class="contact-sheet" data-contact-sheet></div>
+      </section>
+      <section id="notes" class="space notes" aria-labelledby="notes-title">
+        <header class="space-heading" data-heading="notes"></header>
+        <div class="notes-list" data-notes></div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <a class="brand" href="#top">BURNLAMP.</a><span data-footer></span
+      ><a href="#top">回到序幕 ↑</a>
+    </footer>
+    <dialog class="search-dialog" aria-labelledby="search-title">
+      <div class="search-top">
+        <span id="search-title">在这个世界里寻找</span
+        ><button data-search-close aria-label="关闭搜索">关闭 ×</button>
+      </div>
+      <div class="search-input-wrap">
+        <span aria-hidden="true">⌕</span
+        ><input
+          id="global-query"
+          type="search"
+          autocomplete="off"
+          placeholder="一个名字，一处地方，一段记忆…"
+          aria-label="全局搜索"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded="true"
+          aria-controls="search-results"
+          aria-describedby="search-help"
+        />
+      </div>
+      <p id="search-help">输入关键词，寻找收藏</p>
+      <div id="search-results" role="listbox" aria-label="搜索结果"></div>
+      <footer>
+        <span data-search-count role="status"></span
+        ><span>↑ ↓ 选择 · Enter 进入</span>
+      </footer>
+    </dialog>
+    <dialog class="detail-dialog" aria-labelledby="detail-title">
+      <button class="detail-close" data-detail-close aria-label="关闭详情">
+        关闭 ×
+      </button>
+      <div data-detail-content></div>
+    </dialog>
+    <dialog class="enlarger" aria-label="暗房放大机">
+      <header>
+        <span data-photo-counter></span
+        ><button data-photo-close aria-label="关闭照片">关闭 ×</button>
+      </header>
+      <div class="enlarger-image" data-enlarger-image></div>
+      <footer>
+        <button data-photo-prev aria-label="上一张照片">←</button>
+        <div data-photo-caption></div>
+        <button data-photo-next aria-label="下一张照片">→</button>
+      </footer>
+      <div class="connections" data-photo-relations></div>
+    </dialog>
+  </body>
+</html>

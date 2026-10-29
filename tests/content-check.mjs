@@ -123,7 +123,7 @@ assert(
     rights: { ...source.rights, staticPublication: false },
   }),
 );
-const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+const html = fs.readFileSync(path.join(root, "collection.html"), "utf8");
 for (const t of data.music.tracks) assert(!html.includes(t.title));
 assert(!html.includes("肖像"));
 assert(!fs.existsSync(path.join(root, "content/life.json")));
