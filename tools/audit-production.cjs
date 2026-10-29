@@ -109,6 +109,8 @@ async function auditProfile(browser, profile, stamp, bookId) {
     );
     await page.keyboard.press("Escape");
     await page.locator("#cinema-catalog").waitFor({ state: "hidden" });
+    // The modal restores its history entry asynchronously before a new hash is set.
+    await page.waitForTimeout(350);
 
     await page.evaluate((id) => {
       location.hash = `#reading-${id}`;
@@ -150,12 +152,14 @@ async function auditProfile(browser, profile, stamp, bookId) {
   fetched.html = await fetchText(`/?audit=${stamp}`);
   fetched.css = await fetchText(`/cinema-books.css?audit=${stamp}`);
   fetched.editorial = await fetchText(`/art-direction.css?audit=${stamp}`);
+  fetched.journey = await fetchText(`/js/journey.js?audit=${stamp}`);
   fetched.principles = await fetchText(`/docs/DESIGN-PRINCIPLES.md?audit=${stamp}`);
   const books = JSON.parse(await fetchText(`/content/books.json?audit=${stamp}`));
   const book = books.items.filter((item) => item.published !== false && item.placeholder === false)[1];
   assert(book, "At least two published books are required for this audit");
   assert(fetched.html.includes("js/app.js") && fetched.html.includes("art-direction.css"));
   assert(fetched.editorial.includes(".world-index"));
+  assert(fetched.journey.includes("Search fields otherwise consume the first Escape"));
   assert(fetched.css.includes(".cinema-room") && fetched.css.includes(".reading-room"));
   assert(["高级", "智能", "大气"].every((word) => fetched.principles.includes(word)));
 
