@@ -15,6 +15,7 @@ const { launchBrowser } = require('./browser-runtime.cjs');
       assert.equal(await page.locator('.world-index-list a').count(),5);
       assert.equal(await page.locator('[data-featured] a').first().getAttribute('href'),'#music-track-1');
       assert.equal(await page.locator('.hero-waves').count(),1);
+      for (const id of ['about','work','contact']) assert.equal(await page.locator(`#${id}`).count(),1);
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`overflow at ${width}`);
       assert.equal(await page.locator('.hero-waves').evaluate(e=>getComputedStyle(e,'::after').animationName),'none');
       assert.deepEqual(errors,[]); await page.close();
