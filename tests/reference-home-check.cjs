@@ -20,6 +20,11 @@ const { launchBrowser } = require('./browser-runtime.cjs');
       assert.deepEqual(errors,[]); await page.close();
     }
     const page=await browser.newPage();
+    await page.route('https://image.tmdb.org/**',route=>route.abort());
+    await page.goto(base,{waitUntil:'domcontentloaded'});
+    await page.waitForFunction(()=>document.querySelectorAll('[data-featured] a').length===3);
+    await page.locator('[data-featured] a').nth(1).scrollIntoViewIfNeeded();
+    await page.waitForFunction(()=>document.querySelector('[data-featured] a:nth-child(2) .featured-visual span')?.textContent==='风骚律师');
     await page.goto(base+'/#cinema-cinema-1');
     await page.waitForFunction(()=>document.documentElement.dataset.contentReady==='true');
     assert.equal(new URL(page.url()).hash,'#cinema-cinema-1');

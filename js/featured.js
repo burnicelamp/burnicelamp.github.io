@@ -17,7 +17,7 @@ async function loadFeatured() {
     for (const item of items) {
       const link=document.createElement('a'); link.className='featured-card'; link.href=`#${item.hash}`;
       const visual=document.createElement('div'); visual.className='featured-visual';
-      if(item.img){const img=document.createElement('img');img.src=item.img;img.alt=item.alt||'';img.loading='lazy';visual.append(img)}
+      if(item.img){const img=document.createElement('img');img.alt=item.alt||'';img.loading='lazy';img.addEventListener('error',()=>{img.remove();const fallback=document.createElement('span');fallback.textContent=item.title;visual.append(fallback)},{once:true});img.src=item.img;visual.append(img)}
       else {const text=document.createElement('span');text.textContent=item.title;visual.append(text)}
       const info=document.createElement('div');info.className='featured-caption';
       for(const [tag,value] of [['small',item.category],['strong',item.title],['span',item.detail||'']]){const el=document.createElement(tag);el.textContent=value;info.append(el)}
