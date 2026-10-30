@@ -1,7 +1,7 @@
 {
   "version": 2,
   "hero": {
-    "eyebrow": "A PRIVATE WORLD",
+    "eyebrow": "一个私人世界",
     "title": "欢迎来到\n我的世界",
     "footer": "听。看。读。然后，记住。",
     "portrait": {
@@ -27,37 +27,37 @@
     {
       "id": "top",
       "title": "序幕",
-      "english": "PROLOGUE",
+      "english": "序幕",
       "number": "00"
     },
     {
       "id": "music",
       "title": "声场",
-      "english": "LISTENING ROOM",
+      "english": "音乐",
       "number": "01"
     },
     {
       "id": "cinema",
       "title": "银幕",
-      "english": "PRIVATE SCREENING",
+      "english": "影视",
       "number": "02"
     },
     {
       "id": "reading",
       "title": "书页",
-      "english": "BETWEEN THE PAGES",
+      "english": "阅读",
       "number": "03"
     },
     {
       "id": "darkroom",
       "title": "暗房",
-      "english": "THE UNDEVELOPED",
+      "english": "照片",
       "number": "04"
     },
     {
       "id": "notes",
       "title": "记录",
-      "english": "FIELD NOTES",
+      "english": "记录",
       "number": "05"
     }
   ],

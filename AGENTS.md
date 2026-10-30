@@ -26,7 +26,7 @@
 
 - 正式站：`https://burnlamp.is-my.id/`
 - 仓库：`burnicelamp/burnicelamp.github.io`，GitHub Pages 从 `main` 根目录发布。
-- 技术：主页使用经授权的参考网站线上 HTML、CSS 和动画脚本快照；完整收藏在 `collection.html`，使用原生 HTML / CSS / ES Modules。线上无打包步骤。
+- 技术：主页与 `collection.html` 使用统一的原生 HTML / CSS / ES Modules；两者均可访问完整收藏，旧地址保留兼容。线上无打包步骤。
 - 内容：`content/*.json` 是真实内容单一来源；`content/search-index.json` 和 `content/relation-index.json` 是生成物。
 - 导航：稳定 ID、URL 深链接、搜索、复制链接与浏览器历史都是公开契约。
 - 域名和 SEO：保留 `CNAME`、`.nojekyll`、canonical、`robots.txt`、`sitemap.xml` 与站点元数据。

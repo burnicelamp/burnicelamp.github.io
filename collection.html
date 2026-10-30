@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#121313" />
+    <meta name="theme-color" content="#180507" />
     <meta name="color-scheme" content="dark" />
     <meta
       name="description"
@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="./cinema-books.css" />
     <link rel="stylesheet" href="./motion.css" />
     <link rel="stylesheet" href="./art-direction.css" />
+    <link rel="stylesheet" href="./unified.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -53,6 +54,7 @@
       }
     </script>
     <script type="module" src="./js/app.js"></script>
+    <script type="module" src="./js/featured.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#music">跳到内容</a>
@@ -88,6 +90,7 @@
         <div class="hero-image" data-hero-image></div>
         <div class="hero-image-label" aria-hidden="true"><span>FIG. 01</span><span>THE PRIVATE WORLD<br />OF BURNLAMP</span></div>
         <div class="hero-vignette" aria-hidden="true"></div>
+        <div class="hero-waves" aria-hidden="true"></div>
         <div class="hero-copy">
           <p class="hero-edition" aria-hidden="true">PERSONAL ARCHIVE <span>—</span> EST. ON THE WEB</p>
           <p class="eyebrow" data-hero-eyebrow></p>
@@ -104,18 +107,19 @@
           rel="noreferrer"
         ></a>
       </section>
+      <aside class="featured" aria-labelledby="featured-title"><div class="featured-heading"><p>从这里开始</p><h2 id="featured-title">精选收藏</h2></div><div class="featured-grid" data-featured></div></aside>
       <aside class="world-index" aria-label="探索这个世界">
         <div class="world-index-intro">
-          <p class="index-kicker">THE WORLD, IN FIVE ROOMS <span>↘</span></p>
-          <h2>在这里，<br /><em>慢慢遇见。</em></h2>
-          <p>声音、影像、文字与尚未显影的瞬间。<br />从任何一处开始，走进这个私人世界。</p>
+          <p class="index-kicker">五个空间 <span>↘</span></p>
+          <h2>从这里，<br /><em>开始浏览。</em></h2>
+          <p>音乐、影视、书籍、照片与记录。<br />选择一个空间，或使用搜索查找内容。</p>
         </div>
         <nav class="world-index-list" aria-label="浏览空间">
-          <a href="#music"><span>01</span><strong>声场</strong><small>LISTENING ROOM</small><b aria-hidden="true">↗</b></a>
-          <a href="#cinema"><span>02</span><strong>银幕</strong><small>PRIVATE SCREENING</small><b aria-hidden="true">↗</b></a>
-          <a href="#reading"><span>03</span><strong>书页</strong><small>BETWEEN THE PAGES</small><b aria-hidden="true">↗</b></a>
-          <a href="#darkroom"><span>04</span><strong>暗房</strong><small>THE UNDEVELOPED</small><b aria-hidden="true">↗</b></a>
-          <a href="#notes"><span>05</span><strong>记录</strong><small>FIELD NOTES</small><b aria-hidden="true">↗</b></a>
+          <a href="#music"><span>01</span><strong>声场</strong><small>音乐</small><b aria-hidden="true">↗</b></a>
+          <a href="#cinema"><span>02</span><strong>银幕</strong><small>影视</small><b aria-hidden="true">↗</b></a>
+          <a href="#reading"><span>03</span><strong>书页</strong><small>阅读</small><b aria-hidden="true">↗</b></a>
+          <a href="#darkroom"><span>04</span><strong>暗房</strong><small>照片</small><b aria-hidden="true">↗</b></a>
+          <a href="#notes"><span>05</span><strong>记录</strong><small>记录</small><b aria-hidden="true">↗</b></a>
         </nav>
       </aside>
       <noscript
@@ -382,7 +386,7 @@
     </main>
     <footer class="site-footer">
       <a class="brand" href="#top">BURNLAMP.</a><span data-footer></span
-      ><a href="#top">回到序幕 ↑</a>
+      ><a href="https://wodniack.dev/" target="_blank" rel="noreferrer">设计参考：Antoine Wodniack（已改编）</a><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noreferrer">CC BY-NC 4.0</a><a href="#top">回到序幕 ↑</a>
     </footer>
     <dialog class="search-dialog" aria-labelledby="search-title">
       <div class="search-top">
